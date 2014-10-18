@@ -50,12 +50,13 @@ module.exports = function (grunt) {
                     livereload: true
                 }
             },
+
             jst: {
                 files: [
                     '<%= yeoman.app %>/scripts/templates/*.ejs'
                 ],
                 tasks: ['jst']
-            },
+            }
             /* not used at the moment
             handlebars: {
                 files: [
@@ -143,7 +144,7 @@ module.exports = function (grunt) {
                 imagesDir: '<%= yeoman.app %>/images',
                 javascriptsDir: '<%= yeoman.app %>/scripts',
                 fontsDir: '<%= yeoman.app %>/styles/fonts',
-                importPath: 'app/bower_components',
+                importPath: '<%= yeoman.app %>/bower_components',
                 relativeAssets: true
             },
             dist: {},
@@ -264,18 +265,18 @@ module.exports = function (grunt) {
             }
         },
 
-        bower: {
-            all: {
-                rjsConfig: '<%= yeoman.app %>/scripts/main.js'
-            }
-        },
-
         jst: {
             compile: {
                 files: {
                     '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/templates/*.ejs']
-                },
-            },
+                }
+            }
+        },
+
+        bower: {
+            all: {
+                rjsConfig: '<%= yeoman.app %>/scripts/main.js'
+            }
         },
 
         // handlebars

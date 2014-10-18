@@ -1,6 +1,5 @@
 'use strict';
 
-var everyauth = require('everyauth');
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -9,6 +8,41 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');
+
+var everyauth = require("everyauth"),
+ 	util = require ('util'),
+ 	Promise = everyauth.Promise,
+ 	users = require('./lib/users');
+
+console.log("user module:");
+console.log(users);
+
+everyauth.google
+  .appId('94957522892-s68i21cjon2huqvl3ereort22eghbnkt.apps.googleusercontent.com')
+  .appSecret('yTWW6kvc0CY2ieEz44-GxwOv')
+  .scope('https://www.googleapis.com/auth/userinfo.email') // What you want access to
+  .handleAuthCallbackError( function (req, res) {
+
+  })
+  .findOrCreateUser( function (session, accessToken, accessTokenExtra, googleUserMetadata) {
+    var promise = this.Promise();
+    console.log("before logging");
+    // promise.fulfill('test');
+  	users.findOrCreateUserbyGoogleData(googleUserMetadata, accessToken, accessTokenExtra, promise);
+  	return promise;
+    // console.log(session);
+    // console.log(accessToken);
+    // console.log(accessTokenExtra);
+    // console.log(googleUserMetadata);
+  })
+  .redirectPath('/');
+
+everyauth.everymodule.findUserById(function (userId, callback) {
+	// console.log("getting user with id:");
+	// console.log(userId);
+
+      users.findById(userId, callback);
+});
 
 
 // start mongoose
@@ -31,22 +65,24 @@ db.once('open', function callback () {
     });
 
 	var app = express();
+	everyauth.helpExpress(app);
+
 
 	app.configure(function(){
 	    app.set('port', 9000);
-
-	    app.set('view engine', 'handlebars');
+	    
 	    app.set('views', __dirname + '../app/scripts/views');
+	    app.set('view engine', 'handlebars');
+	    app.use(express.bodyParser());
+	  	app.use(express.methodOverride());
+	  	app.use(express.cookieParser());
+	  	app.use(express.session({secret: "yTWW6kvc0CY2ieEz44"}));
+	  	app.use(everyauth.middleware());
+	  	// app.use(app.router);
 	});
 
-    app.use('/api/v1', baucis());
 
-    // everyauth
-    app
-	  .use(express.bodyParser())
-	  .use(express.cookieParser('mr ripley'))
-	  .use(express.session())
-	  .use(everyauth.middleware(app));
+    app.use('/api/v1', baucis());
 
 	// simple log
 	app.use(function(req, res, next){
@@ -61,8 +97,21 @@ db.once('open', function callback () {
 
 	// route index.html
 	app.get('/', function(req, res){
+	  console.log(req.user);
 	  res.sendfile( path.join( __dirname, '../app/index.html' ) );
 	});
+
+	// app.get('/delete', function(req, res){
+	//   users.deleteById('54422df49477b4b09b000001');
+	//   res.json({'delete':"test"});
+	// });	
+
+	app.get('/test', function(req, res){
+	  console.log(req.user);
+	  // res.json(req.user);
+	  res.json({'test':"test"});
+	  res.json(req.user);
+	});	
 
 	// start server
 	http.createServer(app).listen(app.get('port'), function(){
