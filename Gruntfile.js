@@ -333,6 +333,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [
         'createDefaultTemplate',
         'handlebars',
+        'jst', // I added this one
         'compass:dist',
         'useminPrepare',
         'requirejs',
