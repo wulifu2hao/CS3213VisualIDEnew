@@ -73,7 +73,7 @@ db.once('open', function callback () {
 
 
 	app.configure(function(){
-	    app.set('port', 9000);
+	    app.set('port', process.env.PORT || 9000);
 	    
 	    app.set('views', __dirname + '../app/scripts/views');
 	    app.set('view engine', 'handlebars');
