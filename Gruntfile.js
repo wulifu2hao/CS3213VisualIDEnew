@@ -57,6 +57,9 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['jst']
             }
+
+            
+        
             /* not used at the moment
             handlebars: {
                 files: [
@@ -273,6 +276,20 @@ module.exports = function (grunt) {
             }
         },
 
+        rev: {
+                dist: {
+                    files: {
+                        src: [
+                            '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                            '<%= yeoman.dist %>/styles/{,*/}*.css',
+                            '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                            '/styles/fonts/{,*/}*.*',
+                            'bower_components/sass-bootstrap/fonts/*.*'
+                        ]
+                    }
+                }
+        },
+
         bower: {
             all: {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
@@ -330,19 +347,35 @@ module.exports = function (grunt) {
         'exec:mocha'
     ]);
 
+    // grunt.registerTask('build', [
+    //     'createDefaultTemplate',
+    //     'handlebars',
+    //     'jst', // I added this one
+    //     'compass:dist',
+    //     'useminPrepare',
+    //     'requirejs',
+    //     'imagemin',
+    //     'htmlmin',
+    //     'concat',
+    //     'cssmin',
+    //     'uglify',
+    //     'copy',
+    //     'usemin'
+    // ]);
+
     grunt.registerTask('build', [
+        'clean:dist',
         'createDefaultTemplate',
-        'handlebars',
-        'jst', // I added this one
+        'jst',
         'compass:dist',
         'useminPrepare',
-        'requirejs',
         'imagemin',
         'htmlmin',
         'concat',
         'cssmin',
-        'uglify',
+        // 'uglify',
         'copy',
+        'rev',
         'usemin'
     ]);
 
