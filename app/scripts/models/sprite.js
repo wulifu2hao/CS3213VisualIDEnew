@@ -15,6 +15,8 @@ Playground.Models = Playground.Models || {};
         url: '',
         array_of_commands: [],
 
+        name:"",
+
         initialize: function() {
         },
 

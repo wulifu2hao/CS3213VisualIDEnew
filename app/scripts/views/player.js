@@ -63,8 +63,59 @@ Playground.Views = Playground.Views || {};
             this.ctx = document.getElementById('player_canvas').getContext("2d");
         },
 
+        loadFromServer: function(){
+            var name = "default";
+            var that = this;
+            var url = '/api/programs/'+name
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                    console.log(data);
+                    that.model.name = name;
+                },
+                error: function(err){
+                    console.log(err);
+                 }
+            });
+        },
+
         saveToServer: function() {
-            console.log("saveToServer");
+            var name = "default";
+            var that = this;
+
+            if (this.model.name == "") {
+                console.log("is post");
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/programs',
+                    data: { name:name},
+                    success: function(data) {
+                        console.log(data);
+                        that.model.name = name;
+                    },
+                    error: function(err){
+                        console.log(err);
+                     }
+                });
+            } else {
+                console.log("is put");
+                $.ajax({
+                    type: 'PUT',
+                    url: '/api/programs',
+                    data: { name:name},
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(err){
+                        console.log(err);
+                     }
+                });
+            }
+            
+            console.log("save to server");
+            // this.model.save({name:'default'});
         },
 
         updateCanvas: function(){
