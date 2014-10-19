@@ -24,7 +24,10 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 that.loadFromServer();
             });
-            
+            $("#login-button").click(function(e){
+                e.preventDefault();
+                window.location = (window.location + 'auth/google');
+            });
         },
 
         loadFromServer: function(){
