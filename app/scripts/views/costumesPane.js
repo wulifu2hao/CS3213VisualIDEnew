@@ -15,7 +15,6 @@ Playground.Views = Playground.Views || {};
 
         initialize: function () {
             this.render();
-            //this.listenTo(this.model, 'change', this.render);
         },
 
         render: function () {
