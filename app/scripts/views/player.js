@@ -32,10 +32,11 @@ Playground.Views = Playground.Views || {};
                 that.updateCanvas();       
             });
 
-            $("#save-button").click(function(e){
+            
+            $("#login-button").click(function(e){
                 e.preventDefault();
-                that.saveToServer();
-            });   
+                window.location = (window.location + 'auth/google');
+            });
             this.current_status = {              // init status
                         xPos: this.model.get('xPos'),
                         yPos: this.model.get('yPos'),
@@ -55,9 +56,7 @@ Playground.Views = Playground.Views || {};
             this.ctx = document.getElementById('player_canvas').getContext("2d");
         },
 
-        saveToServer: function() {
-            console.log("saveToServer");
-        },
+
 
         updateCanvas: function(){
             console.log("Player view: play button clicked!");

@@ -6,6 +6,7 @@ var programSchema = new Schema({
     program                  : ObjectId
     , googleId            : Number
     , name                : String
+    , data                : String
 });
 
 // var conn = mongoose.createConnection('mongodb://localhost/sit');

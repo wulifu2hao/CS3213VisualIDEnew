@@ -45,6 +45,15 @@ Playground.Views = Playground.Views || {};
                     that.commandList = that.getCommandList();
                 }
             });
+
+            $("#save-button").click(function(e){
+                e.preventDefault();
+                that.saveToServer();
+            });   
+            $("#load-button").click(function(e){
+                e.preventDefault();
+                that.loadFromServer();
+            });   
         },
 
         render: function () {
@@ -77,6 +86,140 @@ Playground.Views = Playground.Views || {};
                 this.model.add(type, position, [value, repeatBlockLength]);
                 console.log(this.model.array_of_commands);
             }
+        },
+
+        loadFromServer: function(){
+            var name = "default";
+            var that = this;
+            var url = '/api/programs/'+name
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                    console.log(data);
+                    if (data.message == "success") {
+                        that.model.setData(data.program.data);
+                        that.model.name = data.name;
+                        that.addCommandBlocksToWorkspace(that.model.array_of_commands);
+                    } else{
+
+                    }
+                    
+                },
+                error: function(err){
+                    console.log(err);
+                 }
+            });
+        },
+
+        addCommandBlocksToWorkspace: function(array) {
+            $("#workspace-sortable").empty();
+            for (var i = 0; i < array.length; i++) {
+                var command = array[i];
+                var name = command.name;
+                var params = command.para;
+                var that = this;
+                $("#workspace-sortable").append(that.createElement(name, params, []));
+            };
+        },
+
+        createElement: function(name, params, subBlocks) {
+            var element = null;
+            switch (name) {
+                case "setXPos":
+                    element = "<li class='toolbar-item toolbar-item-normal draggable command_set_x' id='command_set_x' >"+
+                                    "set to x"+
+                                    "<input type='text' name='value_set_to_x' value='"+params[0]+"' class='number-input'></input>"+
+                                "</li>";
+                break;
+                case "setYPos": 
+                    element = "<li class='toolbar-item toolbar-item-normal draggable command_set_y' id='command_set_y' >"+
+                                    "set to y"+
+                                    "<input type='text' name='value_set_to_y' value='"+params[0]+"' class='number-input'></input>"+
+                                "</li>";
+                break;
+                case "changeCostume":
+                    element = "<li class='toolbar-item toolbar-item-normal draggable command_change_costume' id='command_change_costume'>"+
+                                    "change constume"+ 
+                                "</li>";
+                break;
+                case "changeBackground":
+                    element = "<li class='toolbar-item toolbar-item-normal draggable command_change_background' id='command_change_background'>"+
+                                    "change background"+
+                                "</li>";
+                break;
+                case "hide":
+                    element = "<li class='toolbar-item toolbar-item-normal draggable command_hide' id='command_hide'>"+
+                                    "hide"+ 
+                                "</li>";
+                break;
+                case "show":
+                    element = "<li class='toolbar-item toolbar-item-normal draggable command_show' id='command_show'>"+
+                                    "show"+ 
+                                "</li>";
+                break;
+                case "move":
+                    element = "<li class='toolbar-item toolbar-item-normal draggable command_move' id='command_move'>"+
+                                    "move"+
+                                    "<input type='text' name='value_move_steps' value='"+params[0]+"' class='number-input'></input>"+
+                                    "steps"+ 
+                                "</li>";
+                break;
+                case "repeat":
+                    element = "<li class='toolbar-item toolbar-item-control draggable command_repeat' id='command_repeat'>"+
+                                    "<div class='block-control-top'>"+
+                                        "repeat"+
+                                        "<input type='text' name='value_move_steps' value='"+params[0]+"' class='number-input'></input>"+
+                                        "times"+
+                                    "</div>"
+                                    "<ul></ul>"+
+                                    "<div class='block-control-botm'></div>"+
+                                "</li>";
+                break;
+                default:
+                console.log("Invalid command name.");
+            }
+            return element;
+        },
+
+        saveToServer: function() {
+            this.updateModel();
+            var name = "default";
+            var that = this;
+            var data = this.model.getData();
+
+            if (this.model.name == "") {
+                // console.log("is post");
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/programs',
+                    data: { name:name, data:data},
+                    success: function(data) {
+                        console.log(data);
+                        that.model.name = name;
+                    },
+                    error: function(err){
+                        console.log(err);
+                     }
+                });
+            } else {
+                // console.log("is put");
+                $.ajax({
+                    type: 'PUT',
+                    url: '/api/programs',
+                    data: { name:name, data:data},
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function(err){
+                        console.log(err);
+                     }
+                });
+            }
+            
+            console.log("save to server");
+            // this.model.save({name:'default'});
         }
     });
 

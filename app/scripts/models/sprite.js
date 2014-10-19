@@ -21,14 +21,15 @@ Playground.Models = Playground.Models || {};
 
         getData: function() {
             var data = {
-                "xPos": xPos,
-                "yPos": yPos,
-                "isShown": isShown,
-                "costumes": costumes,
-                "backgroundImg": backgroundImg,
-                "array_of_commands": array_of_commands,
-                "name": name
+                "xPos": this.xPos,
+                "yPos": this.yPos,
+                "isShown": this.isShown,
+                "costumes": this.costumes,
+                "backgroundImg": this.backgroundImg,
+                "array_of_commands": this.array_of_commands,
             };
+            console.log("doing getdata");
+            console.log(this.array_of_commands);
             return JSON.stringify(data);
         },
 
@@ -41,7 +42,6 @@ Playground.Models = Playground.Models || {};
             this.costumes = data.costumes;
             this.backgroundImg = data.backgroundImg;
             this.array_of_commands = data.array_of_commands;
-            this.name = name;
         },
 
         defaults: {
