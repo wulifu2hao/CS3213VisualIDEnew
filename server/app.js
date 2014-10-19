@@ -16,8 +16,6 @@ var everyauth = require("everyauth"),
 
  var programs = require("./lib/programs");
 
-console.log("user module:");
-console.log(users);
 
 everyauth.google
   .appId('94957522892-s68i21cjon2huqvl3ereort22eghbnkt.apps.googleusercontent.com')
