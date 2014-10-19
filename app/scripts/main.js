@@ -8,7 +8,8 @@ window.Playground = {
     Routers: {},
     init: function () {
         'use strict';
-        new this.Views.Player();
+        var sprite = new this.Models.Sprite();
+        new this.Views.Player({model:sprite});
         new this.Views.Toolbar();
         new this.Views.Editor();
         new this.Views.Costumespane();

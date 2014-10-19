@@ -51,25 +51,68 @@ this.deleteByName = function(req, res) {
 
 this.addProgram = function(req, res) {
 	if (req.user && req.body) {
-		if (req.user.googleId !== req.body.googleId) {
-			res.json({message: 'user id of program is not consistent with the current user logged in'});
-		};
+		console.log("both req user and req body exist");
 
-		programModel.find({name: req.body.name, googleId: req.body.googleId}, function(err, programs) {
+		programModel.find({ name: req.body.name, googleId: req.user.googleId}, function(err, programs) {
 	        if (err) {
+	        	console.log(err);
 	            res.json({message: 'error with database.'});
 	        } else {
 	            if (programs.length > 0) {
+	            	console.log("program exist");
 	            	res.json({message: 'program with the same name already exist.'});
 	            } else {
+	            	console.log("saving new program");
+	            	var data = req.body;
+	            	data.googleId = req.user.googleId;
 	            	var newProgram = new programModel(req.body);
 	            	newProgram.save(function(err) {
 				         if (err) {
+				         	console.log("error while saving to database");
 				         	res.json({message: "error while saving to database"});
 				         } else {
+				         	console.log("successfully saved to database");
 				         	res.json({message: 'success', program:newProgram});
 				         }
 				    })
+	            }
+	        }
+	    });
+	}else{
+		res.json({message: 'user has not logged in.'});
+	}    
+}
+
+
+this.updateProgram = function(req, res) {
+	if (req.user && req.body) {
+		console.log("both req user and req body exist");
+
+		programModel.find({ name: req.body.name, googleId: req.user.googleId}, function(err, programs) {
+	        if (err) {
+	        	console.log(err);
+	            res.json({message: 'error with database.'});
+	        } else {
+	            if (programs.length > 0) {
+	            	var program = programs[0];
+	            	program.remove();
+
+	            	var data = req.body;
+	            	data.googleId = req.user.googleId;
+	            	var newProgram = new programModel(req.body);
+	            	newProgram.save(function(err) {
+				         if (err) {
+				         	console.log("error while saving to database");
+				         	res.json({message: "error while saving to database"});
+				         } else {
+				         	console.log("successfully updated");
+				         	res.json({message: 'success', program:newProgram});
+				         }
+				    })
+
+	            } else {
+	            	console.log("program not found");
+	            	res.json({message: 'program not found'});
 	            }
 	        }
 	    });

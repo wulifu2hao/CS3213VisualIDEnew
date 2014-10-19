@@ -111,6 +111,7 @@ db.once('open', function callback () {
 	});	
 
 	app.get('/api/programs/:name', programs.getByName);	
+	app.put('/api/programs', programs.updateProgram);
 	app.post('/api/programs', programs.addProgram);
 	app.delete('/api/programs/:name', programs.deleteByName);	
 
