@@ -35,16 +35,7 @@ Playground.Views = Playground.Views || {};
             $("#save-button").click(function(e){
                 e.preventDefault();
                 that.saveToServer();
-            });
-            $("#load-button").click(function(e){
-                e.preventDefault();
-                that.loadFromServer();
-            });
-            $("#login-button").click(function(e){
-                e.preventDefault();
-                window.location = (window.location + 'auth/google');
-            });
-
+            });   
             this.current_status = {              // init status
                         xPos: this.model.get('xPos'),
                         yPos: this.model.get('yPos'),
@@ -64,59 +55,8 @@ Playground.Views = Playground.Views || {};
             this.ctx = document.getElementById('player_canvas').getContext("2d");
         },
 
-        loadFromServer: function(){
-            var name = "default";
-            var that = this;
-            var url = '/api/programs/'+name
-
-            $.ajax({
-                type: 'GET',
-                url: url,
-                success: function(data) {
-                    console.log(data);
-                    that.model.name = name;
-                },
-                error: function(err){
-                    console.log(err);
-                 }
-            });
-        },
-
         saveToServer: function() {
-            var name = "default";
-            var that = this;
-
-            if (this.model.name == "") {
-                console.log("is post");
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/programs',
-                    data: { name:name},
-                    success: function(data) {
-                        console.log(data);
-                        that.model.name = name;
-                    },
-                    error: function(err){
-                        console.log(err);
-                     }
-                });
-            } else {
-                console.log("is put");
-                $.ajax({
-                    type: 'PUT',
-                    url: '/api/programs',
-                    data: { name:name},
-                    success: function(data) {
-                        console.log(data);
-                    },
-                    error: function(err){
-                        console.log(err);
-                     }
-                });
-            }
-            
-            console.log("save to server");
-            // this.model.save({name:'default'});
+            console.log("saveToServer");
         },
 
         updateCanvas: function(){
@@ -176,6 +116,7 @@ Playground.Views = Playground.Views || {};
                         break;
                     case "hide":
                         this.current_status.isShown = false;
+                        this.draw();
                         break;
                     case "move":
                         //move in current facing direction
@@ -270,12 +211,16 @@ Playground.Views = Playground.Views || {};
             
             if (bg != ''){  
                 bg.onload = function(){
-                    console.log("draw bg!", this.bgd);
+                    console.log("draw bg!", that.bgd);
                     that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
-                    that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); 
+                    if(that.current_status.isShown){
+                        console.log("Let's draw!", that.current_status.isShown);
+                        that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); 
+                    }
                 }
             }; 
             character.onload = function(){
+                that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
                 if(that.current_status.isShown){
                     console.log("Let's draw!", that.current_status.isShown);
                     that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); //character.width, character.height);     // draw costume if status isShown is true.

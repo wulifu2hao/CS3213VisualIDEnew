@@ -11,7 +11,7 @@ Playground.Models = Playground.Models || {};
         yPos : 0,
         isShown :true,
         costumes :['../images/costume1.png','../images/costume2.png'],
-        backgroundImg: ['blank.jpg', 'background1.jpg'],
+        backgroundImg: ['../images/blank.jpg', '../images/background1.jpg'],
         url: '',
         array_of_commands: [],
 
@@ -25,7 +25,7 @@ Playground.Models = Playground.Models || {};
             yPos : 0,
             isShown :true,
             costumes :['../images/costume1.png','../images/costume2.png'],
-            backgroundImg: ['blank.jpg', 'background1.jpg'],
+            backgroundImg: ['../images/blank.jpg', '../images/background1.jpg'],
             url: '',
             array_of_commands: [],
             

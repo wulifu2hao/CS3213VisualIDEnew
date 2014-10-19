@@ -73,7 +73,7 @@ Playground.Views = Playground.Views || {};
                 var position = i;
                 var repeatBlockLength = 0
                 var value = parseInt($(command).find("input").first().val());
-                if (type == "comand_repeat") {
+                if (type == "command_repeat") {
                     var repeatBlock = repeatBlocks.get(repeatBlockIndex);
                     repeatBlockLength = $(repeatBlock).find("li").length;
                     value = parseInt($(repeatBlock).find("input").first().val());
