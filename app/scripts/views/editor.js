@@ -65,12 +65,20 @@ Playground.Views = Playground.Views || {};
             console.log("update model "+this.commandList.length);
             this.model.array_of_commands = [];
             console.log(this.commandList);
+            var repeatBlockIndex = 0;
+            var repeatBlocks = $("#workspace-sortable li").has("li");
             for(var i=0; i<this.commandList.length; i++) {
                 var command = this.commandList[i];
                 var type = $(command).attr('class').split(' ').pop();
                 var position = i;
-                var repeatBlockLength = $("#workspace-sortable li").has("li").find("li").length;
-                var value = parseInt($(command).find("input").last().val());
+                var repeatBlockLength = 0
+                var value = parseInt($(command).find("input").first().val());
+                if (type == "comand_repeat") {
+                    var repeatBlock = repeatBlocks.get(repeatBlockIndex);
+                    repeatBlockLength = $(repeatBlock).find("li").length;
+                    value = parseInt($(repeatBlock).find("input").first().val());
+                    repeatBlockIndex = repeatBlockIndex + 1;
+                }
                 console.log(value, repeatBlockLength);
                 this.model.add(type, position, [value, repeatBlockLength]);
                 console.log(this.model.array_of_commands);
