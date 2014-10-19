@@ -8183,22 +8183,23 @@ li {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003140}}
 .toolbar-item-control {
+  height: auto !important;
   min-height: 83px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003144}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003145}}
 .toolbar-item-control ul {
   background-image: url("../images/block_control_mid.png");
   background-repeat: repeat-y;
   margin-left: -8px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003150}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003151}}
 .toolbar-item-control li {
   margin-left: 27px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003154}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003155}}
 .number-input {
   line-height: 12px;
   margin-left: 4px;
@@ -8209,7 +8210,7 @@ li {
   border-radius: 8px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003164}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003165}}
 .block-control-top {
   width: 200px;
   height: 37px;
@@ -8218,7 +8219,7 @@ li {
   background-repeat: no-repeat;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003172}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/CelloZheng\/Documents\/AY1415SEM1\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003173}}
 .block-control-botm {
   width: 200px;
   height: 44px;

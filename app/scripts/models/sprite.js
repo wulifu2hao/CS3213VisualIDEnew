@@ -6,7 +6,6 @@ Playground.Models = Playground.Models || {};
     'use strict';
 
     Playground.Models.Sprite = Backbone.Model.extend({
-
         xPos : 0,
         yPos : 0,
         isShown :true,
@@ -18,6 +17,31 @@ Playground.Models = Playground.Models || {};
         name:"",
 
         initialize: function() {
+        },
+
+        getData: function() {
+            var data = {
+                "xPos": xPos,
+                "yPos": yPos,
+                "isShown": isShown,
+                "costumes": costumes,
+                "backgroundImg": backgroundImg,
+                "array_of_commands": array_of_commands,
+                "name": name
+            };
+            return JSON.stringify(data);
+        },
+
+        setData: function(data) {
+            var data = JSON.parse(data);
+            console.log(data);
+            this.xPos = data.xPos;
+            this.yPos = data.yPos;
+            this.isShown = data.isShown;
+            this.costumes = data.costumes;
+            this.backgroundImg = data.backgroundImg;
+            this.array_of_commands = data.array_of_commands;
+            this.name = name;
         },
 
         defaults: {

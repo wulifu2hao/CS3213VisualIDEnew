@@ -42,12 +42,6 @@ Playground.Views = Playground.Views || {};
             });
             $("#editor_workspace ul").sortable({
                 stop: function(event, ui) {
-                    var controlBlocks = $("#workspace-sortable li").has("li");
-                    var subBlocks = controlBlocks.find("li");
-                    var height = 97;
-                    if (subBlocks.length>1) {
-                        height =  97 + (subBlocks.length-1)*33;
-                    }
                     that.commandList = that.getCommandList();
                 }
             });

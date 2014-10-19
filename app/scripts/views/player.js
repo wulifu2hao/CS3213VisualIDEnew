@@ -209,20 +209,23 @@ Playground.Views = Playground.Views || {};
             this.clearCanvas();
             
             
-            if (bg != ''){  
-                bg.onload = function(){
-                    console.log("draw bg!", that.bgd);
-                    that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
-                    if(that.current_status.isShown){
-                        console.log("Let's draw!", that.current_status.isShown);
-                        that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); 
-                    }
-                }
-            }; 
+            // if (bg != ''){  
+            //     bg.onload = function(){
+            //         console.log("draw bg in bg!", that.bgd);
+            //         that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
+            //         if(that.current_status.isShown){
+            //             console.log("Let's draw character in bg!", that.current_status.isShown);
+            //             that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); 
+            //         }
+            //     }
+            // }; 
+
             character.onload = function(){
+                console.log("draw bg in character!", that.bgd);
                 that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
+                console.log("Let's draw character in character!", that.current_status.isShown);
+                    
                 if(that.current_status.isShown){
-                    console.log("Let's draw!", that.current_status.isShown);
                     that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); //character.width, character.height);     // draw costume if status isShown is true.
                 }           
             };
