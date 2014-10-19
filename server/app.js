@@ -48,7 +48,9 @@ everyauth.everymodule.findUserById(function (userId, callback) {
 
 
 // start mongoose
-mongoose.connect('mongodb://localhost/sit');
+// mongoose.connect('mongodb://localhost/sit');
+mongoose.connect('mongodb://cs3213:1234@linus.mongohq.com:10040/app30827622');
+
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));

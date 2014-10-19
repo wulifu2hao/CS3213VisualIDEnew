@@ -8,8 +8,8 @@ var programSchema = new Schema({
     , name                : String
 });
 
-var conn = mongoose.createConnection('mongodb://localhost/sit');
-var programModel = conn.model('Program', programSchema);
+// var conn = mongoose.createConnection('mongodb://localhost/sit');
+var programModel = mongoose.model('Program', programSchema);
 
 this.getByName = function(req, res) {
 	if (req.user) {

@@ -15,8 +15,9 @@ var userSchema = new Schema({
     , accessTokenExtra   : String
 });
 
-var conn = mongoose.createConnection('mongodb://localhost/sit');
-var userModel = conn.model('User', userSchema);
+// var conn = mongoose.createConnection('mongodb://localhost/sit');
+// var userModel = conn.model('User', userSchema);
+var userModel = mongoose.model('User', userSchema);
 
 this.findOrCreateUserbyGoogleData = function(googleData, accessToken, accessTokenExtra, promise) {
   userModel.find({'googleId' : googleData.id}, function(err, users) {
