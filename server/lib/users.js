@@ -61,10 +61,12 @@ this.findById = function(userId, callback) {
   }); 
 }
 
-this.deleteById = function(userId) {
-  console.log("deleting");
-  userModel.findOne({'_id' : userId}, function(err, user) {
-    if(err) throw err;
-    user.remove();
-  }); 
-}
+
+
+// this.deleteById = function(userId) {
+//   console.log("deleting");
+//   userModel.findOne({'_id' : userId}, function(err, user) {
+//     if(err) throw err;
+//     user.remove();
+//   }); 
+// }

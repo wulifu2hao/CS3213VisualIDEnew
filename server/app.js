@@ -14,6 +14,8 @@ var everyauth = require("everyauth"),
  	Promise = everyauth.Promise,
  	users = require('./lib/users');
 
+ var programs = require("./lib/programs");
+
 console.log("user module:");
 console.log(users);
 
@@ -101,17 +103,16 @@ db.once('open', function callback () {
 	  res.sendfile( path.join( __dirname, '../app/index.html' ) );
 	});
 
-	// app.get('/delete', function(req, res){
-	//   users.deleteById('54422df49477b4b09b000001');
-	//   res.json({'delete':"test"});
-	// });	
-
 	app.get('/test', function(req, res){
 	  console.log(req.user);
 	  // res.json(req.user);
 	  res.json({'test':"test"});
 	  res.json(req.user);
 	});	
+
+	app.get('/api/programs/:name', programs.getByName);	
+	app.post('/api/programs', programs.addProgram);
+	app.delete('/api/programs/:name', programs.deleteByName);	
 
 	// start server
 	http.createServer(app).listen(app.get('port'), function(){
