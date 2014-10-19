@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Playground</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="styles/9dac2100.main.css">
+        <script src="scripts/vendor/8677fae9.modernizr.js"></script>
+    </head>
+    <body>
+
+        <div class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="navbar-brand">Playground</div>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">File<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">New</a></li>
+                                <li><a href="#">Save</a></li>
+                                <li><a href="#">Load from the server</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="left-col">
+                <div class="player-header block">
+                    <input type="text" name="file_name" value="Untitled" class="filename-input">
+                    <button type="button" style="float:right"><img src="images/15ea7974.play_button.png" width="22" height="22"></button>
+                </div>
+                <div id="player" class="block player">
+                    <!-- Backbone player view -->
+                </div>
+            </div>
+            <div class="right-col">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#editor" role="tab" data-toggle="tab">Scripts</a></li>
+                    <li><a href="#costumes-pane" role="tab" data-toggle="tab">Costumes</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="editor" class="block editor tab-pane active">
+                        <div id="editor_toolbar" class="editor-toolbar">
+                            <!-- Backbone editor toolbar view -->
+                        </div>
+                        <div id="editor_workspace" class="block editor-workspace">
+                            <!-- Backbone editor workspace -->
+                        </div>
+                    </div>
+                    <div id="costumes-pane" class="block costumes-pane tab-pane">
+                        <!-- Backbone costumes-pane -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="scripts/b25418a4.vendor.js"></script>
+
+        <script src="scripts/3b00c8e0.plugins.js"></script>
+
+        <script src="scripts/5bb5089e.main.js"></script>
+</body>
+</html>
