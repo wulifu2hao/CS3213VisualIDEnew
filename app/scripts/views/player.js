@@ -23,6 +23,7 @@ Playground.Views = Playground.Views || {};
         w : null,
         h : null,
         costume: 0,
+        bgd: 0,
 
         initialize: function () {
             var that = this;
@@ -149,6 +150,7 @@ Playground.Views = Playground.Views || {};
             console.log("I am in exe functions!");
             console.log(this.model.array_of_commands);
             for(ind = start; ind < (start+length); ind++){
+                console.log("first clear");
                 this.clearCanvas();
                 var command = this.commands_list[ind];
                 console.log(ind, command);
@@ -187,17 +189,24 @@ Playground.Views = Playground.Views || {};
                         break;
                     case "changeCostume":
                         if(this.costume<(this.current_status.costumes.length-1)){
-                            console.log("change to 1");
+                            console.log("costume change to next");
                             this.costume ++;
                         }
                         else if(this.costume===(this.current_status.costumes.length-1)){
-                            console.log("change back to 0");
+                            console.log("costume change back to 0");
                             this.costume = 0;
                         }
                         this.draw();
                         break;
                     case "changeBackground":
-                        this.current_status.backgroundImg = command.para[0];
+                        if(this.bgd<(this.current_status.backgroundImg.length-1)){
+                            console.log("background change to next");
+                            this.bgd ++;
+                        }
+                        else if(this.bgd===(this.current_status.backgroundImg.length-1)){
+                            console.log("background change back to 0");
+                            this.bgd = 0;
+                        }
                         this.draw();
                         break;
                     case "repeat":
@@ -247,6 +256,7 @@ Playground.Views = Playground.Views || {};
 
         clearCanvas: function(){
             this.ctx.clearRect(0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);
+            console.log("canvas cleared!");
         },
 
         draw: function(){
@@ -254,12 +264,15 @@ Playground.Views = Playground.Views || {};
             var character = document.createElement('img');
             var bg = document.createElement('img');
             var shown = this.current_status.isShown;
-            // this.clearCanvas();
-            console.log("canvas cleared!");
+            console.log("second clear");
+            this.clearCanvas();
+            
             
             if (bg != ''){  
                 bg.onload = function(){
-                    that.ctx.drawImage(bg, 0, 0);        // draw background if applicable
+                    console.log("draw bg!", this.bgd);
+                    that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
+                    that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); 
                 }
             }; 
             character.onload = function(){
@@ -268,9 +281,9 @@ Playground.Views = Playground.Views || {};
                     that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); //character.width, character.height);     // draw costume if status isShown is true.
                 }           
             };
+            bg.src = this.current_status.backgroundImg[this.bgd];
             character.src = this.current_status.costumes[this.costume];    
-            bg.src = this.current_status.backgroundImg;
-
+           
         },
         
         sleep: function(milliseconds) {
