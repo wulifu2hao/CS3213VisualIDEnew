@@ -7,7 +7,7 @@ Playground.Collections = Playground.Collections || {};
 
     Playground.Collections.Sprites = Backbone.Collection.extend({
 
-        model: Playground.Models.Sprites
+        model: Playground.Models.Sprite
 
     });
 
