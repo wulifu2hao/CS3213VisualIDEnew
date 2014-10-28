@@ -1,17 +1,5 @@
 this["JST"] = this["JST"] || {};
 
-this["JST"]["app/scripts/templates/background.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<img src="' +
-((__t = ( src )) == null ? '' : __t) +
-'">\n';
-
-}
-return __p
-};
-
 this["JST"]["app/scripts/templates/command.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -53,16 +41,6 @@ __p += '<canvas id="' +
 '" height="' +
 ((__t = ( height )) == null ? '' : __t) +
 '">\n</canvas>\n';
-
-}
-return __p
-};
-
-this["JST"]["app/scripts/templates/sprite.ejs"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<p>Your content here.</p>\n\n';
 
 }
 return __p
