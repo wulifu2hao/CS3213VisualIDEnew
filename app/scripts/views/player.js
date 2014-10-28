@@ -27,7 +27,6 @@ Playground.Views = Playground.Views || {};
         bgsrc: '',
 
         initialize: function () {
-            console.log(this.model.i);
             var that = this;
             $("#play_button").click(function(e){
                 that.updateCanvas();       
@@ -40,10 +39,10 @@ Playground.Views = Playground.Views || {};
             });
             this.current_status = {              // init status
                         xPos: this.model.spriteModel.get('xPos'),
-                        yPos: this.model.get('yPos'),
-                        isShown: this.model.get('isShown'), 
-                        costumes: this.model.get('costumes'),
-                        backgroundImg : this.model.get('backgroundImg'),
+                        yPos: this.model.spriteModel.get('yPos'),
+                        isShown: this.model.spriteModel.get('isShown'), 
+                        costumes: this.model.spriteModel.get('costumes'),
+                        backgroundImg : this.model.spriteModel.get('backgroundImg'),
             };
             this.render();
             this.draw();
@@ -59,14 +58,14 @@ Playground.Views = Playground.Views || {};
 
         updateCanvas: function(){
             console.log("Player view: play button clicked!");
-            this.commands_list = this.model.array_of_commands;
+            this.commands_list = this.model.spriteModel.array_of_commands;
             this.executeFunctions(0, this.commands_list.length);
         },
 
         executeFunctions: function(start, length){
             var ind;
             console.log("I am in exe functions!");
-            console.log(this.model.array_of_commands);
+            console.log(this.model.spriteModel.array_of_commands);
             for(ind = start; ind < (start+length); ind++){
                 console.log("first clear");
                 this.clearCanvas();
@@ -119,13 +118,13 @@ Playground.Views = Playground.Views || {};
                         break;
                     case "changeBackground":
                         //get from background model
-                        if(this.model_bg.imgIndex<(this.model_bg.backgroundImgs.length-1)){
+                        if(this.model.bgModel.imgIndex<(this.model.bgModel.backgroundImgs.length-1)){
                             console.log("background change to next");
-                            this.model_bg.imgIndex++;
+                            this.model.bgModel.imgIndex++;
                         }
-                        else if(this.model_bg.imgIndex<(this.model_bg.backgroundImgs.length-1)){
+                        else if(this.model.bgModel.imgIndex===(this.model.bgModel.backgroundImgs.length-1)){
                             console.log("background change back to 0");
-                            this.model_bg.imgIndex=0;
+                            this.model.bgModel.imgIndex=0;
                         }
 
                         this.drawBackground();
@@ -167,7 +166,7 @@ Playground.Views = Playground.Views || {};
                 console.log("drawing background");
                 that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height); 
             }
-            bg.src = this.model_bg.backgroundImgs[imgIndex];
+            bg.src = this.model.bgModel.backgroundImgs[this.model.bgModel.imgIndex];
         },
 
         draw: function(){
