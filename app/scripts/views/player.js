@@ -24,7 +24,9 @@ Playground.Views = Playground.Views || {};
         h : null,
         costume: 0,
         bgd: 0,
-        bgsrc: '',
+
+        bgImgs: [],
+        spriteImgs: [],
 
         initialize: function () {
             var that = this;
@@ -37,6 +39,7 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 window.location = (window.location + 'auth/google');
             });
+
             this.current_status = {              // init status
                         xPos: this.model.spriteModel.get('xPos'),
                         yPos: this.model.spriteModel.get('yPos'),
@@ -44,6 +47,10 @@ Playground.Views = Playground.Views || {};
                         costumes: this.model.spriteModel.get('costumes'),
                         backgroundImg : this.model.spriteModel.get('backgroundImg'),
             };
+
+
+            this.loadImgs();
+
             this.render();
             this.draw();
         },
@@ -126,8 +133,7 @@ Playground.Views = Playground.Views || {};
                             console.log("background change back to 0");
                             this.model.bgModel.imgIndex=0;
                         }
-
-                        this.drawBackground();
+                        this.draw();
                         break;
                     case "repeat":
                         console.log(command.para[0], command.para[1]);
@@ -159,35 +165,47 @@ Playground.Views = Playground.Views || {};
             console.log("canvas cleared!");
         },
 
-        drawBackground: function(){
-            var that = this;
-            var bg = document.createElement('img');
-            bg.onload = function(){
-                console.log("drawing background");
-                that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height); 
+
+        loadImgs: function() {
+            var i = 0;
+            while(i<this.model.bgModel.backgroundImgs.length){
+                //load image
+                this.bgImgs[i] = new Image();
+                this.bgImgs[i].onload = function(){
+                    console.log("loaded bg img ");
+                };
+                this.bgImgs[i].src = this.model.bgModel.backgroundImgs[i];
+                i++;
             }
-            bg.src = this.model.bgModel.backgroundImgs[this.model.bgModel.imgIndex];
+
+            i=0;
+            console.log(this.current_status);
+            while(i<this.current_status.costumes.length){
+                this.spriteImgs[i] = new Image();
+                this.spriteImgs[i].onload = function(){
+                    console.log("load sprites imgs");
+                }
+                this.spriteImgs[i].src = this.current_status.costumes[i];
+                i++;
+            }
+        },
+
+        drawBackground: function(){
+            this.ctx.drawImage(this.bgImgs[this.model.bgModel.imgIndex], 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height); 
+        },
+
+        drawCharacter: function(){
+            var that = this;
+            var shown = this.current_status.isShown;
+            if(that.current_status.isShown){
+                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos); //character.width, character.height);     // draw costume if status isShown is true.
+                 }     
         },
 
         draw: function(){
-            var that = this;
-            var character = document.createElement('img');
-            var bg = document.createElement('img');
-            var shown = this.current_status.isShown;
             this.clearCanvas();
-            
-            character.onload = function(){
-                console.log("draw bg in character!", that.bgd);
-                that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
-                console.log("Let's draw character in character!", that.current_status.isShown);
-                    
-                if(that.current_status.isShown){
-                    that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); //character.width, character.height);     // draw costume if status isShown is true.
-                }           
-            };
-            bg.src = this.current_status.backgroundImg[this.bgd];
-            character.src = this.current_status.costumes[this.costume];    
-           
+            this.drawBackground();
+            this.drawCharacter();
         },
         
         sleep: function(milliseconds) {
