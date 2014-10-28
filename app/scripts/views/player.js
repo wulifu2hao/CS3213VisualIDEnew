@@ -24,11 +24,12 @@ Playground.Views = Playground.Views || {};
         h : null,
         costume: 0,
         bgd: 0,
+        bgsrc: '',
 
         initialize: function () {
+            console.log(this.model.i);
             var that = this;
             $("#play_button").click(function(e){
-           //     e.preventDefault();
                 that.updateCanvas();       
             });
 
@@ -38,7 +39,7 @@ Playground.Views = Playground.Views || {};
                 window.location = (window.location + 'auth/google');
             });
             this.current_status = {              // init status
-                        xPos: this.model.get('xPos'),
+                        xPos: this.model.spriteModel.get('xPos'),
                         yPos: this.model.get('yPos'),
                         isShown: this.model.get('isShown'), 
                         costumes: this.model.get('costumes'),
@@ -56,33 +57,11 @@ Playground.Views = Playground.Views || {};
             this.ctx = document.getElementById('player_canvas').getContext("2d");
         },
 
-
-
         updateCanvas: function(){
             console.log("Player view: play button clicked!");
             this.commands_list = this.model.array_of_commands;
             this.executeFunctions(0, this.commands_list.length);
-            // window.setInterval(this.gameLoop, 1000/30);
-
-            /* deleted gameloop, not necessary
-            (function (window) {
-                function gameLoop() {
-                console.log("Entering game loop");
-                console.log(this);
-                this.drawAtCurrentPosition();
-                
-
-
-                }
-             window.setInterval(gameLoop, 1000 / 60); // 60fps
-            } (window));
-*/
         },
-
-        // gameLoop : function(){
-        //     this.draw();
-        //     this.executeCommand();
-        // }
 
         executeFunctions: function(start, length){
             var ind;
@@ -139,15 +118,17 @@ Playground.Views = Playground.Views || {};
                         this.draw();
                         break;
                     case "changeBackground":
-                        if(this.bgd<(this.current_status.backgroundImg.length-1)){
+                        //get from background model
+                        if(this.model_bg.imgIndex<(this.model_bg.backgroundImgs.length-1)){
                             console.log("background change to next");
-                            this.bgd ++;
+                            this.model_bg.imgIndex++;
                         }
-                        else if(this.bgd===(this.current_status.backgroundImg.length-1)){
+                        else if(this.model_bg.imgIndex<(this.model_bg.backgroundImgs.length-1)){
                             console.log("background change back to 0");
-                            this.bgd = 0;
+                            this.model_bg.imgIndex=0;
                         }
-                        this.draw();
+
+                        this.drawBackground();
                         break;
                     case "repeat":
                         console.log(command.para[0], command.para[1]);
@@ -167,27 +148,7 @@ Playground.Views = Playground.Views || {};
                          }
                         };
 
-                        setInterval(timer, 500);
-
-
-                   
-                       
-                        // this.loop_layer++;
-                        // this.iteration[this.loop_layer] = command.para[0];
-                        // this.commands_iter[this.loop_layer] = command.para[1];
-                        // console.log("in", this.iteration[this.loop_layer], "times", this.commands_iter[this.loop_layer], "commands");   
-                        // // if (this.iteration[this.loop_layer] ==='forever'){
-                        // //     while (1){
-                        // //         this.executeFunctions(id+1, this.commands_iter[this.loop_layer]);      // infinite loop case, only wait for stop.
-                        // //     }
-                        // // }
-                        // // else {
-                        //     console.log("in", this.iteration[this.loop_layer], "times", this.commands_iter[this.loop_layer], "commands");
-                        //     for (j = 0; this.iteration[this.loop_layer]; j++){
-                        //         this.executeFunctions(id+1, this.commands_iter[this.loop_layer]);      // finite loop case
-                        //     }
-                        //     this.loop_layer--;  
-                        // // }                                 // after jumped out, reduce layer.                     
+                        setInterval(timer, 500);                   
                         break;
                     default:
                         console.log("invalid command, error in code somewhere");
@@ -199,26 +160,23 @@ Playground.Views = Playground.Views || {};
             console.log("canvas cleared!");
         },
 
+        drawBackground: function(){
+            var that = this;
+            var bg = document.createElement('img');
+            bg.onload = function(){
+                console.log("drawing background");
+                that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height); 
+            }
+            bg.src = this.model_bg.backgroundImgs[imgIndex];
+        },
+
         draw: function(){
             var that = this;
             var character = document.createElement('img');
             var bg = document.createElement('img');
             var shown = this.current_status.isShown;
-            console.log("second clear");
             this.clearCanvas();
             
-            
-            // if (bg != ''){  
-            //     bg.onload = function(){
-            //         console.log("draw bg in bg!", that.bgd);
-            //         that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable
-            //         if(that.current_status.isShown){
-            //             console.log("Let's draw character in bg!", that.current_status.isShown);
-            //             that.ctx.drawImage(character,that.current_status.xPos, that.current_status.yPos); 
-            //         }
-            //     }
-            // }; 
-
             character.onload = function(){
                 console.log("draw bg in character!", that.bgd);
                 that.ctx.drawImage(bg, 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);        // draw background if applicable

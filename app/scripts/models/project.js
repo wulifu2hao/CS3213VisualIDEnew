@@ -7,10 +7,17 @@ Playground.Models = Playground.Models || {};
 
     Playground.Models.Project = Backbone.Model.extend({
 
+        bgModel: null,
+        spriteModel: null,
+        audioModel: null,
+
         initialize: function() {
         },
 
         defaults: {
+            bgModel: null,
+            spriteModel: null,
+            audioModel: null,
         },
 
         validate: function(attrs, options) {

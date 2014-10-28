@@ -7,10 +7,14 @@ Playground.Models = Playground.Models || {};
 
     Playground.Models.Background = Backbone.Model.extend({
 
+        backgroundImgs: ['../images/blank.jpg', '../images/background1.jpg'],
+        imgIndex: 0,
+
         initialize: function() {
         },
 
         defaults: {
+            imgIndex: 0,
         },
 
         validate: function(attrs, options) {
@@ -18,6 +22,22 @@ Playground.Models = Playground.Models || {};
 
         parse: function(response, options)  {
             return response;
+        },
+
+        getData: function() {
+            var data = {
+                "imgIndex": this.imgIndex,
+                "backgroundImgs": this.backgroundImgs,
+            };
+            console.log("[background model] doing getdata");
+            return JSON.stringify(data);
+        },
+
+        setData: function(data) {
+            var data = JSON.parse(data);
+            console.log("[background model] got data is: "+data);
+            this.backgroundImgs = data.backgroundImgs;
+            this.imgIndex = data.imgIndex;
         },
 
     });
