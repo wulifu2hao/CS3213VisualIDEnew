@@ -41,7 +41,6 @@ Playground.Views = Playground.Views || {};
                         costumes: this.model.spriteModel.get('costumes'),
             };
 
-
             this.loadImgs();
             this.render();
             this.draw();
@@ -64,7 +63,6 @@ Playground.Views = Playground.Views || {};
             var ind;
             console.log("Executing functions!");
             for(ind = start; ind < (start+length); ind++){
-                // this.clearCanvas();
                 var command = this.commands_list[ind];
                 this.executeCommand(ind, command);
             }
@@ -76,18 +74,22 @@ Playground.Views = Playground.Views || {};
                         this.current_status.xPos = command.para[0];
                         this.draw();
                         break;
+
                     case "setYPos":
                         this.current_status.yPos = command.para[0];
                         this.draw();
                         break;
+
                     case "show":
                         this.current_status.isShown = true;
                         this.draw();
                         break;
+
                     case "hide":
                         this.current_status.isShown = false;
                         this.draw();
                         break;
+
                     case "move":
                         //move in current facing direction
                         var step = 0;
@@ -98,6 +100,7 @@ Playground.Views = Playground.Views || {};
                             step++;
                         }
                         break;
+
                     case "changeCostume":
                         if(this.costume<(this.current_status.costumes.length-1)){
                             console.log("costume change to next");
@@ -109,6 +112,7 @@ Playground.Views = Playground.Views || {};
                         }
                         this.draw();
                         break;
+
                     case "changeBackground":
                         if(this.model.bgModel.imgIndex<(this.model.bgModel.backgroundImgs.length-1)){
                             console.log("background change to next");
@@ -120,15 +124,11 @@ Playground.Views = Playground.Views || {};
                         }
                         this.draw();
                         break;
+
                     case "repeat":
                         console.log(command.para[0], command.para[1]);
                         var i = 1;
-
                         var that = this;
-                            // for(j=id+1; j<(id+command.para[1]+1); j++){
-                            //     that.executeCommand(j, that.commands_list[j]);
-                            // }
-
                         var timer = function(){
                          if(i < command.para[0]) {
                               i++;
@@ -137,9 +137,17 @@ Playground.Views = Playground.Views || {};
                               clearInterval(timer);
                          }
                         };
-
                         setInterval(timer, 500);                   
                         break;
+                        
+                    case "repeatForever":
+                        var that = this;
+                        var timer = function(){
+                            that.executeFunctions(id+1, command.para[0]);
+                        };
+                        setInterval(timer, 500);
+                        break;
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
@@ -149,7 +157,6 @@ Playground.Views = Playground.Views || {};
             this.ctx.clearRect(0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);
             console.log("canvas cleared!");
         },
-
 
         loadImgs: function() {
             var i = 0;
@@ -191,18 +198,6 @@ Playground.Views = Playground.Views || {};
             this.drawBackground();
             this.drawCharacter();
         },
-        
-        sleep: function(milliseconds) {
-            var start = new Date().getTime();
-            console.log("start", start);
-            for (var i = 0; i < 1e7; i++) {
-                var cur = new Date().getTime(); 
-                if ((cur - start) > milliseconds){
-                    console.log("timeout", cur);
-                    break;
-                }
-            }
-        }
     });
 
 })();

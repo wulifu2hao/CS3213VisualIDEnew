@@ -338,14 +338,14 @@ module.exports = function (grunt) {
     });
 
     // todo fix these
-    // grunt.registerTask('test', [
-    //     'clean:server',
-    //     'createDefaultTemplate',
-    //     'handlebars',
-    //     'compass',
-    //     'connect:testserver',
-    //     'exec:mocha'
-    // ]);
+    grunt.registerTask('test', [
+        'clean:server',
+        'createDefaultTemplate',
+        'handlebars',
+        'compass',
+        'connect:testserver',
+        'exec:mocha'
+    ]);
 
     // grunt.registerTask('build', [
     //     'createDefaultTemplate',

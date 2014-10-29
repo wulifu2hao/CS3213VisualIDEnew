@@ -91,6 +91,10 @@ Playground.Models = Playground.Models || {};
                 console.log("add fourth type of function: repeat");
                 this.array_of_commands.splice(position,0,{name: "repeat", para: parameters});
                 break;
+                case "command_repeat_forever":
+                console.log();
+                this.array_of_commands.splice(position,0,{name: "repeatForever", para: parameters});
+                break;
                 default:
                 console.log("invalid command: "+type);
             }
