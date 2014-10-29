@@ -12,18 +12,13 @@ Playground.Views = Playground.Views || {};
         el: '#player',
         
         current_status : {},                  // draw this status in current frame
-        func_name : '',                            // current function executing
-        commands_list : [],                     // list of functions need to be executed
-        index : 0,                              // index in function_list
-        loop_layer : -1,                        // -1 for sequensial, 0 indicates i'm in single loop, 1 means i'm inside double loop
-        iteration : [],                         // it[0] indicates num of iterations for single loop 
-        commands_iter : [],                     // cmd[0] indicates num of commands included in the single loop.
-        FPS : 30,                               // frame per second
+        func_name : '',                       // current function executing
+        commands_list : [],                   // list of functions need to be executed
+        index : 0,                              
         ctx : null,
         w : null,
         h : null,
         costume: 0,
-        bgd: 0,
 
         bgImgs: [],
         spriteImgs: [],
@@ -34,7 +29,6 @@ Playground.Views = Playground.Views || {};
                 that.updateCanvas();       
             });
 
-            
             $("#login-button").click(function(e){
                 e.preventDefault();
                 window.location = (window.location + 'auth/google');
@@ -45,18 +39,15 @@ Playground.Views = Playground.Views || {};
                         yPos: this.model.spriteModel.get('yPos'),
                         isShown: this.model.spriteModel.get('isShown'), 
                         costumes: this.model.spriteModel.get('costumes'),
-                        backgroundImg : this.model.spriteModel.get('backgroundImg'),
             };
 
 
             this.loadImgs();
-
             this.render();
             this.draw();
         },
 
         render: function () {
-
             this.w = this.$el.width();
             this.h = this.$el.height();
             this.$el.html(this.template({id:'player_canvas',width: this.w,height: this.h}));
@@ -71,20 +62,15 @@ Playground.Views = Playground.Views || {};
 
         executeFunctions: function(start, length){
             var ind;
-            console.log("I am in exe functions!");
-            console.log(this.model.spriteModel.array_of_commands);
+            console.log("Executing functions!");
             for(ind = start; ind < (start+length); ind++){
-                console.log("first clear");
-                this.clearCanvas();
+                // this.clearCanvas();
                 var command = this.commands_list[ind];
-                console.log(ind, command);
                 this.executeCommand(ind, command);
             }
         },
 
         executeCommand: function(id, command){
-            console.log(command.name);
-            
              switch(command.name){
                     case "setXPos":
                         this.current_status.xPos = command.para[0];
@@ -124,7 +110,6 @@ Playground.Views = Playground.Views || {};
                         this.draw();
                         break;
                     case "changeBackground":
-                        //get from background model
                         if(this.model.bgModel.imgIndex<(this.model.bgModel.backgroundImgs.length-1)){
                             console.log("background change to next");
                             this.model.bgModel.imgIndex++;
@@ -179,7 +164,6 @@ Playground.Views = Playground.Views || {};
             }
 
             i=0;
-            console.log(this.current_status);
             while(i<this.current_status.costumes.length){
                 this.spriteImgs[i] = new Image();
                 this.spriteImgs[i].onload = function(){

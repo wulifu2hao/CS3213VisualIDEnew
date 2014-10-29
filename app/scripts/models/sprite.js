@@ -9,8 +9,7 @@ Playground.Models = Playground.Models || {};
         xPos : 0,
         yPos : 0,
         isShown :true,
-        costumes :['../images/costume1.png','../images/costume2.png'],
-        backgroundImg: ['../images/blank.jpg', '../images/background1.jpg'],
+        costumes :['../images/costume1.png','../images/costume2.png'],  //each sprite has its own set of costumes
         url: '',
         array_of_commands: [],
 
@@ -25,7 +24,6 @@ Playground.Models = Playground.Models || {};
                 "yPos": this.yPos,
                 "isShown": this.isShown,
                 "costumes": this.costumes,
-                "backgroundImg": this.backgroundImg,
                 "array_of_commands": this.array_of_commands,
             };
             console.log("doing getdata");
@@ -40,7 +38,6 @@ Playground.Models = Playground.Models || {};
             this.yPos = data.yPos;
             this.isShown = data.isShown;
             this.costumes = data.costumes;
-            this.backgroundImg = data.backgroundImg;
             this.array_of_commands = data.array_of_commands;
         },
 
@@ -49,10 +46,8 @@ Playground.Models = Playground.Models || {};
             yPos : 0,
             isShown :true,
             costumes :['../images/costume1.png','../images/costume2.png'],
-            backgroundImg: ['../images/blank.jpg', '../images/background1.jpg'],
             url: '',
             array_of_commands: [],
-            
         },
 
         validate: function(attrs, options) {
