@@ -23,29 +23,39 @@ window.Playground = {
     }
 };
 
-    // var url = '/api/programs';
+    
 
-    // $.ajax({
-    //     type: 'GET',
-    //     url: url,
-    //     success: function(data) {
-    //         if (data.message == "success") {
-    //             var body = "";
-    //             for (var i = 0; i < data.names.length; i++) {
-    //                 var item = "<li><a href="#">"+data.names[i]"</a></li>";
-    //                 body += item;
-    //             };
-    //             $("#projectList").val(body);
-    //         } 
-    //     },
-    //     error: function(err){
-    //      }
-    // });
+    
 
 
 
 $(document).ready(function () {
     'use strict';
     Playground.init();
-    Backbone.history.start();    
+    Backbone.history.start();  
+
+    var url = '/api/programs';
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function(data) {
+            if (data.message == "success") {
+                var ul = document.getElementById('projectList');
+                  if (ul) {
+                    while (ul.firstChild) {
+                      ul.removeChild(ul.firstChild);
+                    }
+                  }
+                for (var i = 0; i < data.names.length; i++) {
+                    var item = "<li><a href='#'>"+data.names[i]+"</a></li>";
+                    $("#projectList").append(item);
+                };
+            } 
+        },
+        error: function(err){
+
+        }
+    });
+
 });
