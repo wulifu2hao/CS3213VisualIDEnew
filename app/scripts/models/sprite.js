@@ -99,6 +99,10 @@ Playground.Models = Playground.Models || {};
                 console.log("command_if_then");
                 this.array_of_commands.splice(position,0,{name: "ifThen", para: parameters});
                 break;
+                case "command_if_else":
+                console.log(command_if_else);
+                this.array_of_commands.splice(position,0,{name: "ifElse", para: parameters});
+                break;
                 default:
                 console.log("invalid command: "+type);
             }

@@ -166,6 +166,24 @@ Playground.Views = Playground.Views || {};
                         }
                         break;
 
+                    case "ifElse":
+                        //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
+                        var obj = command.para[0];
+                        var n = command.para[1];
+                        var that = this;
+                        if(!isNaN(obj)&&(obj===0))
+                            that.draw();
+                        else{
+                            //e.g {operator: "+", LHS:{}, RHS: 5}
+                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                            if(res>0){
+                                that.executeFunctions(id+1,n);
+                            }else{
+                                that.executeFunctions(id+n, command.para[2]);
+                            }
+                        }
+                        break;
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
