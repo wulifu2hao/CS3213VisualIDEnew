@@ -189,8 +189,14 @@ Playground.Views = Playground.Views || {};
                         this.clearCanvas();
                         this.ctx.rotate(command.para[0]*Math.PI/180);
                         this.draw();
-                    break;
+                        break;
 
+                    case "scale":
+                        //parameters: x scale, y scale
+                        this.clearCanvas();
+                        this.drawBackground();
+                        this.drawCharacterResize(command.para[0],command.para[1]);
+                        break;
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
@@ -273,8 +279,16 @@ Playground.Views = Playground.Views || {};
             var that = this;
             var shown = this.current_status.isShown;
             if(that.current_status.isShown){
-                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos); //character.width, character.height);     // draw costume if status isShown is true.
+                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos, 80, 150); //character.width, character.height);     // draw costume if status isShown is true.
                  }     
+        },
+
+        drawCharacterResize: function(x, y){
+            var that = this;
+            var shown = this.current_status.isShown;
+            if(that.current_status.isShown){
+                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos, x*80, y*150); //character.width, character.height);     // draw costume if status isShown is true.
+                 }   
         },
 
         draw: function(){
