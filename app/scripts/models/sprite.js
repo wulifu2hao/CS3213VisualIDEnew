@@ -12,6 +12,7 @@ Playground.Models = Playground.Models || {};
         costumes :['../images/costume1.png','../images/costume2.png'],  //each sprite has its own set of costumes
         url: '',
         array_of_commands: [],
+        angle: 0,
 
         name:"",
 
@@ -25,13 +26,14 @@ Playground.Models = Playground.Models || {};
                 "isShown": this.isShown,
                 "costumes": this.costumes,
                 "array_of_commands": this.array_of_commands,
+                "angle": 0,
             };
             console.log("doing getdata");
             console.log(this.array_of_commands);
             return JSON.stringify(data);
         },
 
-        setData: function(data) {
+        setData: function(data) {aq
             var data = JSON.parse(data);
             console.log(data);
             this.xPos = data.xPos;
@@ -39,6 +41,7 @@ Playground.Models = Playground.Models || {};
             this.isShown = data.isShown;
             this.costumes = data.costumes;
             this.array_of_commands = data.array_of_commands;
+            this.angle = data.angle;
         },
 
         defaults: {
@@ -48,6 +51,7 @@ Playground.Models = Playground.Models || {};
             costumes :['../images/costume1.png','../images/costume2.png'],
             url: '',
             array_of_commands: [],
+            angle: 0,
         },
 
         validate: function(attrs, options) {
@@ -102,6 +106,10 @@ Playground.Models = Playground.Models || {};
                 case "command_if_else":
                 console.log(command_if_else);
                 this.array_of_commands.splice(position,0,{name: "ifElse", para: parameters});
+                break;
+                case "command_rotate":
+                console.log("command_rotate");
+                this.array_of_commands.splice(position,0,{name: "rotate", para: parameters});
                 break;
                 default:
                 console.log("invalid command: "+type);

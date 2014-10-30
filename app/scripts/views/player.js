@@ -184,6 +184,13 @@ Playground.Views = Playground.Views || {};
                         }
                         break;
 
+                    case "rotate":
+                        //parameters: angle
+                        this.clearCanvas();
+                        this.ctx.rotate(command.para[0]*Math.PI/180);
+                        this.draw();
+                    break;
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
