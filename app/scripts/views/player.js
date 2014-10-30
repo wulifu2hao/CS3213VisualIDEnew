@@ -68,7 +68,7 @@ Playground.Views = Playground.Views || {};
             }
         },
 
-        executeCommand: function(id, command){
+        executeCommand: function(id, command){ 
              switch(command.name){
                     case "setXPos":
                         this.current_status.xPos = command.para[0];
@@ -139,7 +139,7 @@ Playground.Views = Playground.Views || {};
                         };
                         setInterval(timer, 500);                   
                         break;
-                        
+
                     case "repeatForever":
                         var that = this;
                         var timer = function(){
@@ -148,9 +148,68 @@ Playground.Views = Playground.Views || {};
                         setInterval(timer, 500);
                         break;
 
+                    case "ifThen":
+                        //parameters: obj containing a boolean expression, #of commands to be executed
+                        var obj = command.para[0];
+                        var n = command.para[1];
+                        var that = this;
+                        if(!isNaN(obj)&&(obj===0))
+                            that.draw();
+                        else{
+                            //e.g {operator: "+", LHS:{}, RHS: 5}
+                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                            if(res>0){
+                                that.executeFunctions(id+1,n);
+                            }else{
+                                that.draw();
+                            }
+                        }
+                        break;
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
+        },
+
+        evaluateExpression: function(operator, LHS, RHS){
+            var leftRes = 0;
+            var rightRes = 0;
+            var that = this;
+
+            console.log(LHS);
+            console.log(RHS);
+            console.log(isNaN(LHS));
+            console.log(isNaN(RHS));
+            if(!isNaN(LHS)&&!isNaN(RHS)){
+                leftRes = LHS;
+                rightRes = RHS;
+            }else if(isNaN(LHS)&&!isNaN(RHS)){
+                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                rightRes = RHS;
+            }else if(!isNaN(LHS)&&isNaN(RHS)){
+                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                leftRes = LHS;
+            }else{
+                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+            }
+
+            switch(operator){
+                case "<":
+                if(leftRes<rightRes) return 1;
+                case ">":
+                if(leftRes>rightRes) return 1;
+                case "=":
+                if(leftRes===rightRes) return 1;
+                case "+":
+                return leftRes+rightRes;
+                case "-":
+                return leftRes-rightRes;
+                case "*":
+                return leftRes*rightRes;
+                default:
+                console.log("invalid expression");
+            }
         },
 
         clearCanvas: function(){

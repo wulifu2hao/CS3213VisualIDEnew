@@ -92,8 +92,12 @@ Playground.Models = Playground.Models || {};
                 this.array_of_commands.splice(position,0,{name: "repeat", para: parameters});
                 break;
                 case "command_repeat_forever":
-                console.log();
+                console.log("command_repeat_forever");
                 this.array_of_commands.splice(position,0,{name: "repeatForever", para: parameters});
+                break;
+                case "command_if_then":
+                console.log("command_if_then");
+                this.array_of_commands.splice(position,0,{name: "ifThen", para: parameters});
                 break;
                 default:
                 console.log("invalid command: "+type);
