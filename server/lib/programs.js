@@ -138,3 +138,23 @@ this.updateProgram = function(req, res) {
 		res.json({message: 'user has not logged in.'});
 	}    
 }
+
+this.getNamesOfPrograms = function(req, res) {
+	if (req.user) {
+		programModel.find({googleId: req.user.googleId}, function(err, programs) {
+	        if (err) {
+	            res.json({message: 'error with database.'});
+	        } else {
+	        	var names = [];
+	        	for (var i = 0; i < programs.length; i++) {
+	        		names.push(programs[i].name)
+	        	};
+	        	res.json({message:'success', names:names})
+	        }
+	    });
+	}else{
+		res.json({message: 'user has not logged in.'});
+	}    
+}
+
+

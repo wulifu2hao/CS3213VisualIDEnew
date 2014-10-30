@@ -48,12 +48,25 @@ Playground.Views = Playground.Views || {};
 
             $("#save-button").click(function(e){
                 e.preventDefault();
-                that.saveToServer();
+                var name = prompt("enter a name for your project");
+                if (name != null) {
+                    that.saveToServer(name);
+                }
             });   
             $("#load-button").click(function(e){
                 e.preventDefault();
-                that.loadFromServer();
-            });   
+                var name = prompt("enter a name for your project");
+                if (name != null) {
+                    that.loadFromServer(name);
+                }
+            });  
+            $("#seeAllProjects-button").click(function(e){
+                e.preventDefault();
+                that.loadNamesFromServer();
+            });  
+
+
+
         },
 
         render: function () {
@@ -88,8 +101,8 @@ Playground.Views = Playground.Views || {};
             }
         },
 
-        loadFromServer: function(){
-            var name = "default";
+        loadFromServer: function(name){
+            var name = name;
             var that = this;
             var url = '/api/programs/'+name
 
@@ -103,12 +116,40 @@ Playground.Views = Playground.Views || {};
                         that.model.name = data.name;
                         that.addCommandBlocksToWorkspace(that.model.array_of_commands);
                     } else{
-
+                        alert ("fail to load the project with name '" + name + "'");
                     }
                     
                 },
                 error: function(err){
                     console.log(err);
+                    alert ("fail to load the project with name '" + name + "'");
+                 }
+            });
+        },
+
+        loadNamesFromServer: function(){
+            var that = this;
+            var url = '/api/programs';
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                    console.log(data);
+                    if (data.message == "success") {
+                        var message = "names of your project:\n";
+                        for (var i = 0; i < data.names.length; i++) {
+                            message += (data.names[i] + "\n")
+                        };
+                        alert (message);
+                    } else{
+                        alert (message);
+                    }
+                    
+                },
+                error: function(err){
+                    console.log(err);
+                    alert ("fail to load your project names");
                  }
             });
         },
@@ -183,9 +224,9 @@ Playground.Views = Playground.Views || {};
             return element;
         },
 
-        saveToServer: function() {
+        saveToServer: function(name) {
             this.updateModel();
-            var name = "default";
+            var name = name;
             var that = this;
             var data = this.model.getData();
 
@@ -197,10 +238,16 @@ Playground.Views = Playground.Views || {};
                     data: { name:name, data:data},
                     success: function(data) {
                         console.log(data);
-                        that.model.name = name;
+                        if (data.message == "success") {
+                            that.model.name = name;
+                            alert("your project is successfully saved as '" + name + "'");
+                        } else {
+                            alert(data.message);
+                        }
                     },
                     error: function(err){
                         console.log(err);
+                        alert("your project is not saved");
                      }
                 });
             } else {
@@ -211,9 +258,15 @@ Playground.Views = Playground.Views || {};
                     data: { name:name, data:data},
                     success: function(data) {
                         console.log(data);
+                        if (data.message == "success") {
+                            alert("your project is successfully saved as '" + name + "'");
+                        } else {
+                            alert(data.message);
+                        }
                     },
                     error: function(err){
                         console.log(err);
+                        alert("your project is not saved");
                      }
                 });
             }

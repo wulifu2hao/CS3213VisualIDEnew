@@ -7,7 +7,7 @@ var async = require('async');
 var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
-var mongoose = require('mongoose');
+var mongoose = require('mongoose');	
 
 var everyauth = require("everyauth"),
  	util = require ('util'),
@@ -18,8 +18,10 @@ var everyauth = require("everyauth"),
 
 
 everyauth.google
-  .appId('94957522892-s68i21cjon2huqvl3ereort22eghbnkt.apps.googleusercontent.com')
-  .appSecret('yTWW6kvc0CY2ieEz44-GxwOv')
+  // .appId('94957522892-s68i21cjon2huqvl3ereort22eghbnkt.apps.googleusercontent.com')
+  // .appSecret('yTWW6kvc0CY2ieEz44-GxwOv')
+  .appId('833362114023-7ut2penvgf12fa23bb66knr3gf27rt9g.apps.googleusercontent.com')
+  .appSecret('rirG8Z310rHRtLLAnTW5kSvf')
   .scope('https://www.googleapis.com/auth/userinfo.email') // What you want access to
   .handleAuthCallbackError( function (req, res) {
 
@@ -111,6 +113,7 @@ db.once('open', function callback () {
 	});	
 
 	app.get('/api/programs/:name', programs.getByName);	
+	app.get('/api/programs', programs.getNamesOfPrograms);
 	app.put('/api/programs', programs.updateProgram);
 	app.post('/api/programs', programs.addProgram);
 	app.delete('/api/programs/:name', programs.deleteByName);	

@@ -28,11 +28,18 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a id="save-button" href="#">Save</a></li>
                                 <li><a id="load-button" href="#">Load from the server</a></li>
+                                <li><a class="dropdown-toggle" data-toggle="dropdown"  href="#">Names of Your Projects</a>
+                                    <!-- id="seeAllProjects-button"  -->
+                                    <ul id="projectList" class="dropdown-menu dropdown-menu-right" style="position: absolute;left: 190px;top: 50px;" role="menu">
+                                        <li><a href="#">testing</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a id="login-button" href="#">Login</a></li>
+                        <li><a id="logout-button" style="display:none" href="#">logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -105,6 +112,17 @@
         <script src="scripts/views/command.js"></script>
         <script src="scripts/views/toolbar.js"></script>
         <script src="scripts/views/costumesPane.js"></script>
+        <script>
+        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+        // Avoid following the href location when clicking
+            event.preventDefault(); 
+            // Avoid having the menu to close when clicking
+            event.stopPropagation(); 
+            // Re-add .open to parent sub-menu item
+            $(this).parent().addClass('open');
+            $(this).parent().find("ul").parent().find("li.dropdown").addClass('open');
+        });
+        </script>
         <!-- endbuild -->
 </body>
 </html>
