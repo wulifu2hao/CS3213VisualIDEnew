@@ -80,6 +80,32 @@ Playground.Views = Playground.Views || {};
                     that.draw();
                 }
             });
+
+            window.addEventListener('keydown',doKeyDown,true);
+            function doKeyDown(evt){
+                switch (evt.keyCode) {
+                case 87:  /* w was pressed */
+                console.log("up");
+                that.current_status.yPos -= 5;
+                that.draw();
+                break;
+                case 83:  /* s was pressed */
+                console.log("down");
+                that.current_status.yPos += 5;
+                that.draw();
+                break;
+                case 65:  /* a was pressed */
+                console.log("left");
+                that.current_status.xPos -= 5;
+                that.draw();
+                break;
+                case 68:  /* d was pressed */
+                console.log("right");
+                that.current_status.xPos += 5;
+                that.draw();
+                break;
+                }
+            }
         },
         
         render: function () {
