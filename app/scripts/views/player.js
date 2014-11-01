@@ -26,6 +26,7 @@ Playground.Views = Playground.Views || {};
 
         initialize: function () {
             var that = this;
+
             $("#play_button").click(function(e){
                 that.updateCanvas();       
             });
@@ -40,25 +41,42 @@ Playground.Views = Playground.Views || {};
                         yPos: this.model.spriteModel.get('yPos'),
                         isShown: this.model.spriteModel.get('isShown'), 
                         costumes: this.model.spriteModel.get('costumes'),
+                        width : this.model.spriteModel.get('width'),
+                        height: this.model.spriteModel.get('height'),
             };
 
             this.render();   
             this.loadImgs();
             this.draw();
 
-            $('#player_canvas').mousedown(function(){
-                that.isDragging = true;
+            $('#player_canvas').mousedown(function(event){
+                // console.log("mousedown");
+                var mouseX = parseInt(event.clientX - event.target.offsetLeft);
+                var mouseY = parseInt(event.clientY - event.target.offsetTop);
+                var x = that.current_status.xPos;
+                var y = that.current_status.yPos;
+                var w = that.current_status.width;
+                var h = that.current_status.height;
+                if((mouseX > (x )) && (mouseX < (x + w)) && (mouseY > (y )) && (mouseY < (y+h))){
+                    that.isDragging = true;
+                }
             });
             
             $('#player_canvas').mouseup(function(){
+                // console.log("mouseup");
                 that.isDragging = false;
             });
             
             $('#player_canvas').mousemove(function(event){
-                if(that.isDragging == true){
-                    that.current_status.xPos = parseInt(event.clientX - event.target.offsetLeft)-40;
-                    that.current_status.yPos = parseInt(event.clientY - event.target.offsetTop)-75;
-       //             console.log(parseInt(event.clientX - event.target.offsetLeft), that.current_status.yPos);
+                var mouseX = parseInt(event.clientX - event.target.offsetLeft);
+                var mouseY = parseInt(event.clientY - event.target.offsetTop);
+                var x = that.current_status.xPos;
+                var y = that.current_status.yPos;
+                var w = that.current_status.width;
+                var h = that.current_status.height;
+                if(that.isDragging){
+                    that.current_status.xPos = mouseX - w/2;
+                    that.current_status.yPos = mouseY - h/2;
                     that.draw();
                 }
             });
@@ -296,7 +314,7 @@ Playground.Views = Playground.Views || {};
             var that = this;
             var shown = this.current_status.isShown;
             if(that.current_status.isShown){
-                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos, 80, 150); //character.width, character.height);     // draw costume if status isShown is true.
+                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos, that.current_status.width, that.current_status.height); //character.width, character.height);     // draw costume if status isShown is true.
                  }     
         },
 

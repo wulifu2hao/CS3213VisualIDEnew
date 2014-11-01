@@ -13,6 +13,8 @@ Playground.Models = Playground.Models || {};
         url: '',
         array_of_commands: [],
         angle: 0,
+        width: 80,
+        height: 150,
 
         name:"",
 
@@ -27,6 +29,8 @@ Playground.Models = Playground.Models || {};
                 "costumes": this.costumes,
                 "array_of_commands": this.array_of_commands,
                 "angle": 0,
+                "width": 80,
+                "height": 150,
             };
             console.log("doing getdata");
             console.log(this.array_of_commands);
@@ -42,6 +46,8 @@ Playground.Models = Playground.Models || {};
             this.costumes = data.costumes;
             this.array_of_commands = data.array_of_commands;
             this.angle = data.angle;
+            this.width = data.width;
+            this.height = data.height;
         },
 
         defaults: {
@@ -52,6 +58,8 @@ Playground.Models = Playground.Models || {};
             url: '',
             array_of_commands: [],
             angle: 0,
+            width: 80,
+            height: 150,
         },
 
         validate: function(attrs, options) {
