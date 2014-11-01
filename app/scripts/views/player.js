@@ -22,6 +22,7 @@ Playground.Views = Playground.Views || {};
 
         bgImgs: [],
         spriteImgs: [],
+        isDragging: false,
 
         initialize: function () {
             var that = this;
@@ -33,7 +34,7 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 window.location = (window.location + 'auth/google');
             });
-
+         
             this.current_status = {              // init status
                         xPos: this.model.spriteModel.get('xPos'),
                         yPos: this.model.spriteModel.get('yPos'),
@@ -41,11 +42,28 @@ Playground.Views = Playground.Views || {};
                         costumes: this.model.spriteModel.get('costumes'),
             };
 
+            this.render();   
             this.loadImgs();
-            this.render();
             this.draw();
-        },
 
+            $('#player_canvas').mousedown(function(){
+                that.isDragging = true;
+            });
+            
+            $('#player_canvas').mouseup(function(){
+                that.isDragging = false;
+            });
+            
+            $('#player_canvas').mousemove(function(event){
+                if(that.isDragging == true){
+                    that.current_status.xPos = parseInt(event.clientX - event.target.offsetLeft)-40;
+                    that.current_status.yPos = parseInt(event.clientY - event.target.offsetTop)-75;
+       //             console.log(parseInt(event.clientX - event.target.offsetLeft), that.current_status.yPos);
+                    that.draw();
+                }
+            });
+        },
+        
         render: function () {
             this.w = this.$el.width();
             this.h = this.$el.height();
@@ -245,7 +263,6 @@ Playground.Views = Playground.Views || {};
 
         clearCanvas: function(){
             this.ctx.clearRect(0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);
-            console.log("canvas cleared!");
         },
 
         loadImgs: function() {
