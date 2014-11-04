@@ -48,7 +48,7 @@ $(document).ready(function () {
                     }
                   }
                 for (var i = 0; i < data.names.length; i++) {
-                    var item = "<li><a href='#'>"+data.names[i]+"</a></li>";
+                    var item = "<li><a href=\"\">"+data.names[i]+"</a></li>";
                     $("#projectList").append(item);
                 };
             } 
