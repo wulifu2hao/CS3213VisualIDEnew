@@ -22,9 +22,11 @@ Playground.Views = Playground.Views || {};
 
         bgImgs: [],
         spriteImgs: [],
+        isDragging: false,
 
         initialize: function () {
             var that = this;
+
             $("#play_button").click(function(e){
                 that.updateCanvas();       
             });
@@ -33,19 +35,79 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 window.location = (window.location + 'auth/google');
             });
-
+         
             this.current_status = {              // init status
                         xPos: this.model.spriteModel.get('xPos'),
                         yPos: this.model.spriteModel.get('yPos'),
                         isShown: this.model.spriteModel.get('isShown'), 
                         costumes: this.model.spriteModel.get('costumes'),
+                        width : this.model.spriteModel.get('width'),
+                        height: this.model.spriteModel.get('height'),
             };
 
+            this.render();   
             this.loadImgs();
-            this.render();
             this.draw();
-        },
 
+            $('#player_canvas').mousedown(function(event){
+                // console.log("mousedown");
+                var mouseX = parseInt(event.clientX - event.target.offsetLeft);
+                var mouseY = parseInt(event.clientY - event.target.offsetTop);
+                var x = that.current_status.xPos;
+                var y = that.current_status.yPos;
+                var w = that.current_status.width;
+                var h = that.current_status.height;
+                if((mouseX > (x )) && (mouseX < (x + w)) && (mouseY > (y )) && (mouseY < (y+h))){
+                    that.isDragging = true;
+                }
+            });
+            
+            $('#player_canvas').mouseup(function(){
+                // console.log("mouseup");
+                that.isDragging = false;
+            });
+            
+            $('#player_canvas').mousemove(function(event){
+                var mouseX = parseInt(event.clientX - event.target.offsetLeft);
+                var mouseY = parseInt(event.clientY - event.target.offsetTop);
+                var x = that.current_status.xPos;
+                var y = that.current_status.yPos;
+                var w = that.current_status.width;
+                var h = that.current_status.height;
+                if(that.isDragging){
+                    that.current_status.xPos = mouseX - w/2;
+                    that.current_status.yPos = mouseY - h/2;
+                    that.draw();
+                }
+            });
+
+            window.addEventListener('keydown',doKeyDown,true);
+            function doKeyDown(evt){
+                switch (evt.keyCode) {
+                case 87:  /* w was pressed */
+                console.log("up");
+                that.current_status.yPos -= 5;
+                that.draw();
+                break;
+                case 83:  /* s was pressed */
+                console.log("down");
+                that.current_status.yPos += 5;
+                that.draw();
+                break;
+                case 65:  /* a was pressed */
+                console.log("left");
+                that.current_status.xPos -= 5;
+                that.draw();
+                break;
+                case 68:  /* d was pressed */
+                console.log("right");
+                that.current_status.xPos += 5;
+                that.draw();
+                break;
+                }
+            }
+        },
+        
         render: function () {
             this.w = this.$el.width();
             this.h = this.$el.height();
@@ -68,7 +130,7 @@ Playground.Views = Playground.Views || {};
             }
         },
 
-        executeCommand: function(id, command){
+        executeCommand: function(id, command){ 
              switch(command.name){
                     case "setXPos":
                         this.current_status.xPos = command.para[0];
@@ -139,7 +201,7 @@ Playground.Views = Playground.Views || {};
                         };
                         setInterval(timer, 500);                   
                         break;
-                        
+
                     case "repeatForever":
                         var that = this;
                         var timer = function(){
@@ -148,14 +210,103 @@ Playground.Views = Playground.Views || {};
                         setInterval(timer, 500);
                         break;
 
+                    case "ifThen":
+                        //parameters: obj containing a boolean expression, #of commands to be executed
+                        var obj = command.para[0];
+                        var n = command.para[1];
+                        var that = this;
+                        if(!isNaN(obj)&&(obj===0))
+                            that.draw();
+                        else{
+                            //e.g {operator: "+", LHS:{}, RHS: 5}
+                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                            if(res>0){
+                                that.executeFunctions(id+1,n);
+                            }else{
+                                that.draw();
+                            }
+                        }
+                        break;
+
+                    case "ifElse":
+                        //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
+                        var obj = command.para[0];
+                        var n = command.para[1];
+                        var that = this;
+                        if(!isNaN(obj)&&(obj===0))
+                            that.draw();
+                        else{
+                            //e.g {operator: "+", LHS:{}, RHS: 5}
+                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                            if(res>0){
+                                that.executeFunctions(id+1,n);
+                            }else{
+                                that.executeFunctions(id+n, command.para[2]);
+                            }
+                        }
+                        break;
+
+                    case "rotate":
+                        //parameters: angle
+                        this.clearCanvas();
+                        this.ctx.rotate(command.para[0]*Math.PI/180);
+                        this.draw();
+                        break;
+
+                    case "scale":
+                        //parameters: x scale, y scale
+                        this.clearCanvas();
+                        this.drawBackground();
+                        this.drawCharacterResize(command.para[0],command.para[1]);
+                        break;
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
         },
 
+        evaluateExpression: function(operator, LHS, RHS){
+            var leftRes = 0;
+            var rightRes = 0;
+            var that = this;
+
+            console.log(LHS);
+            console.log(RHS);
+            console.log(isNaN(LHS));
+            console.log(isNaN(RHS));
+            if(!isNaN(LHS)&&!isNaN(RHS)){
+                leftRes = LHS;
+                rightRes = RHS;
+            }else if(isNaN(LHS)&&!isNaN(RHS)){
+                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                rightRes = RHS;
+            }else if(!isNaN(LHS)&&isNaN(RHS)){
+                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                leftRes = LHS;
+            }else{
+                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+            }
+
+            switch(operator){
+                case "<":
+                if(leftRes<rightRes) return 1;
+                case ">":
+                if(leftRes>rightRes) return 1;
+                case "=":
+                if(leftRes===rightRes) return 1;
+                case "+":
+                return leftRes+rightRes;
+                case "-":
+                return leftRes-rightRes;
+                case "*":
+                return leftRes*rightRes;
+                default:
+                console.log("invalid expression");
+            }
+        },
+
         clearCanvas: function(){
             this.ctx.clearRect(0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height);
-            console.log("canvas cleared!");
         },
 
         loadImgs: function() {
@@ -189,8 +340,16 @@ Playground.Views = Playground.Views || {};
             var that = this;
             var shown = this.current_status.isShown;
             if(that.current_status.isShown){
-                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos); //character.width, character.height);     // draw costume if status isShown is true.
+                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos, that.current_status.width, that.current_status.height); //character.width, character.height);     // draw costume if status isShown is true.
                  }     
+        },
+
+        drawCharacterResize: function(x, y){
+            var that = this;
+            var shown = this.current_status.isShown;
+            if(that.current_status.isShown){
+                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status.xPos, that.current_status.yPos, x*80, y*150); //character.width, character.height);     // draw costume if status isShown is true.
+                 }   
         },
 
         draw: function(){
