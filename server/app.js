@@ -3,6 +3,9 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var busboy = require('connect-busboy'); //middleware for form/file upload
+var fs = require('fs-extra');       //File System - for file manipulation
+var formidable = require('formidable');
 var async = require('async');
 var hbs = require('express-hbs');
 var baucis = require('baucis');
@@ -82,6 +85,7 @@ db.once('open', function callback () {
 	  	app.use(express.cookieParser());
 	  	app.use(express.session({secret: "yTWW6kvc0CY2ieEz44"}));
 	  	app.use(everyauth.middleware());
+	  	app.use(busboy());
 	  	// app.use(app.router);
 	});
 
@@ -117,6 +121,32 @@ db.once('open', function callback () {
 	app.put('/api/programs', programs.updateProgram);
 	app.post('/api/programs', programs.addProgram);
 	app.delete('/api/programs/:name', programs.deleteByName);	
+
+
+	app.post('/upload', 
+		function (req, res, next) {
+	        var serverPath = '/../app/audioUploaded/' + req.files.fileUploaded.name;
+ 
+		    require('fs').rename(
+				req.files.fileUploaded.path,
+				__dirname+serverPath,
+				function(error) {
+					if(error) {
+						console.log(error);
+						res.send({
+				                    error: 'Ah crap! Something bad happened'
+						});
+				                return;
+				            }
+				 
+				            res.send({
+						path: serverPath
+				            });
+					}
+		    );
+
+	    }
+    );
 
 	// start server
 	http.createServer(app).listen(app.get('port'), function(){

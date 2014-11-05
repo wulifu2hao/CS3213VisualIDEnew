@@ -34,8 +34,8 @@ $(document).ready(function () {
     Playground.init();
     Backbone.history.start();  
 
+    // init the programs to load, haven't finish
     var url = '/api/programs';
-
     $.ajax({
         type: 'GET',
         url: url,
@@ -56,6 +56,25 @@ $(document).ready(function () {
         error: function(err){
 
         }
+    });
+
+    soundManager.setup({
+      url: './bower_components/soundmanager2/swf/',
+      flashVersion: 9, // optional: shiny features (default = 8)
+      // optional: ignore Flash where possible, use 100% HTML5 mode
+      preferFlash: false,
+      onready: function() {
+        soundManager.createSound({
+          id: 'mySound',
+          url: './bower_components/soundmanager2/demo/_mp3/bass.mp3',
+          autoLoad: true,
+          autoPlay: true,
+          onload: function() {
+            // alert('The sound '+this.id+' loaded!');
+          },
+          volume: 50
+        });
+      }
     });
 
 });

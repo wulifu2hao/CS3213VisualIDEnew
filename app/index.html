@@ -59,6 +59,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#editor" role="tab" data-toggle="tab">Scripts</a></li>
                     <li><a href="#costumes-pane" role="tab" data-toggle="tab">Costumes</a></li>
+                    <li><a href="#audio-pane" role="tab" data-toggle="tab">Audio</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="editor" class="block editor tab-pane active">
@@ -69,12 +70,19 @@
                             <!-- Backbone editor workspace -->
                         </div>
                     </div>
+                    <div id="audio-pane" class="block audio-pane tab-pane">
+                        
+                    </div>
                     <div id="costumes-pane" class="block costumes-pane tab-pane">
                         <!-- Backbone costumes-pane -->
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- <form method='post' action='upload' enctype="multipart/form-data">
+        <input type='file' name='fileUploaded'>
+        <input type='submit'> -->
 
         <!-- build:js scripts/vendor.js -->
         <script src="bower_components/underscore/underscore.js"></script>
@@ -97,6 +105,7 @@
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
+        <script src="bower_components/soundmanager2/script/soundmanager2.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
