@@ -39,7 +39,7 @@ Playground.Views = Playground.Views || {};
                         accpet: ".draggable",
                         hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
-                            $(this).parent().find(".first-label").after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}));
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}));
                             $(this).remove();
                         },
                         over: function(event,ui) {
@@ -48,6 +48,11 @@ Playground.Views = Playground.Views || {};
                     });
                     that.commandList = that.getCommandList();
                 }
+            });
+            $(".draggable").draggable({
+                helper: "clone",
+                cursor: "move",
+                revert: "invalid"
             });
             $("#editor_workspace ul").sortable({
                 placeholder: "ui-state-highlight",
@@ -74,9 +79,6 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 that.loadNamesFromServer();
             });  
-
-
-
         },
 
         render: function () {

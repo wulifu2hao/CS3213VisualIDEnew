@@ -8046,27 +8046,26 @@ li {
 .droppable {
   width: 52px;
   height: 22px;
-  background-color: yellow;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000326}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000325}}
 .container-fluid {
   padding-left: 4px;
   padding_right: 4px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000331}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000330}}
 .navbar {
   margin-bottom: 2px;
   border-radius: 0px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000335}}
 .block {
   border: 1px solid #A0A0A0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000339}}
 .left-col {
   width: 480px;
   height: auto;
@@ -8075,14 +8074,14 @@ li {
   overflow: hidden;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000347}}
 .right-col {
   width: auto;
   height: auto;
   overflow: hidden;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000353}}
 .player-header {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -8092,19 +8091,19 @@ li {
   padding-right: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000362}}
 .filename-input {
   padding: 2px 8px;
   line-height: 12px;
   width: 300px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000369}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000368}}
 .player {
   height: 360px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000373}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000372}}
 .editor {
   height: 680px;
   padding-top: 4px;
@@ -8113,7 +8112,7 @@ li {
   overflow: hidden;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000380}}
 .costumes-pane {
   height: 680px;
   padding-top: 4px;
@@ -8122,7 +8121,7 @@ li {
   overflow: hidden;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000389}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000388}}
 .editor-toolbar {
   width: 240px;
   height: 680px;
@@ -8131,7 +8130,7 @@ li {
   overflow: hidden;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000397}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\0000396}}
 .editor-workspace {
   height: 670px;
   width: auto;
@@ -8140,31 +8139,31 @@ li {
   background-color: #E8E8E8;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003105}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003104}}
 .editor-workspace li {
   margin-top: -6px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003108}}
 .workspace-list {
   list-style-type: none;
   min-height: 640px;
   min-width: 600px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003115}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003114}}
 .toolbar {
   padding-left: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003118}}
 .toolbar-item {
   margin-top: 20px;
   padding-left: 8px;
   width: 200px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003125}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003124}}
 .toolbar-item-motion {
   padding-top: 5px;
   height: 37px;
@@ -8172,25 +8171,25 @@ li {
   background-repeat: no-repeat;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003132}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003131}}
 .toolbar-item-control {
   height: auto !important;
   min-height: 83px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003137}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003136}}
 .toolbar-item-control ul {
   background-image: url("../images/command_control_mid.png");
   background-repeat: repeat-y;
   margin-left: -8px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003143}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003142}}
 .toolbar-item-control li {
   margin-left: 27px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003147}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003146}}
 .block-control-top {
   padding-left: 8px;
   padding-top: 5px;
@@ -8201,7 +8200,7 @@ li {
   background-repeat: no-repeat;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003157}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003156}}
 .block-control-botm {
   width: 200px;
   height: 44px;
@@ -8211,7 +8210,7 @@ li {
   background-repeat: no-repeat;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003166}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003165}}
 .toolbar-item-look {
   padding-top: 5px;
   height: 37px;
@@ -8219,7 +8218,7 @@ li {
   background-repeat: no-repeat;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003173}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003172}}
 .toolbar-item-operator {
   padding-top: 5px;
   height: 37px;
@@ -8227,20 +8226,20 @@ li {
   background-repeat: no-repeat;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003180}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003179}}
 .toolbar-item-variable {
   margin-top: 20px;
-  padding-top: 2px;
+  padding-top: 4px;
   padding-left: 8px;
   height: 22px;
   width: 52px;
   background-image: url("../images/command_variable.png");
   background-repeat: no-repeat;
   color: #FFFFFF;
-  /*overflow: hidden;*/
+  font-size: 9px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003192}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003191}}
 .number-input {
   line-height: 12px;
   width: 50px;
@@ -8249,7 +8248,7 @@ li {
   border-radius: 8px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003200}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003199}}
 .ui-state-highlight {
   height: 33px;
   width: 200px;
@@ -8258,7 +8257,7 @@ li {
   visibility: visible !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003208}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003207}}
 .ui-state-hover {
   height: 22px;
   width: 52px;
@@ -8267,7 +8266,7 @@ li {
   visibility: visible !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003216}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003215}}
 .dropdown-menu-right {
   position: absolute;
   left: 180px;
