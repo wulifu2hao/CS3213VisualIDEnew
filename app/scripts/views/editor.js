@@ -39,7 +39,7 @@ Playground.Views = Playground.Views || {};
                         accpet: ".draggable",
                         hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
-                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}));
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable"));
                             $(this).remove();
                         },
                         over: function(event,ui) {
