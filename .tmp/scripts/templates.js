@@ -24,7 +24,7 @@ this["JST"]["app/scripts/templates/editor.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<h4><span class="label label-success" id="drag-a-command-alert">Drag a command here to start</span></h4>\n<ul id="workspace-sortable" class="workspace-list">\n</ul>\n';
+__p += '<ul id="workspace-sortable" class="workspace-list">\n</ul>\n';
 
 }
 return __p
