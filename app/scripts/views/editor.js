@@ -32,14 +32,17 @@ Playground.Views = Playground.Views || {};
                     });
                     $(".draggable").draggable({
                         helper: "clone",
-                        cursor: "move"
+                        cursor: "move",
+                        revert: "invalid"
                     });
                     $(".droppable").droppable({
                         accpet: ".draggable",
+                        hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
-                            alert("drop");
-                            // $("#workspace-sortable > .droppable").find("input");
-                            // $(ui.helper).clone(true).appendTo($("#workspace-sortable .droppable")).css({"position":"relative","left":"0px","top":"0px","float":"left"});
+                            // alert("drop");
+                            $(this).parent().find(".first-label").after("<ul style='display:inline-block;with:52px !important;height:22px;background-color:transparent;'></ul>");
+                            $(this).parent().find("ul").append($(ui.draggable).clone(false));
+                            $(this).remove();
                         },
                         over: function(event,ui) {
                             console.log("over");
