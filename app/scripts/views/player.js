@@ -259,6 +259,27 @@ Playground.Views = Playground.Views || {};
                         this.drawBackground();
                         this.drawCharacterResize(command.para[0],command.para[1]);
                         break;
+                    case "event":
+                        //parameters: 0: key char; 1: directions: "u"/"d"/"l"/"r"
+                        window.addEventListener('keydown',doKeyDown,true);
+                        // function doKeyDown(evt){
+
+                        if (evt.keyCode = displayunicode(command.para[0])) {
+                            console.log(command.para[1]);
+                            switch (command.para[1]){
+                                case 'u':   this.current_status.yPos -= 5;
+                                            break;
+                                case 'd':   this.current_status.yPos += 5;
+                                            break;
+                                case 'l':   this.current_status.xPos -= 5;
+                                            break;
+                                case 'r':   this.current_status.xPos += 5;
+                                            break;
+                            }
+                            this.draw();
+                        // }
+            }
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
@@ -303,6 +324,11 @@ Playground.Views = Playground.Views || {};
                 default:
                 console.log("invalid expression");
             }
+        },
+
+        displayunicode: function(e){
+            var unicode=e.keyCode? e.keyCode : e.charCode;
+            return unicode;
         },
 
         clearCanvas: function(){
