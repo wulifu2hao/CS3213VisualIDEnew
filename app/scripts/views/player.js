@@ -19,6 +19,7 @@ Playground.Views = Playground.Views || {};
         w : null,
         h : null,
         costume: 0,
+        events: [],
 
         bgImgs: [],
         spriteImgs: [],
@@ -26,7 +27,7 @@ Playground.Views = Playground.Views || {};
 
         initialize: function () {
             var that = this;
-
+            this.events = [];
             $("#play_button").click(function(e){
                 that.updateCanvas();       
             });
@@ -81,31 +82,31 @@ Playground.Views = Playground.Views || {};
                 }
             });
 
-            window.addEventListener('keydown',doKeyDown,true);
-            function doKeyDown(evt){
-                switch (evt.keyCode) {
-                case 87:  /* w was pressed */
-                console.log("up");
-                that.current_status.yPos -= 5;
-                that.draw();
-                break;
-                case 83:  /* s was pressed */
-                console.log("down");
-                that.current_status.yPos += 5;
-                that.draw();
-                break;
-                case 65:  /* a was pressed */
-                console.log("left");
-                that.current_status.xPos -= 5;
-                that.draw();
-                break;
-                case 68:  /* d was pressed */
-                console.log("right");
-                that.current_status.xPos += 5;
-                that.draw();
-                break;
-                }
-            }
+            // window.addEventListener('keydown',doKeyDown,true);
+            // function doKeyDown(evt){
+            //     switch (evt.keyCode) {
+            //     case 87:  /* w was pressed */
+            //     console.log("up");
+            //     that.current_status.yPos -= 5;
+            //     that.draw();
+            //     break;
+            //     case 83:  /* s was pressed */
+            //     console.log("down");
+            //     that.current_status.yPos += 5;
+            //     that.draw();
+            //     break;
+            //     case 65:  /* a was pressed */
+            //     console.log("left");
+            //     that.current_status.xPos -= 5;
+            //     that.draw();
+            //     break;
+            //     case 68:  /* d was pressed */
+            //     console.log("right");
+            //     that.current_status.xPos += 5;
+            //     that.draw();
+            //     break;
+            //     }
+            // }
         },
         
         render: function () {
@@ -118,7 +119,65 @@ Playground.Views = Playground.Views || {};
         updateCanvas: function(){
             console.log("Player view: play button clicked!");
             this.commands_list = this.model.spriteModel.array_of_commands;
-            this.executeFunctions(0, this.commands_list.length);
+
+            // this.commands_list[0].name = "event";
+            // this.commands_list[0].para[0] = 'i';
+            // this.commands_list[0].para[1] = 1;
+
+
+            // this.commands_list[2].name = "event";
+            // this.commands_list[2].para[0] = 'k';
+            // this.commands_list[2].para[1] = 2;
+
+
+            // this.commands_list[5].name = "event";
+            // this.commands_list[5].para[0] = 'j';
+            // this.commands_list[5].para[1] = 1;           // for testing purpose
+            
+            var ind = this.inspectEvents();
+            this.prepareEvents();
+            this.executeFunctions(ind, this.commands_list.length-ind);
+        },
+
+        inspectEvents: function(){
+            var ind = 0;
+            while (this.commands_list[ind].name == "event"){
+                console.log(this.commands_list[ind].para[0]);
+                var object = { key: this.commands_list[ind].para[0], start: ind+1, number: this.commands_list[ind].para[1] };
+                this.events.push(object);
+                console.log(this.events);
+                ind = object.start + object.number;
+                console.log(ind);
+            }
+            console.log("Im out");
+
+            return ind; 
+        },
+
+        prepareEvents: function(){
+
+            var ind;
+            window.addEventListener('keydown',doKeyDown,true);
+                var that = this;
+            function doKeyDown(evt){
+                
+                // console.log(that.events);
+                console.log("I pressed:");
+                console.log(evt.key);
+                // console.log(this.events);
+                for (ind = 0; ind < that.events.length; ind++){
+                    console.log(ind);
+                    // console.log(that.events[ind].key);
+                    if (evt.key == that.events[ind].key){
+                        console.log("I matched");
+                        that.executeFunctions(that.events[ind].start, that.events[ind].number);
+                        break;
+                    }
+                    else{
+                        console.log("I missed");
+                    }
+                }
+            }
         },
 
         executeFunctions: function(start, length){
@@ -132,6 +191,7 @@ Playground.Views = Playground.Views || {};
 
         executeCommand: function(id, command){ 
              switch(command.name){
+                    
                     case "setXPos":
                         this.current_status.xPos = command.para[0];
                         this.draw();
@@ -259,27 +319,7 @@ Playground.Views = Playground.Views || {};
                         this.drawBackground();
                         this.drawCharacterResize(command.para[0],command.para[1]);
                         break;
-                    case "event":
-                        //parameters: 0: key char; 1: directions: "u"/"d"/"l"/"r"
-                        window.addEventListener('keydown',doKeyDown,true);
-                        // function doKeyDown(evt){
-
-                        if (evt.keyCode = displayunicode(command.para[0])) {
-                            console.log(command.para[1]);
-                            switch (command.para[1]){
-                                case 'u':   this.current_status.yPos -= 5;
-                                            break;
-                                case 'd':   this.current_status.yPos += 5;
-                                            break;
-                                case 'l':   this.current_status.xPos -= 5;
-                                            break;
-                                case 'r':   this.current_status.xPos += 5;
-                                            break;
-                            }
-                            this.draw();
-                        // }
-            }
-
+                    
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
@@ -324,11 +364,6 @@ Playground.Views = Playground.Views || {};
                 default:
                 console.log("invalid expression");
             }
-        },
-
-        displayunicode: function(e){
-            var unicode=e.keyCode? e.keyCode : e.charCode;
-            return unicode;
         },
 
         clearCanvas: function(){
