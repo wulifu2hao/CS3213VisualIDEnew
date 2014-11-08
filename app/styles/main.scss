@@ -67,6 +67,14 @@ li {
 	overflow: hidden;
 }
 
+.audio-pane {
+	height: 680px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-right: 4px;
+	overflow: hidden;
+}
+
 .costumes-pane {
 	height: 680px;
 	padding-top: 4px;
@@ -74,6 +82,21 @@ li {
 	padding-right: 4px;
 	overflow: hidden;
 }
+
+.audio-toolbar {
+	width: auto;
+	height: 60px;
+	overflow: hidden;
+}
+
+.audio-workspace {
+	height: 620px;
+	width: auto;
+	padding: 20px 20px;
+	overflow: hidden;
+	background-color: #E8E8E8;
+}
+
 
 .editor-toolbar {
 	width: 240px;
@@ -179,7 +202,7 @@ li {
 	background-repeat: no-repeat;
 }
 
-..dropdown-menu-right{
+.dropdown-menu-right{
 	position: absolute;
 	left: 180px;
 	top: 50px;

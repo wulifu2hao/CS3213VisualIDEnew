@@ -70,8 +70,24 @@
                             <!-- Backbone editor workspace -->
                         </div>
                     </div>
-                    <div id="audio-pane" class="block audio-pane tab-pane">
-                        
+                    <div id="audio-pane" class="block audio-pane">
+                        <div id="audio_toolbar" class="audio-toolbar">
+                            <!-- <input type="image" id="uploadAudioButton" src="images/upload_button.png" /style="padding-left: 10px; padding-top: 3px;" > -->
+
+                            <div style="padding-left: 10px; padding-top: 3px;">
+                                <form id="audioUploadForm" method='post' action='/api/uploadAudio' enctype="multipart/form-data">
+                                <input type='file' id="audioToUpload" name='fileUploaded' accept="audio/*">
+                                <input type='submit' id="audioUploadButton" class="btn btn-default btn-sm" style="margin-top:5px;">
+                                </form>
+                                <iframe id="uploader_iframe" name="uploader_iframe" style="display: none;"></iframe>
+                            </div>
+                        </div>
+                        <div id="audio_workspace" class="block audio-workspace container">
+                            <!-- <div>
+                                <img src="images/audio.png" alt="audio" height="48" width="48">
+
+                            </div> -->
+                        </div>
                     </div>
                     <div id="costumes-pane" class="block costumes-pane tab-pane">
                         <!-- Backbone costumes-pane -->
@@ -80,13 +96,12 @@
             </div>
         </div>
 
-        <!-- <form method='post' action='upload' enctype="multipart/form-data">
-        <input type='file' name='fileUploaded'>
-        <input type='submit'> -->
+        
 
         <!-- build:js scripts/vendor.js -->
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="bower_components/jquery-ui/jquery-ui.js"></script>
         <script src="bower_components/lodash/dist/lodash.compat.js"></script>
         <script src="bower_components/backbone/backbone.js"></script>
@@ -121,6 +136,7 @@
         <script src="scripts/views/command.js"></script>
         <script src="scripts/views/toolbar.js"></script>
         <script src="scripts/views/costumesPane.js"></script>
+        <script src="scripts/views/audio.js"></script>
         <script>
         $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
         // Avoid following the href location when clicking
@@ -131,6 +147,12 @@
             $(this).parent().addClass('open');
             $(this).parent().find("ul").parent().find("li.dropdown").addClass('open');
         });
+
+        
+
+
+
+
         </script>
         <!-- endbuild -->
 </body>

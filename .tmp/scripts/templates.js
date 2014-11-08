@@ -1,5 +1,30 @@
 this["JST"] = this["JST"] || {};
 
+this["JST"]["app/scripts/templates/audio.ejs"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+with (obj) {
+
+ _.each(sounds, function(sound, index) { ;
+__p += '\n\t';
+ if (index%6 == 0) { ;
+__p += '\n\t\t<div class="row">\n\t';
+ } ;
+__p += '\n\t<div class="span2">\n\t    <img src="images/audio.png" alt="audio" height="48" width="48">\n\t    ' +
+((__t = ( sound )) == null ? '' : __t) +
+'\n\t</div>\n\t';
+ if (index%6 == 5) { ;
+__p += '\n\t\t</div>\n\t';
+ } ;
+__p += '\n';
+ }); ;
+
+
+}
+return __p
+};
+
 this["JST"]["app/scripts/templates/command.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;

@@ -123,26 +123,31 @@ db.once('open', function callback () {
 	app.delete('/api/programs/:name', programs.deleteByName);	
 
 
-	app.post('/upload', 
+	app.post('/api/uploadAudio', 
 		function (req, res, next) {
-	        var serverPath = '/../app/audioUploaded/' + req.files.fileUploaded.name;
+			// console.log(req.files);
+			// console.log(req.body);
+			var file = req.files.fileUploaded;
+			console.log(file);
+	        var serverPath = '/../app/audioUploaded/' + file.name;
  
 		    require('fs').rename(
-				req.files.fileUploaded.path,
+				file.path,
 				__dirname+serverPath,
 				function(error) {
 					if(error) {
 						console.log(error);
-						res.send({
-				                    error: 'Ah crap! Something bad happened'
+						res.send({error: 'Ah crap! Something bad happened'});
+						return;
+				    } else {
+				    	res.send({
+								path: serverPath
 						});
-				                return;
-				            }
+						return ;
+				    }
 				 
-				            res.send({
-						path: serverPath
-				            });
-					}
+				            
+				}
 		    );
 
 	    }
