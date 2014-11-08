@@ -19,28 +19,37 @@ Playground.Views = Playground.Views || {};
                 that.updateModel();       
             });
             this.render();
-            $(".draggable").draggable({
+            $(".draggable_sortable").draggable({
                 helper: "clone",
                 connectToSortable: "#workspace-sortable",
                 tolerance: "touch",
+                cursor: "move",
                 stop: function(event, ui) {
-                    var blockLength = $("#workspace-sortable").find("li").length;
-                    if (blockLength > 0) {
-                        $("#drag-a-command-alert").hide();
-                        $(".workspace-list").css("margin-top","0px");
-                    } else {
-                        $("#drag-a-command-alert").show();
-                        $(".workspace-list").css("margin-top","-40px");
-                    }
                     $("#editor_workspace li").removeClass("draggable ui-draggable ui-draggable-handle");
                     $("#editor_workspace ul").addClass("ui-sortable");
                     $("#editor_workspace ul").sortable({
                         connectWith: "#editor_workspace ul"
                     });
+                    $(".draggable").draggable({
+                        helper: "clone",
+                        cursor: "move"
+                    });
+                    $(".droppable").droppable({
+                        accpet: ".draggable",
+                        drop: function(event,ui) {
+                            alert("drop");
+                            // $("#workspace-sortable > .droppable").find("input");
+                            // $(ui.helper).clone(true).appendTo($("#workspace-sortable .droppable")).css({"position":"relative","left":"0px","top":"0px","float":"left"});
+                        },
+                        over: function(event,ui) {
+                            console.log("over");
+                        }
+                    });
                     that.commandList = that.getCommandList();
                 }
             });
             $("#editor_workspace ul").sortable({
+                placeholder: "ui-state-highlight",
                 stop: function(event, ui) {
                     that.commandList = that.getCommandList();
                 }

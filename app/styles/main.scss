@@ -12,6 +12,12 @@ li {
 	color: #FFFFFF;	
 }
 
+.droppable {
+	width: 50px;
+	height: 20px;
+	background-color: yellow;
+}
+
 .container-fluid {
 	padding-left: 4px;
 	padding_right: 4px;	
@@ -104,7 +110,6 @@ li {
 	list-style-type: none;
 	min-height: 640px;
 	min-width: 600px;
-	margin-top: -40px;
 }
 
 .toolbar {
@@ -123,17 +128,10 @@ li {
 	width: 200px;
 }
 
-.toolbar-item-normal {
+.toolbar-item-motion {
 	padding-top: 5px;
 	height: 37px;
-	background-image: url('../images/block_normal.png');
-	background-repeat: no-repeat;
-}
-
-.toolbar-item-start {
-	padding-top: 5px;
-	height: 37px;
-	background-image: url('../images/block_start.png');
+	background-image: url('../images/command_motion.png');
 	background-repeat: no-repeat;
 }
 
@@ -143,7 +141,7 @@ li {
 }
 
 .toolbar-item-control ul {
-	background-image: url('../images/block_control_mid.png');
+	background-image: url('../images/command_control_mid.png');
 	background-repeat: repeat-y;
 	margin-left: -8px;
 }
@@ -152,21 +150,11 @@ li {
 	margin-left: 27px;
 }
 
-.number-input {
-	line-height: 12px;
-	margin-left: 4px;
-	margin-right: 4px;
-	width: 30px;
-	font-size: 11px;
-	color: #000000;
-	border-radius: 8px;
-}
-
 .block-control-top {
 	width: 200px;
 	height: 37px;
 	margin-left: -8px;
-	background-image: url('../images/block_control_top.png');
+	background-image: url('../images/command_control_top.png');
 	background-repeat: no-repeat;
 }
 
@@ -175,11 +163,50 @@ li {
 	height: 44px;
 	margin-left: -8px;
 	margin-top: -14px;
-	background-image: url('../images/block_control_botm.png');
+	background-image: url('../images/command_control_botm.png');
 	background-repeat: no-repeat;
 }
 
-..dropdown-menu-right{
+.toolbar-item-look {
+	padding-top: 5px;
+	height: 37px;
+	background-image: url('../images/command_look.png');
+	background-repeat: no-repeat;
+}
+
+.toolbar-item-operator {
+	padding-top: 5px;
+	height: 37px;
+	background-image: url('../images/command_operator.png');
+	background-repeat: no-repeat;
+}
+
+.toolbar-item-variable {
+	padding-top: 2px;
+	height: 37px;
+	background-image: url('../images/command_variable.png');
+	background-repeat: no-repeat;
+}
+
+.number-input {
+	line-height: 12px;
+	margin-left: 4px;
+	margin-right: 4px;
+	width: 50px;
+	font-size: 11px;
+	color: #000000;
+	border-radius: 8px;
+}
+
+.ui-state-highlight {
+	height: 33px;
+	width: 200px;
+	border: 1px solid #fcefa1; 
+	background-color: #fbf9ee;
+	visibility: visible !important;
+}
+
+.dropdown-menu-right{
 	position: absolute;
 	left: 180px;
 	top: 50px;
