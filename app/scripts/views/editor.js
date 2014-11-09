@@ -57,6 +57,25 @@ Playground.Views = Playground.Views || {};
                     });
                 }
             });
+            $(".operator-draggable").draggable({
+                helper: "clone",
+                cursor: "move",
+                revert: "invalid",
+                start: function(event,ui) {
+                    $(".assignment-droppable").droppable({
+                        accept: ".operator-draggable",
+                        hoverClass: "ui-state-hover",
+                        drop: function(event,ui) {
+                            console.log("drop");
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable"));
+                            $(this).remove();
+                        },
+                        over: function(event,ui) {
+                            console.log("over");
+                        }
+                    });
+                }
+            });
             $("#editor_workspace ul").sortable({
                 placeholder: "ui-state-highlight",
                 stop: function(event, ui) {
