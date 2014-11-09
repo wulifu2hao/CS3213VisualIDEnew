@@ -12,6 +12,16 @@ li {
 	color: #FFFFFF;	
 }
 
+.first-label {
+	display: inline-block;
+	margin-right: 4px;
+}
+
+.droppable {
+	width: 52px;
+	height: 22px;
+}
+
 .container-fluid {
 	padding-left: 4px;
 	padding_right: 4px;	
@@ -118,26 +128,14 @@ li {
 	margin-top: -6px;
 }
 
-.workspace-list div {
-	padding-left: 8px;
-	padding-top: 5px;
-}
-
 .workspace-list {
 	list-style-type: none;
 	min-height: 640px;
 	min-width: 600px;
-	margin-top: -40px;
 }
 
 .toolbar {
 	padding-left: 20px;
-	list-style-type: none;
-}
-
-.toolbar div {
-	padding-left: 8px;
-	padding-top: 5px;
 }
 
 .toolbar-item {
@@ -146,17 +144,10 @@ li {
 	width: 200px;
 }
 
-.toolbar-item-normal {
+.toolbar-item-motion {
 	padding-top: 5px;
 	height: 37px;
-	background-image: url('../images/block_normal.png');
-	background-repeat: no-repeat;
-}
-
-.toolbar-item-start {
-	padding-top: 5px;
-	height: 37px;
-	background-image: url('../images/block_start.png');
+	background-image: url('../images/command_motion.png');
 	background-repeat: no-repeat;
 }
 
@@ -166,7 +157,7 @@ li {
 }
 
 .toolbar-item-control ul {
-	background-image: url('../images/block_control_mid.png');
+	background-image: url('../images/command_control_mid.png');
 	background-repeat: repeat-y;
 	margin-left: -8px;
 }
@@ -175,21 +166,13 @@ li {
 	margin-left: 27px;
 }
 
-.number-input {
-	line-height: 12px;
-	margin-left: 4px;
-	margin-right: 4px;
-	width: 30px;
-	font-size: 11px;
-	color: #000000;
-	border-radius: 8px;
-}
-
 .block-control-top {
+	padding-left: 8px;
+	padding-top: 5px;
 	width: 200px;
 	height: 37px;
 	margin-left: -8px;
-	background-image: url('../images/block_control_top.png');
+	background-image: url('../images/command_control_top.png');
 	background-repeat: no-repeat;
 }
 
@@ -198,8 +181,58 @@ li {
 	height: 44px;
 	margin-left: -8px;
 	margin-top: -14px;
-	background-image: url('../images/block_control_botm.png');
+	background-image: url('../images/command_control_botm.png');
 	background-repeat: no-repeat;
+}
+
+.toolbar-item-look {
+	padding-top: 5px;
+	height: 37px;
+	background-image: url('../images/command_look.png');
+	background-repeat: no-repeat;
+}
+
+.toolbar-item-operator {
+	padding-top: 5px;
+	height: 37px;
+	background-image: url('../images/command_operator.png');
+	background-repeat: no-repeat;
+}
+
+.toolbar-item-variable {
+	margin-top: 20px;
+	padding-top: 4px;
+	padding-left: 8px;
+	height: 22px;
+	width: 52px;
+	background-image: url('../images/command_variable.png');
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 9px;
+}
+
+.number-input {
+	line-height: 12px;
+	width: 50px;
+	font-size: 11px;
+	color: #000000;
+	border-radius: 8px;
+}
+
+.ui-state-highlight {
+	height: 33px;
+	width: 200px;
+	border: 1px solid #fcefa1; 
+	background-color: #fbf9ee;
+	visibility: visible !important;
+}
+
+.ui-state-hover {
+	height: 22px;
+	width: 52px;
+	border: 1px solid #fcefa1; 
+	background-color: #fbf9ee;
+	visibility: visible !important;
 }
 
 .dropdown-menu-right{
