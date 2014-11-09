@@ -85,12 +85,13 @@ Playground.Views = Playground.Views || {};
 
             $("#save-button").click(function(e){
                 e.preventDefault();
-                var name = prompt("enter a name for your project");
-                if (name != null) {
-                    that.saveToServer(name);
-                }
+                var name = that.model.name;
+                if (name || name == "") {
+                    var name = prompt("enter a name for your project");
+                };
+                that.saveToServer(name);
             });   
-            $("#load-button").click(function(e){
+            $("#save-new-button").click(function(e){
                 e.preventDefault();
                 var name = prompt("enter a name for your project");
                 if (name != null) {
@@ -101,6 +102,46 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 that.loadNamesFromServer();
             });  
+
+
+            this.loadProjects();
+
+        },
+
+        loadProjects: function(){
+            var url = '/api/programs';
+            var that = this;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                  console.log("here!");
+                    if (data.message == "success") {
+                        var ul = document.getElementById('projectList');
+                          if (ul) {
+                            while (ul.firstChild) {
+                              ul.removeChild(ul.firstChild);
+                            }
+                          }
+                        for (var i = 0; i < data.names.length; i++) {
+                            var item = "<li><a class=\"project-to-load\" id=\""+data.names[i]+"\">"+data.names[i]+"</a></li>";
+                            $("#projectList").append(item);
+                        };
+                        var list = $(".project-to-load");
+                        for (var i = 0; i < list.length; i++) {
+                            var id = list[i].id;
+                            var idToGet = "#"+list[i].id;
+                            console.log(document.getElementById(id));
+                            document.getElementById(id).onclick = function(){
+                                that.loadFromServer(id);
+                            };
+                        };
+                    } 
+                },
+                error: function(err){
+
+                }
+            });
         },
 
         render: function () {
@@ -123,12 +164,23 @@ Playground.Views = Playground.Views || {};
                 console.log("command passed in: ", type);
                 var position = i;
                 var repeatBlockLength = 0
-                var value = parseInt($(command).find("input").first().val());
+                var value = 0;
                 if (type == "command_repeat") {
                     var repeatBlock = repeatBlocks.get(repeatBlockIndex);
                     repeatBlockLength = $(repeatBlock).find("li").length;
                     value = parseInt($(repeatBlock).find("input").first().val());
                     repeatBlockIndex = repeatBlockIndex + 1;
+                } else if (type == "command_playsound"){
+                    var e = $(command).find("select")[0];
+                    // console.log($(command));
+                    // console.log($(command).find("select"));
+                    // console.log(($(command).find("select")).first());
+                    // console.log(e.options);
+                    value = e.options[e.selectedIndex].value;
+                    // console.log("sound to play is ");
+                    // console.log(value);
+                } else {
+                    value = parseInt($(command).find("input").first().val());
                 }
                 console.log(value, repeatBlockLength);
                 this.model.add(type, position, [value, repeatBlockLength]);

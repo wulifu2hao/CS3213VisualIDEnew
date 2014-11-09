@@ -1,0 +1,17 @@
+<%= message %>
+</br>
+<% _.each(sounds, function(sound, index) { %>
+	<% if (index%6 == 0) { %>
+		<div class="row">
+	<% } %>
+	<div class="span2">
+	    <img src="images/audio.png" alt="audio" height="48" width="48">
+	    <%= sound %>
+	    <input type="image" src="images/delete_button.png" alt="delete" height="24" width="24" id="delete_<%= sound %>" class="delete-audio-button">
+
+	</div>
+	<% if (index%6 == 5) { %>
+		</div>
+	<% } %>
+<% }); %>
+

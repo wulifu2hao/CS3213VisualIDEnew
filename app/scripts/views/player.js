@@ -405,6 +405,12 @@ Playground.Views = Playground.Views || {};
                         this.drawCharacterResize(this.getValueOf(command.para[0]),this.getValueOf(command.para[1]));
                         break;
 
+					case "playsound":
+                        if (soundManager) {
+                            soundManager.play(command.para[0]);
+                        };
+                        break;
+
                     case "assignment":
                         // name: assignment, para[0]: variable name, para[1]: number/operation obj{operator, LHS, RHS}. style: "x = a+b"
                         // if style is "x = y" set operator as 0.  

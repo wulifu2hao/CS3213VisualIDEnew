@@ -7,6 +7,8 @@ Playground.Models = Playground.Models || {};
 
     Playground.Models.Audio = Backbone.Model.extend({
         
+        sounds: [],
+
         initialize: function() {
         },
 

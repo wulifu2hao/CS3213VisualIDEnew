@@ -37,7 +37,7 @@ Playground.Models = Playground.Models || {};
             return JSON.stringify(data);
         },
 
-        setData: function(data) {aq
+        setData: function(data) {
             var data = JSON.parse(data);
             console.log(data);
             this.xPos = data.xPos;
@@ -119,6 +119,9 @@ Playground.Models = Playground.Models || {};
                 console.log("command_rotate");
                 this.array_of_commands.splice(position,0,{name: "rotate", para: parameters});
                 break;
+                case "command_playsound":
+                console.log("command_playsound");
+                this.array_of_commands.splice(position,0,{name: "playsound", para: parameters});   
                 default:
                 console.log("invalid command: "+type);
             }

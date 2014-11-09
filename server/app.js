@@ -3,6 +3,9 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var busboy = require('connect-busboy'); //middleware for form/file upload
+var fs = require('fs-extra');       //File System - for file manipulation
+var formidable = require('formidable');
 var async = require('async');
 var hbs = require('express-hbs');
 var baucis = require('baucis');
@@ -15,6 +18,7 @@ var everyauth = require("everyauth"),
  	users = require('./lib/users');
 
  var programs = require("./lib/programs");
+ var audios = require("./lib/audios");
 
 
 everyauth.google
@@ -82,6 +86,7 @@ db.once('open', function callback () {
 	  	app.use(express.cookieParser());
 	  	app.use(express.session({secret: "yTWW6kvc0CY2ieEz44"}));
 	  	app.use(everyauth.middleware());
+	  	app.use(busboy());
 	  	// app.use(app.router);
 	});
 
@@ -101,9 +106,26 @@ db.once('open', function callback () {
 
 	// route index.html
 	app.get('/', function(req, res){
-	  console.log(req.user);
-	  res.sendfile( path.join( __dirname, '../app/index.html' ) );
+		console.log("enter main page");
+		if (req.user) {
+			console.log("haven't logged in ");
+			res.sendfile( path.join( __dirname, '../app/index.html' ) );
+		} else {
+			console.log("logged in ");
+			res.redirect('http://localhost:9000/auth/google');
+		}
+	  // console.log(req.user);
 	});
+
+	app.get('/api/user', function(req, res){
+		if (req.user) {
+			res.json({message:"success"});
+		} else {
+			res.json({message:"fail"});
+		}
+	});
+
+
 
 	app.get('/test', function(req, res){
 	  console.log(req.user);
@@ -117,6 +139,33 @@ db.once('open', function callback () {
 	app.put('/api/programs', programs.updateProgram);
 	app.post('/api/programs', programs.addProgram);
 	app.delete('/api/programs/:name', programs.deleteByName);	
+	app.get('/api/audios', audios.getAudios);
+
+
+	app.post('/api/uploadAudio', function(req,res){
+		if (req.user) {
+			var file = req.files.fileUploaded;
+	        var serverPath = '/../app/audioUploaded/' + file.name;
+	        console.log("dirname");
+	        console.log(__dirname);
+
+		    require('fs').rename(
+				file.path,
+				__dirname+serverPath,
+				function(error) {
+					if(error) {
+						console.log(error);
+						res.send({error: 'error when storing into file system'});
+				    }  else {
+				    	audios.addAudio(file.name, req.user.googleId, res);
+				    }      
+				}
+		    );
+
+		}else{
+			res.json({message: 'Please log in before you upload a sound.'});
+		}  
+	});
 
 	// start server
 	http.createServer(app).listen(app.get('port'), function(){
