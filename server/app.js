@@ -18,6 +18,7 @@ var everyauth = require("everyauth"),
  	users = require('./lib/users');
 
  var programs = require("./lib/programs");
+ var audios = require("./lib/audios");
 
 
 everyauth.google
@@ -123,35 +124,30 @@ db.once('open', function callback () {
 	app.delete('/api/programs/:name', programs.deleteByName);	
 
 
-	app.post('/api/uploadAudio', 
-		function (req, res, next) {
-			// console.log(req.files);
-			// console.log(req.body);
+	app.post('/api/uploadAudio', function(req,res){
+		if (req.user) {
 			var file = req.files.fileUploaded;
-			console.log(file);
 	        var serverPath = '/../app/audioUploaded/' + file.name;
- 
+	        console.log("dirname");
+	        console.log(__dirname);
+
 		    require('fs').rename(
 				file.path,
 				__dirname+serverPath,
 				function(error) {
 					if(error) {
 						console.log(error);
-						res.send({error: 'Ah crap! Something bad happened'});
-						return;
-				    } else {
-				    	res.send({
-								path: serverPath
-						});
-						return ;
-				    }
-				 
-				            
+						res.send({error: 'error when storing into file system'});
+				    }  else {
+				    	audios.addAudio(file.name, req.user.googleId, res);
+				    }      
 				}
 		    );
 
-	    }
-    );
+		}else{
+			res.json({message: 'Please log in before you upload a sound.'});
+		}  
+	});
 
 	// start server
 	http.createServer(app).listen(app.get('port'), function(){
