@@ -8221,6 +8221,45 @@ li {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003174}}
+.toolbar-item-event {
+  height: auto !important;
+  min-height: 83px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003179}}
+.toolbar-item-event ul {
+  background-image: url("../images/command_event_mid.png");
+  background-repeat: repeat-y;
+  margin-left: -8px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003185}}
+.toolbar-item-event li {
+  margin-left: 27px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003189}}
+.block-event-top {
+  padding-left: 8px;
+  padding-top: 5px;
+  width: 200px;
+  height: 37px;
+  margin-left: -8px;
+  background-image: url("../images/command_event_top.png");
+  background-repeat: no-repeat;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003199}}
+.block-event-botm {
+  width: 200px;
+  height: 44px;
+  margin-left: -8px;
+  margin-top: -14px;
+  background-image: url("../images/command_event_botm.png");
+  background-repeat: no-repeat;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003208}}
 .toolbar-item-look {
   padding-top: 5px;
   height: 37px;
@@ -8228,7 +8267,7 @@ li {
   background-repeat: no-repeat;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003181}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003215}}
 .toolbar-item-operator {
   margin-top: 20px;
   padding-top: 2px;
@@ -8238,9 +8277,10 @@ li {
   background-image: url("../images/command_operator.png");
   background-repeat: no-repeat;
   color: #FFFFFF;
+  font-size: 12px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003192}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003227}}
 .toolbar-item-variable {
   margin-top: 20px;
   padding-top: 4px;
@@ -8253,7 +8293,7 @@ li {
   font-size: 9px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003204}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003239}}
 .number-input {
   line-height: 12px;
   width: 50px;
@@ -8262,7 +8302,7 @@ li {
   border-radius: 8px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003212}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003247}}
 .ui-state-highlight {
   height: 33px;
   width: 200px;
@@ -8271,7 +8311,7 @@ li {
   visibility: visible !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003220}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003255}}
 .ui-state-hover {
   height: 22px;
   width: 52px;
@@ -8280,7 +8320,7 @@ li {
   visibility: visible !important;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003228}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/zijiantang\/AY14\:15\/CS3213\/CS3213VisualIDEnew\/app\/styles\/main\.scss}line{font-family:\00003263}}
 .dropdown-menu-right {
   position: absolute;
   left: 180px;

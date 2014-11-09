@@ -171,6 +171,40 @@ li {
 	background-repeat: no-repeat;
 }
 
+.toolbar-item-event {
+	height: auto !important;
+	min-height: 83px;
+}
+
+.toolbar-item-event ul {
+	background-image: url('../images/command_event_mid.png');
+	background-repeat: repeat-y;
+	margin-left: -8px;
+}
+
+.toolbar-item-event li {
+	margin-left: 27px;
+}
+
+.block-event-top {
+	padding-left: 8px;
+	padding-top: 5px;
+	width: 200px;
+	height: 37px;
+	margin-left: -8px;
+	background-image: url('../images/command_event_top.png');
+	background-repeat: no-repeat;
+}
+
+.block-event-botm {
+	width: 200px;
+	height: 44px;
+	margin-left: -8px;
+	margin-top: -14px;
+	background-image: url('../images/command_event_botm.png');
+	background-repeat: no-repeat;
+}
+
 .toolbar-item-look {
 	padding-top: 5px;
 	height: 37px;
@@ -187,6 +221,7 @@ li {
 	background-image: url('../images/command_operator.png');
 	background-repeat: no-repeat;
 	color: #FFFFFF;
+	font-size: 12px;
 }
 
 .toolbar-item-variable {
