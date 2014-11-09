@@ -15,6 +15,20 @@ Playground.Views = Playground.Views || {};
 
         initialize: function () {
             this.render();
+            $("#selectable").selectable({
+            selected: function (event, ui) {
+                if ($(ui.selected).hasClass('click-selected')) {
+                    $(ui.selected).removeClass('ui-selected click-selected');
+
+                } else {
+                    $(ui.selected).addClass('click-selected');
+
+                }
+            },
+            unselected: function (event, ui) {
+                $(ui.unselected).removeClass('click-selected');
+            }
+            });
         },
 
         render: function () {
