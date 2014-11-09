@@ -35,10 +35,19 @@ Playground.Views = Playground.Views || {};
                         cursor: "move",
                         revert: "invalid"
                     });
-                    $(".droppable").droppable({
-                        accpet: ".draggable",
+                    that.commandList = that.getCommandList();
+                }
+            });
+            $(".variable-draggable").draggable({
+                helper: "clone",
+                cursor: "move",
+                revert: "invalid",
+                start: function(event,ui) {
+                    $(".input-droppable").droppable({
+                        accept: ".variable-draggable",
                         hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
+                            console.log("drop");
                             $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable"));
                             $(this).remove();
                         },
@@ -46,13 +55,7 @@ Playground.Views = Playground.Views || {};
                             console.log("over");
                         }
                     });
-                    that.commandList = that.getCommandList();
                 }
-            });
-            $(".draggable").draggable({
-                helper: "clone",
-                cursor: "move",
-                revert: "invalid"
             });
             $("#editor_workspace ul").sortable({
                 placeholder: "ui-state-highlight",
