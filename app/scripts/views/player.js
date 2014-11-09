@@ -196,12 +196,12 @@ Playground.Views = Playground.Views || {};
              switch(command.name){
                     
                     case "setXPos":                        
-                        this.current_status.xPos = command.para[0];
+                        this.current_status.xPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
 
                     case "setYPos":
-                        this.current_status.yPos = command.para[0];
+                        this.current_status.yPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
 
@@ -218,7 +218,7 @@ Playground.Views = Playground.Views || {};
                     case "move":
                         //move in current facing direction
                         var step = 0;
-                        while (step < command.para[0]){
+                        while (step < this.getValueOf(command.para[0])){
                             // this.current_status.xPos += Math.cos()*this.current_status.angle;
                             // this.current_status.yPos += Math.sin()*this.current_status.angle;
                             this.current_status.xPos++;
@@ -257,7 +257,7 @@ Playground.Views = Playground.Views || {};
                         var i = 1;
                         var that = this;
                         var timer = function(){
-                         if(i < command.para[0]) {
+                         if(i < this.getValueOf(command.para[0])) {
                               i++;
                               that.executeFunctions(id+1, command.para[1]);
                          } else {
@@ -277,18 +277,10 @@ Playground.Views = Playground.Views || {};
 
                     case "ifThen":
                         //parameters: obj containing a boolean expression, #of commands to be executed
-                        var condition = command.para[0];
-                        var res = condition;
+                        var condition = this.getValueOf(command.para[0]);
                         var that = this;
-
-                        if (isNAN(condition)){
-                            res = getValueOf(condition);
-                            if (res==null){
-                                that.draw();   
-                            }
-                        }
                         
-                        if (res){
+                        if (condition){
                             that.executeFunctions(id+1,command.para[1]);
                         }
                         else{
@@ -311,18 +303,10 @@ Playground.Views = Playground.Views || {};
 
                     case "ifElse":
                         //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
-                        var condition = command.para[0];
-                        var res = condition;
+                        var condition = this.getValueOf(command.para[0]);
                         var that = this;
-
-                        if (isNAN(condition)){
-                            res = getValueOf(condition);
-                            if (res==null){
-                                that.draw();   
-                            }
-                        }
                         
-                        if (res){
+                        if (condition){
                             that.executeFunctions(id+1,command.para[1]);
                         }
                         else{
@@ -346,8 +330,8 @@ Playground.Views = Playground.Views || {};
                     case "rotate":
                         //parameters: angle
                         this.clearCanvas();
-                        this.ctx.rotate(command.para[0]*Math.PI/180);
-                        this.current_status.angle = command.para[0]*Math.PI/180;
+                        this.ctx.rotate(this.getValueOf(command.para[0])*Math.PI/180);
+                        this.current_status.angle = this.getValueOf(command.para[0]）*Math.PI/180;
                         this.draw();
                         break;
 
@@ -355,15 +339,19 @@ Playground.Views = Playground.Views || {};
                         //parameters: x scale, y scale
                         this.clearCanvas();
                         this.drawBackground();
-                        this.drawCharacterResize(command.para[0],command.para[1]);
+                        this.drawCharacterResize(this.getValueOf(command.para[0]),this.getValueOf(command.para[1]));
                         break;
-                    
+
                     case "assignment":
-                        // name: assignment, para[0]: variable name, para[1]: number/operation obj{operator, LHS, RHS}.
+                        // name: assignment, para[0]: variable name, para[1]: number/operation obj{operator, LHS, RHS}. style: "x = a+b"
+                        // if style is "x = y" set operator as 0.  
                         var vari_name = command.para[0];
                         var vari_value;
                         if (!isNAN(command.para[1])){
                             vari_value = command.para[1];
+                        }
+                        else if(command.para[1].operator==0){
+                            vari_value = this.getValueOf(command.para[1].LHS);
                         }
                         else{
                             vari_value = evaluateExpression(command.para[1].operator, command.para[1].LHS, command.para[1].RHS);
@@ -443,6 +431,14 @@ Playground.Views = Playground.Views || {};
         },
 
         getValueOf: function(x){
+            if (!isNAN(x)){
+                return x;
+            }
+            switch (x){
+                case "xPos": return this.current_status.xPos;
+                case "yPos": return this.current_status.yPos;
+                default:
+            }
             for(var k in this.variables) {
                 var v = this.variables[k];
                 if (v.name == x){
