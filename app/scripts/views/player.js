@@ -40,6 +40,7 @@ Playground.Views = Playground.Views || {};
             this.current_status = {              // init status
                         xPos: this.model.spriteModel.get('xPos'),
                         yPos: this.model.spriteModel.get('yPos'),
+                        angle: this.model.spriteModel.get('angle'),
                         isShown: this.model.spriteModel.get('isShown'), 
                         costumes: this.model.spriteModel.get('costumes'),
                         width : this.model.spriteModel.get('width'),
@@ -192,7 +193,7 @@ Playground.Views = Playground.Views || {};
         executeCommand: function(id, command){ 
              switch(command.name){
                     
-                    case "setXPos":
+                    case "setXPos":                        
                         this.current_status.xPos = command.para[0];
                         this.draw();
                         break;
@@ -310,6 +311,7 @@ Playground.Views = Playground.Views || {};
                         //parameters: angle
                         this.clearCanvas();
                         this.ctx.rotate(command.para[0]*Math.PI/180);
+                        this.current_status.angle = command.para[0]*Math.PI/180;
                         this.draw();
                         break;
 
