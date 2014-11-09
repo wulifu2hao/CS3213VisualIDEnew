@@ -18,18 +18,36 @@ Playground.Views = Playground.Views || {};
         events: {},
 
         initialize: function () {
+            this.render();
+            this.listenTo(this.model, 'change', this.render);
+            var that = this;
             var options = { 
                   target: '#uploader_iframe',
                   // beforeSubmit:  showRequest,
-                  success:       function(data) { 
-                    console.log(data);
-                        alert('Thanks for your comment!'); 
-                    } 
-            }; 
-            $('#audioUploadForm').ajaxForm(options); 
+                  success: function(data) { 
+                    if (data.message == "success") {
+                        var name = data.name;
+                        that.model.sounds.push(name);
 
-            this.render();
-            this.listenTo(this.model, 'change', this.render);
+                        var audioUrl = './bower_components/soundmanager2/demo/_mp3/' + name;
+
+                        soundManager.createSound({
+                          id: name,
+                          url: audioUrl,
+                          autoLoad: true,
+                          autoPlay: false,
+                          onload: function() {
+                            // alert('The sound '+this.id+' loaded!');
+                          },
+                          volume: 50
+                        });
+
+                    } else {
+                        alert(data.message);
+                    }
+                  } 
+            }; 
+            $('#audioUploadForm').ajaxForm(options);
         },
 
         render: function () {
