@@ -20,6 +20,7 @@ Playground.Views = Playground.Views || {};
         h : null,
         costume: 0,
         events: [],
+        variables: [],
 
         bgImgs: [],
         spriteImgs: [],
@@ -28,6 +29,7 @@ Playground.Views = Playground.Views || {};
         initialize: function () {
             var that = this;
             this.events = [];
+            this.variables = [];
             $("#play_button").click(function(e){
                 that.updateCanvas();       
             });
@@ -38,12 +40,13 @@ Playground.Views = Playground.Views || {};
             });
          
             this.current_status = {              // init status
-                        xPos: this.model.spriteModel.get('xPos'),
-                        yPos: this.model.spriteModel.get('yPos'),
-                        isShown: this.model.spriteModel.get('isShown'), 
-                        costumes: this.model.spriteModel.get('costumes'),
-                        width : this.model.spriteModel.get('width'),
-                        height: this.model.spriteModel.get('height'),
+                        xPos: this.model.spriteModel[0].get('xPos'),
+                        yPos: this.model.spriteModel[0].get('yPos'),
+                        angle: this.model.spriteModel[0].get('angle'),
+                        isShown: this.model.spriteModel[0].get('isShown'), 
+                        costumes: this.model.spriteModel[0].get('costumes'),
+                        width : this.model.spriteModel[0].get('width'),
+                        height: this.model.spriteModel[0].get('height'),
             };
 
             this.render();   
@@ -118,11 +121,11 @@ Playground.Views = Playground.Views || {};
 
         updateCanvas: function(){
             console.log("Player view: play button clicked!");
-            this.commands_list = this.model.spriteModel.array_of_commands;
-
-            // this.commands_list[0].name = "event";
-            // this.commands_list[0].para[0] = 'i';
-            // this.commands_list[0].para[1] = 1;
+            this.commands_list = this.model.spriteModel[0].array_of_commands;
+            // console.log("XF says: ", this.commands_list);
+            this.commands_list[0].name = "ifThen";
+            this.commands_list[0].para[0] = 0;
+            this.commands_list[0].para[1] = 2;
 
 
             // this.commands_list[2].name = "event";
@@ -185,6 +188,44 @@ Playground.Views = Playground.Views || {};
             console.log("Executing functions!");
             for(ind = start; ind < (start+length); ind++){
                 var command = this.commands_list[ind];
+                if (command.name == "ifThen"){
+                        //parameters: obj containing a boolean expression, #of commands to be executed
+                        var condition = this.getValueOf(command.para[0]);
+                        var that = this;
+                        
+                        if (condition){
+                            console.log("XF says: True! I come to ", ind+1);
+                            // that.executeFunctions(id+1,command.para[1]);
+                        }
+                        else{
+                            console.log("XF says: False!");
+                            if (ind+1+command.para[1] < that.commands_list.length){
+                                console.log("XF says: Some more! I come to", ind+1+command.para[1]);
+                                ind+= command.para[1];
+                                // that.executeFunctions(ind+1+command.para[1], that.commands_list.length-(ind+1+command.para[1]));        
+                            }
+                            else{
+                                console.log("XF says: No more!");
+                                that.draw();
+                            }
+                        }   
+                }
+                if (command.name == "ifElse"){
+                        //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
+                        var condition = this.getValueOf(command.para[0]);
+                        var that = this;
+                        
+                        if (condition){
+                            that.executeFunctions(ind+1,command.para[1]);
+                            if (ind+1+command.para[1]+command.para[2] < that.commands_list.length){
+                                ind += command.para[1] + command.para[2];
+                            }
+                        }
+                        else{
+                            ind += command.para[1];
+                            // that.executeFunctions(id+1+command.para[1], command.para[2]);
+                        }∂
+                }
                 this.executeCommand(ind, command);
             }
         },
@@ -192,13 +233,16 @@ Playground.Views = Playground.Views || {};
         executeCommand: function(id, command){ 
              switch(command.name){
                     
-                    case "setXPos":
-                        this.current_status.xPos = command.para[0];
+                    case "setXPos":        
+                        // this.ctx.rotate(this.getValueOf(command.para[0])*Math.PI/180);
+                        // this.current_status.angle = this.getValueOf(command.para[0])*Math.PI/180;              
+                        this.current_status.xPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
 
                     case "setYPos":
-                        this.current_status.yPos = command.para[0];
+                        console.log("setYPos");
+                        this.current_status.yPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
 
@@ -213,9 +257,12 @@ Playground.Views = Playground.Views || {};
                         break;
 
                     case "move":
+                        console.log("Move");
                         //move in current facing direction
                         var step = 0;
-                        while (step < command.para[0]){
+                        while (step < this.getValueOf(command.para[0])){
+                            // this.current_status.xPos += Math.cos()*this.current_status.angle;
+                            // this.current_status.yPos += Math.sin()*this.current_status.angle;
                             this.current_status.xPos++;
                             console.log("current pos", this.current_status.xPos);
                             this.draw();
@@ -252,7 +299,7 @@ Playground.Views = Playground.Views || {};
                         var i = 1;
                         var that = this;
                         var timer = function(){
-                         if(i < command.para[0]) {
+                         if(i < that.getValueOf(command.para[0])) {
                               i++;
                               that.executeFunctions(id+1, command.para[1]);
                          } else {
@@ -272,44 +319,71 @@ Playground.Views = Playground.Views || {};
 
                     case "ifThen":
                         //parameters: obj containing a boolean expression, #of commands to be executed
-                        var obj = command.para[0];
-                        var n = command.para[1];
+                        var condition = this.getValueOf(command.para[0]);
                         var that = this;
-                        if(!isNaN(obj)&&(obj===0))
-                            that.draw();
+                        
+                        if (condition){
+                            console.log("XF says: True! I come to ", id+1);
+                            that.executeFunctions(id+1,command.para[1]);
+                        }
                         else{
-                            //e.g {operator: "+", LHS:{}, RHS: 5}
-                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
-                            if(res>0){
-                                that.executeFunctions(id+1,n);
-                            }else{
+                            console.log("XF says: False!");
+                            if (id+1+command.para[1] < that.commands_list.length){
+                                console.log("XF says: Some more! I come to", id+1+command.para[1]);
+                                that.executeFunctions(id+1+command.para[1], that.commands_list.length-(id+1+command.para[1]));        
+                            }
+                            else{
+                                console.log("XF says: No more!");
                                 that.draw();
                             }
-                        }
+                        }   
                         break;
+
+                        // if(!isNaN(obj)&&(obj===0))
+                        //     that.draw();
+                        // else{
+                        //     //e.g {operator: "+", LHS:{}, RHS: 5}
+                        //     var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                        //     if(res>0){
+                        //         that.executeFunctions(id+1,n);
+                        //     }else{
+                        //         that.draw();
+                        //     }
+                        // }
+                        // break;
 
                     case "ifElse":
                         //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
-                        var obj = command.para[0];
-                        var n = command.para[1];
+                        var condition = this.getValueOf(command.para[0]);
                         var that = this;
-                        if(!isNaN(obj)&&(obj===0))
-                            that.draw();
+                        
+                        if (condition){
+                            console.log("",id);
+                            that.executeFunctions(id+1,command.para[1]);
+                        }
                         else{
-                            //e.g {operator: "+", LHS:{}, RHS: 5}
-                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
-                            if(res>0){
-                                that.executeFunctions(id+1,n);
-                            }else{
-                                that.executeFunctions(id+n, command.para[2]);
-                            }
+                            that.executeFunctions(id+1+command.para[1], command.para[2]);
                         }
                         break;
+
+                        // if(!isNaN(obj)&&(obj===0))
+                        //     that.draw();
+                        // else{
+                        //     //e.g {operator: "+", LHS:{}, RHS: 5}
+                        //     var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                        //     if(res>0){
+                        //         that.executeFunctions(id+1,n);
+                        //     }else{
+                        //         that.executeFunctions(id+n, command.para[2]);
+                        //     }
+                        // }
+                        // break;
 
                     case "rotate":
                         //parameters: angle
                         this.clearCanvas();
-                        this.ctx.rotate(command.para[0]*Math.PI/180);
+                        this.ctx.rotate(this.getValueOf(command.para[0])*Math.PI/180);
+                        this.current_status.angle = this.getValueOf(command.para[0])*Math.PI/180;
                         this.draw();
                         break;
 
@@ -317,9 +391,29 @@ Playground.Views = Playground.Views || {};
                         //parameters: x scale, y scale
                         this.clearCanvas();
                         this.drawBackground();
-                        this.drawCharacterResize(command.para[0],command.para[1]);
+                        this.drawCharacterResize(this.getValueOf(command.para[0]),this.getValueOf(command.para[1]));
                         break;
-                    
+
+                    case "assignment":
+                        // name: assignment, para[0]: variable name, para[1]: number/operation obj{operator, LHS, RHS}. style: "x = a+b"
+                        // if style is "x = y" set operator as 0.  
+                        var vari_name = command.para[0];
+                        var vari_value;
+                        if (!isNaN(command.para[1])){
+                            vari_value = command.para[1];
+                        }
+                        else if(command.para[1].operator==0){
+                            vari_value = this.getValueOf(command.para[1].LHS);
+                        }
+                        else{
+                            vari_value = evaluateExpression(command.para[1].operator, command.para[1].LHS, command.para[1].RHS);
+                        }
+                        if (vari_value!=null){
+                            var vari = {name: vari_name, value: vari_value};
+                            this.variables.push(vari);
+                        }
+                        break;
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
@@ -338,32 +432,72 @@ Playground.Views = Playground.Views || {};
                 leftRes = LHS;
                 rightRes = RHS;
             }else if(isNaN(LHS)&&!isNaN(RHS)){
-                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                // leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                leftRes = that.getValueOf(LHS);
                 rightRes = RHS;
             }else if(!isNaN(LHS)&&isNaN(RHS)){
-                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                // rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                rightRes = that.getValueOf(RHS);
                 leftRes = LHS;
             }else{
-                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
-                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                leftRes = that.getValueOf(LHS);
+                rightRes = that.getValueOf(RHS);
+                // leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                // rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
             }
 
+            if (leftRes== null || rightRes==null){
+                return null;
+            }
             switch(operator){
                 case "<":
-                if(leftRes<rightRes) return 1;
+                    if(leftRes<rightRes) return 1;
+                    else return 0;
                 case ">":
-                if(leftRes>rightRes) return 1;
-                case "=":
-                if(leftRes===rightRes) return 1;
+                    if(leftRes>rightRes) return 1;
+                    else return 0;
+                case "==":
+                    if(leftRes===rightRes) return 1;
+                    else return 0;
+                case ">=":
+                    if(leftRes>=rightRes) return 1;
+                    else return 0;
+                case "<=":
+                    if(leftRes<=rightRes) return 1;
+                    else return 0;
+
                 case "+":
-                return leftRes+rightRes;
+                    return leftRes+rightRes;
                 case "-":
-                return leftRes-rightRes;
+                    return leftRes-rightRes;
                 case "*":
-                return leftRes*rightRes;
+                    return leftRes*rightRes;
+                case "/":
+                    return leftRes/rightRes;
+                case "%":
+                    return leftRes%rightRes;                
                 default:
                 console.log("invalid expression");
             }
+            return null;
+        },
+
+        getValueOf: function(x){
+            if (!isNaN(x)){
+                return x;
+            }
+            switch (x){
+                case "xPos": return this.current_status.xPos;
+                case "yPos": return this.current_status.yPos;
+                default:
+            }
+            for(var k in this.variables) {
+                var v = this.variables[k];
+                if (v.name == x){
+                    return v.value;
+                }
+            }
+            return null;
         },
 
         clearCanvas: function(){

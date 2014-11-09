@@ -8,7 +8,7 @@ Playground.Models = Playground.Models || {};
     Playground.Models.Project = Backbone.Model.extend({
 
         bgModel: null,
-        spriteModel: null,
+        spriteModel: [],
         audioModel: null,
 
         initialize: function() {
@@ -16,7 +16,7 @@ Playground.Models = Playground.Models || {};
 
         defaults: {
             bgModel: null,
-            spriteModel: null,
+            spriteModel: [],
             audioModel: null,
         },
 
