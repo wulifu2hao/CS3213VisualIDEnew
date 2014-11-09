@@ -20,6 +20,7 @@ Playground.Views = Playground.Views || {};
         h : null,
         costume: 0,
         events: [],
+        variables: [],
 
         bgImgs: [],
         spriteImgs: [],
@@ -28,6 +29,7 @@ Playground.Views = Playground.Views || {};
         initialize: function () {
             var that = this;
             this.events = [];
+            this.variables = [];
             $("#play_button").click(function(e){
                 that.updateCanvas();       
             });
@@ -217,6 +219,8 @@ Playground.Views = Playground.Views || {};
                         //move in current facing direction
                         var step = 0;
                         while (step < command.para[0]){
+                            // this.current_status.xPos += Math.cos()*this.current_status.angle;
+                            // this.current_status.yPos += Math.sin()*this.current_status.angle;
                             this.current_status.xPos++;
                             console.log("current pos", this.current_status.xPos);
                             this.draw();
@@ -273,39 +277,71 @@ Playground.Views = Playground.Views || {};
 
                     case "ifThen":
                         //parameters: obj containing a boolean expression, #of commands to be executed
-                        var obj = command.para[0];
-                        var n = command.para[1];
+                        var condition = command.para[0];
+                        var res = condition;
                         var that = this;
-                        if(!isNaN(obj)&&(obj===0))
-                            that.draw();
-                        else{
-                            //e.g {operator: "+", LHS:{}, RHS: 5}
-                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
-                            if(res>0){
-                                that.executeFunctions(id+1,n);
-                            }else{
-                                that.draw();
+
+                        if (isNAN(condition)){
+                            res = getValueOf(condition);
+                            if (res==null){
+                                that.draw();   
                             }
                         }
+                        
+                        if (res){
+                            that.executeFunctions(id+1,command.para[1]);
+                        }
+                        else{
+                            that.draw();
+                        }   
                         break;
+
+                        // if(!isNaN(obj)&&(obj===0))
+                        //     that.draw();
+                        // else{
+                        //     //e.g {operator: "+", LHS:{}, RHS: 5}
+                        //     var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                        //     if(res>0){
+                        //         that.executeFunctions(id+1,n);
+                        //     }else{
+                        //         that.draw();
+                        //     }
+                        // }
+                        // break;
 
                     case "ifElse":
                         //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
-                        var obj = command.para[0];
-                        var n = command.para[1];
+                        var condition = command.para[0];
+                        var res = condition;
                         var that = this;
-                        if(!isNaN(obj)&&(obj===0))
-                            that.draw();
-                        else{
-                            //e.g {operator: "+", LHS:{}, RHS: 5}
-                            var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
-                            if(res>0){
-                                that.executeFunctions(id+1,n);
-                            }else{
-                                that.executeFunctions(id+n, command.para[2]);
+
+                        if (isNAN(condition)){
+                            res = getValueOf(condition);
+                            if (res==null){
+                                that.draw();   
                             }
                         }
+                        
+                        if (res){
+                            that.executeFunctions(id+1,command.para[1]);
+                        }
+                        else{
+                            that.executeFunctions(id+1+command.para[1], command.para[2]);
+                        }
                         break;
+
+                        // if(!isNaN(obj)&&(obj===0))
+                        //     that.draw();
+                        // else{
+                        //     //e.g {operator: "+", LHS:{}, RHS: 5}
+                        //     var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
+                        //     if(res>0){
+                        //         that.executeFunctions(id+1,n);
+                        //     }else{
+                        //         that.executeFunctions(id+n, command.para[2]);
+                        //     }
+                        // }
+                        // break;
 
                     case "rotate":
                         //parameters: angle
@@ -322,6 +358,21 @@ Playground.Views = Playground.Views || {};
                         this.drawCharacterResize(command.para[0],command.para[1]);
                         break;
                     
+                    case "assignment":
+                        // name: assignment, para[0]: variable name, para[1]: number/operation obj{operator, LHS, RHS}.
+                        var vari_name = command.para[0];
+                        var vari_value;
+                        if (!isNAN(command.para[1])){
+                            vari_value = command.para[1];
+                        }
+                        else{
+                            vari_value = evaluateExpression(command.para[1].operator, command.para[1].LHS, command.para[1].RHS);
+                        }
+                        var vari = {name: vari_name, value: vari_value};
+                        this.variables.push(vari);
+
+                        break;
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }
@@ -340,14 +391,18 @@ Playground.Views = Playground.Views || {};
                 leftRes = LHS;
                 rightRes = RHS;
             }else if(isNaN(LHS)&&!isNaN(RHS)){
-                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                // leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                leftRes = that.getValueOf(LHS);
                 rightRes = RHS;
             }else if(!isNaN(LHS)&&isNaN(RHS)){
-                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                // rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                rightRes = that.getValueOf(RHS);
                 leftRes = LHS;
             }else{
-                leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
-                rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
+                leftRes = that.getValueOf(LHS);
+                rightRes = that.getValueOf(RHS);
+                // leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
+                // rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
             }
 
             switch(operator){
@@ -366,6 +421,16 @@ Playground.Views = Playground.Views || {};
                 default:
                 console.log("invalid expression");
             }
+        },
+
+        getValueOf: function(x){
+            for(var k in this.variables) {
+                var v = this.variables[k];
+                if (v.name == x){
+                    return v.value;
+                }
+            }
+            return null;
         },
 
         clearCanvas: function(){
