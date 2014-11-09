@@ -40,13 +40,13 @@ Playground.Views = Playground.Views || {};
             });
          
             this.current_status = {              // init status
-                        xPos: this.model.spriteModel.get('xPos'),
-                        yPos: this.model.spriteModel.get('yPos'),
-                        angle: this.model.spriteModel.get('angle'),
-                        isShown: this.model.spriteModel.get('isShown'), 
-                        costumes: this.model.spriteModel.get('costumes'),
-                        width : this.model.spriteModel.get('width'),
-                        height: this.model.spriteModel.get('height'),
+                        xPos: this.model.spriteModel[0].get('xPos'),
+                        yPos: this.model.spriteModel[0].get('yPos'),
+                        angle: this.model.spriteModel[0].get('angle'),
+                        isShown: this.model.spriteModel[0].get('isShown'), 
+                        costumes: this.model.spriteModel[0].get('costumes'),
+                        width : this.model.spriteModel[0].get('width'),
+                        height: this.model.spriteModel[0].get('height'),
             };
 
             this.render();   
