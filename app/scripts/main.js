@@ -22,6 +22,8 @@ window.Playground = {
         new this.Views.Player({model: project});
         new this.Views.Costumespane({model: sprite});
         new this.Views.Audio({model: audio});
+
+        
     }
 };
 
@@ -33,6 +35,7 @@ window.Playground = {
 
 $(document).ready(function () {
     'use strict';
+
     Playground.init();
     Backbone.history.start();  
 
@@ -59,24 +62,4 @@ $(document).ready(function () {
 
         }
     });
-
-    soundManager.setup({
-      url: './bower_components/soundmanager2/swf/',
-      flashVersion: 9, // optional: shiny features (default = 8)
-      // optional: ignore Flash where possible, use 100% HTML5 mode
-      preferFlash: false,
-      onready: function() {
-        // soundManager.createSound({
-        //   id: 'mySound',
-        //   url: './bower_components/soundmanager2/demo/_mp3/bass.mp3',
-        //   autoLoad: true,
-        //   autoPlay: true,
-        //   onload: function() {
-        //     // alert('The sound '+this.id+' loaded!');
-        //   },
-        //   volume: 50
-        // });
-      }
-    });
-
 });

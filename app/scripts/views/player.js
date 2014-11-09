@@ -32,10 +32,10 @@ Playground.Views = Playground.Views || {};
                 that.updateCanvas();       
             });
 
-            $("#login-button").click(function(e){
-                e.preventDefault();
-                window.location = (window.location + 'auth/google');
-            });
+            // $("#login-button").click(function(e){
+            //     e.preventDefault();
+            //     window.location = (window.location + 'auth/google');
+            // });
          
             this.current_status = {              // init status
                         xPos: this.model.spriteModel.get('xPos'),
@@ -320,6 +320,12 @@ Playground.Views = Playground.Views || {};
                         this.drawCharacterResize(command.para[0],command.para[1]);
                         break;
                     
+                    case "playsound":
+                        if (soundManager) {
+                            soundManager.play(command.para[0]);
+                        };
+                        break;
+
                     default:
                         console.log("invalid command, error in code somewhere");
                 }

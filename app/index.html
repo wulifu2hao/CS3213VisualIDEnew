@@ -16,6 +16,22 @@
     </head>
     <body>
 
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script type='text/javascript'>
+            $.ajax({
+                type: "GET",
+                async: "false",
+                url: "/api/user",
+                success: function(data) {
+                    if (data.message == "success") {
+
+                    } else {
+                        window.location = (window.location + 'auth/google');
+                    }
+                }
+            });
+        </script>
+
         <div class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -38,7 +54,7 @@
                         </li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
-                        <li><a id="login-button" href="#">Login</a></li>
+                        <!-- <li><a id="login-button" href="#">Login</a></li> -->
                         <li><a id="logout-button" style="display:none" href="#">logout</a></li>
                     </ul>
                 </div>
@@ -100,7 +116,7 @@
 
         <!-- build:js scripts/vendor.js -->
         <script src="bower_components/underscore/underscore.js"></script>
-        <script src="bower_components/jquery/dist/jquery.js"></script>
+        
         <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="bower_components/jquery-ui/jquery-ui.js"></script>
         <script src="bower_components/lodash/dist/lodash.compat.js"></script>
@@ -120,7 +136,7 @@
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
-        <script src="bower_components/soundmanager2/script/soundmanager2.js"></script>
+        <script src="bower_components/soundmanager2/script/soundmanager2-nodebug.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
@@ -148,12 +164,11 @@
             $(this).parent().find("ul").parent().find("li.dropdown").addClass('open');
         });
 
-        
-
-
-
-
         </script>
+
+
+
+
         <!-- endbuild -->
 </body>
 </html>

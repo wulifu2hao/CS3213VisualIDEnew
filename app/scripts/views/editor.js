@@ -100,12 +100,23 @@ Playground.Views = Playground.Views || {};
                 var type = $(command).attr('class').split(' ').pop();
                 var position = i;
                 var repeatBlockLength = 0
-                var value = parseInt($(command).find("input").first().val());
+                var value = 0;
                 if (type == "command_repeat") {
                     var repeatBlock = repeatBlocks.get(repeatBlockIndex);
                     repeatBlockLength = $(repeatBlock).find("li").length;
                     value = parseInt($(repeatBlock).find("input").first().val());
                     repeatBlockIndex = repeatBlockIndex + 1;
+                } else if (type == "command_playsound"){
+                    var e = $(command).find("select")[0];
+                    // console.log($(command));
+                    // console.log($(command).find("select"));
+                    // console.log(($(command).find("select")).first());
+                    // console.log(e.options);
+                    value = e.options[e.selectedIndex].value;
+                    // console.log("sound to play is ");
+                    // console.log(value);
+                } else {
+                    value = parseInt($(command).find("input").first().val());
                 }
                 console.log(value, repeatBlockLength);
                 this.model.add(type, position, [value, repeatBlockLength]);

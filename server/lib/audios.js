@@ -33,3 +33,18 @@ this.addAudio = function(filename, userId, res) {
         }
     });
 }
+
+this.getAudios = function(req, res){
+    if (req.user) {
+        audioModel.find({googleId: req.user.googleId}, function(err, audios) {
+            if (err) {
+                console.log(err);
+                res.json({message: 'error with database.'});
+            } else {
+                res.json({message: 'success', audios:audios});
+            }
+        });
+    } else {
+        res.json({message: 'Please log in first'});
+    }
+}

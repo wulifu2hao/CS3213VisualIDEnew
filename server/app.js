@@ -106,9 +106,26 @@ db.once('open', function callback () {
 
 	// route index.html
 	app.get('/', function(req, res){
-	  console.log(req.user);
-	  res.sendfile( path.join( __dirname, '../app/index.html' ) );
+		console.log("enter main page");
+		if (req.user) {
+			console.log("haven't logged in ");
+			res.sendfile( path.join( __dirname, '../app/index.html' ) );
+		} else {
+			console.log("logged in ");
+			res.redirect('http://localhost:9000/auth/google');
+		}
+	  // console.log(req.user);
 	});
+
+	app.get('/api/user', function(req, res){
+		if (req.user) {
+			res.json({message:"success"});
+		} else {
+			res.json({message:"fail"});
+		}
+	});
+
+
 
 	app.get('/test', function(req, res){
 	  console.log(req.user);
@@ -122,6 +139,7 @@ db.once('open', function callback () {
 	app.put('/api/programs', programs.updateProgram);
 	app.post('/api/programs', programs.addProgram);
 	app.delete('/api/programs/:name', programs.deleteByName);	
+	app.get('/api/audios', audios.getAudios);
 
 
 	app.post('/api/uploadAudio', function(req,res){
