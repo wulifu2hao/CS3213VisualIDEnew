@@ -368,9 +368,10 @@ Playground.Views = Playground.Views || {};
                         else{
                             vari_value = evaluateExpression(command.para[1].operator, command.para[1].LHS, command.para[1].RHS);
                         }
-                        var vari = {name: vari_name, value: vari_value};
-                        this.variables.push(vari);
-
+                        if (vari_value!=null){
+                            var vari = {name: vari_name, value: vari_value};
+                            this.variables.push(vari);
+                        }
                         break;
 
                     default:
@@ -405,22 +406,40 @@ Playground.Views = Playground.Views || {};
                 // rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
             }
 
+            if (leftRes== null || rightRes==null){
+                return null;
+            }
             switch(operator){
                 case "<":
-                if(leftRes<rightRes) return 1;
+                    if(leftRes<rightRes) return 1;
+                    else return 0;
                 case ">":
-                if(leftRes>rightRes) return 1;
-                case "=":
-                if(leftRes===rightRes) return 1;
+                    if(leftRes>rightRes) return 1;
+                    else return 0;
+                case "==":
+                    if(leftRes===rightRes) return 1;
+                    else return 0;
+                case ">=":
+                    if(leftRes>=rightRes) return 1;
+                    else return 0;
+                case "<=":
+                    if(leftRes<=rightRes) return 1;
+                    else return 0;
+
                 case "+":
-                return leftRes+rightRes;
+                    return leftRes+rightRes;
                 case "-":
-                return leftRes-rightRes;
+                    return leftRes-rightRes;
                 case "*":
-                return leftRes*rightRes;
+                    return leftRes*rightRes;
+                case "/":
+                    return leftRes/rightRes;
+                case "%":
+                    return leftRes%rightRes;                
                 default:
                 console.log("invalid expression");
             }
+            return null;
         },
 
         getValueOf: function(x){
