@@ -70,6 +70,12 @@ Playground.Views = Playground.Views || {};
                     that.isDragging = true;
                 }
             });
+
+            $( ".canvas-droppable" ).droppable({
+                drop: function( event, ui ) {
+                    console.log("dropped!");
+                },
+            });
             
             $('#player_canvas').mouseup(function(){
                 // console.log("mouseup");
