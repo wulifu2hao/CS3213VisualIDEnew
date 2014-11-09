@@ -23,12 +23,6 @@ window.Playground = {
     }
 };
 
-    
-
-    
-
-
-
 $(document).ready(function () {
     'use strict';
     Playground.init();
