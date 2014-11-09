@@ -10,6 +10,7 @@ Playground.Models = Playground.Models || {};
         bgModel: null,
         spriteModel: [],
         audioModel: null,
+        numOfSprite: 1,
 
         initialize: function() {
         },
@@ -18,6 +19,7 @@ Playground.Models = Playground.Models || {};
             bgModel: null,
             spriteModel: [],
             audioModel: null,
+            numOfSprite: 1,
         },
 
         validate: function(attrs, options) {
