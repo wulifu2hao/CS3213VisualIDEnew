@@ -12,18 +12,15 @@ window.Playground = {
         var bg = new this.Models.Background();
         var audio = new this.Models.Audio();
         var project = new this.Models.Project();
-        project.spriteModel = sprite;
+        project.spriteModel.push(sprite);
         project.bgModel = bg;
         project.audioModel = audio;
-        // console.log(this.Views);
 
         new this.Views.Toolbar();
         new this.Views.Editor({model: sprite});
         new this.Views.Player({model: project});
-        new this.Views.Costumespane({model: sprite});
-        new this.Views.Audio({model: audio});
-
-        
+        new this.Views.Costumespane({model: project});
+		new this.Views.Audio({model: audio});
     }
 };
 

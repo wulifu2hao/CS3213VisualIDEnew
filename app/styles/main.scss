@@ -86,11 +86,41 @@ li {
 }
 
 .costumes-pane {
-	height: 680px;
+	/*height: 680px;
 	padding-top: 4px;
 	padding-bottom: 4px;
 	padding-right: 4px;
+	overflow: hidden;*/
+}
+
+.costumes_view {
+	height: 670px;
+	width: auto;
+	padding-left: 20px;
 	overflow: hidden;
+	background-color: #E8E8E8;
+}
+
+.costumes_list {
+	width: 150px;
+	height: 680px;
+	margin-right: 4px;
+	float: left;
+	overflow: hidden;
+	margin-left: 4px;
+}
+
+.sprites-list {
+	padding-top: 40px;
+}
+
+.selectable .ui-selecting { background: #FECA40; }
+.selectable .ui-selected { background: #F39814; color: white; }
+.selectable { list-style-type: none; margin: 0; padding: 0; width: 450px; }
+.selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; width: 100px; height: 100px; }
+
+.sprite-button {
+	background-color: white;
 }
 
 .audio-toolbar {
@@ -152,6 +182,15 @@ li {
 	background-repeat: no-repeat;
 }
 
+.toolbar-item-assignment {
+	padding-top: 5px;
+	padding-left: 2px;
+	height: 37px;
+	background-image: url('../images/command_assignment.png');
+	background-repeat: no-repeat;
+	color: #FFFFFF;
+}
+
 .toolbar-item-control {
 	height: auto !important;
 	min-height: 83px;
@@ -186,6 +225,40 @@ li {
 	background-repeat: no-repeat;
 }
 
+.toolbar-item-event {
+	height: auto !important;
+	min-height: 83px;
+}
+
+.toolbar-item-event ul {
+	background-image: url('../images/command_event_mid.png');
+	background-repeat: repeat-y;
+	margin-left: -8px;
+}
+
+.toolbar-item-event li {
+	margin-left: 27px;
+}
+
+.block-event-top {
+	padding-left: 8px;
+	padding-top: 5px;
+	width: 200px;
+	height: 37px;
+	margin-left: -8px;
+	background-image: url('../images/command_event_top.png');
+	background-repeat: no-repeat;
+}
+
+.block-event-botm {
+	width: 200px;
+	height: 44px;
+	margin-left: -8px;
+	margin-top: -14px;
+	background-image: url('../images/command_event_botm.png');
+	background-repeat: no-repeat;
+}
+
 .toolbar-item-look {
 	padding-top: 5px;
 	height: 37px;
@@ -194,10 +267,15 @@ li {
 }
 
 .toolbar-item-operator {
-	padding-top: 5px;
-	height: 37px;
+	margin-top: 20px;
+	padding-top: 2px;
+	padding-left: 4px;
+	height: 26px;
+	width: 126px;
 	background-image: url('../images/command_operator.png');
 	background-repeat: no-repeat;
+	color: #FFFFFF;
+	font-size: 12px;
 }
 
 .toolbar-item-variable {
@@ -235,6 +313,7 @@ li {
 	background-color: #fbf9ee;
 	visibility: visible !important;
 }
+
 
 .dropdown-menu-right{
 	position: absolute;

@@ -35,10 +35,19 @@ Playground.Views = Playground.Views || {};
                         cursor: "move",
                         revert: "invalid"
                     });
-                    $(".droppable").droppable({
-                        accpet: ".draggable",
+                    that.commandList = that.getCommandList();
+                }
+            });
+            $(".variable-draggable").draggable({
+                helper: "clone",
+                cursor: "move",
+                revert: "invalid",
+                start: function(event,ui) {
+                    $(".input-droppable").droppable({
+                        accept: ".variable-draggable",
                         hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
+                            console.log("drop");
                             $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable"));
                             $(this).remove();
                         },
@@ -46,13 +55,26 @@ Playground.Views = Playground.Views || {};
                             console.log("over");
                         }
                     });
-                    that.commandList = that.getCommandList();
                 }
             });
-            $(".draggable").draggable({
+            $(".operator-draggable").draggable({
                 helper: "clone",
                 cursor: "move",
-                revert: "invalid"
+                revert: "invalid",
+                start: function(event,ui) {
+                    $(".assignment-droppable").droppable({
+                        accept: ".operator-draggable",
+                        hoverClass: "ui-state-hover",
+                        drop: function(event,ui) {
+                            console.log("drop");
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable"));
+                            $(this).remove();
+                        },
+                        over: function(event,ui) {
+                            console.log("over");
+                        }
+                    });
+                }
             });
             $("#editor_workspace ul").sortable({
                 placeholder: "ui-state-highlight",
@@ -98,6 +120,7 @@ Playground.Views = Playground.Views || {};
             for(var i=0; i<this.commandList.length; i++) {
                 var command = this.commandList[i];
                 var type = $(command).attr('class').split(' ').pop();
+                console.log("command passed in: ", type);
                 var position = i;
                 var repeatBlockLength = 0
                 var value = 0;
