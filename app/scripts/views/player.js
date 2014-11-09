@@ -224,7 +224,7 @@ Playground.Views = Playground.Views || {};
                         else{
                             ind += command.para[1];
                             // that.executeFunctions(id+1+command.para[1], command.para[2]);
-                        }∂
+                        }
                 }
                 this.executeCommand(ind, command);
             }

@@ -37,7 +37,7 @@ Playground.Models = Playground.Models || {};
             return JSON.stringify(data);
         },
 
-        setData: function(data) {aq
+        setData: function(data) {
             var data = JSON.parse(data);
             console.log(data);
             this.xPos = data.xPos;
