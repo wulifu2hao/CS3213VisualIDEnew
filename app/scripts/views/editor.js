@@ -98,6 +98,7 @@ Playground.Views = Playground.Views || {};
             for(var i=0; i<this.commandList.length; i++) {
                 var command = this.commandList[i];
                 var type = $(command).attr('class').split(' ').pop();
+                console.log("command passed in: ", type);
                 var position = i;
                 var repeatBlockLength = 0
                 var value = parseInt($(command).find("input").first().val());
