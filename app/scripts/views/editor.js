@@ -484,6 +484,7 @@ Playground.Views = Playground.Views || {};
             $("#variable-commands").find(".toolbar").first().empty();
             $("#variable-commands").find(".toolbar").append(variableString);
             this.reEvaluateDraggable();
+            var that = this;
             $("#create_new_var").click(function(){
                 var toolbar = $("#variable-commands").find(".toolbar").first();
                 var varname = prompt("Please enter a name: ");
