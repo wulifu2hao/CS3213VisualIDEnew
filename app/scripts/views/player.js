@@ -123,10 +123,11 @@ Playground.Views = Playground.Views || {};
         updateCanvas: function(){
             console.log("Player view: play button clicked!");
             this.commands_list = this.model.spriteModel[0].array_of_commands;
+            // console.log(this.commands_list);
             // console.log("XF says: ", this.commands_list);
-            this.commands_list[0].name = "ifThen";
-            this.commands_list[0].para[0] = 0;
-            this.commands_list[0].para[1] = 2;
+            // this.commands_list[0].name = "ifThen";
+            // this.commands_list[0].para[0] = 0;
+            // this.commands_list[0].para[1] = 2;
 
 
             // this.commands_list[2].name = "event";
@@ -396,7 +397,10 @@ Playground.Views = Playground.Views || {};
                         break;
 
 					case "playsound":
+                        console.log("play sound");
+                        console.log("command.para[0]");
                         if (soundManager) {
+                            console.log("play sound!!!");
                             soundManager.play(command.para[0]);
                         };
                         break;

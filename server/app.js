@@ -3,14 +3,13 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var busboy = require('connect-busboy'); //middleware for form/file upload
-var fs = require('fs-extra');       //File System - for file manipulation
-var formidable = require('formidable');
 var async = require('async');
 var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');	
+var mkdirp = require('mkdirp');
+var fs = require('fs');
 
 var everyauth = require("everyauth"),
  	util = require ('util'),
@@ -86,7 +85,6 @@ db.once('open', function callback () {
 	  	app.use(express.cookieParser());
 	  	app.use(express.session({secret: "yTWW6kvc0CY2ieEz44"}));
 	  	app.use(everyauth.middleware());
-	  	app.use(busboy());
 	  	// app.use(app.router);
 	});
 
@@ -140,27 +138,58 @@ db.once('open', function callback () {
 	app.post('/api/programs', programs.addProgram);
 	app.delete('/api/programs/:name', programs.deleteByName);	
 	app.get('/api/audios', audios.getAudios);
+	app.delete('/api/audios/:name', function(req,res){
+		console.log("delete request");
+		if (req.user) {
+			console.log("deleting..")
+			var path = __dirname + '/../app/audioUploaded/' + req.user.googleId + '/' +  req.params.name;
+			console.log(path);
+			fs.unlink(path, function (err) {
+			  if (err) {
+			  	console.log(err);
+			  	res.json({message: err});
+			  } else {
+			  	console.log("deleted form file system")
+			  	audios.deleteAudio(req.user.googleId, req.params.name, res);
+			  }
+			});
+	    } else {
+	        res.json({message: 'Please log in first'});
+	    }
+
+
+	});
 
 
 	app.post('/api/uploadAudio', function(req,res){
 		if (req.user) {
-			var file = req.files.fileUploaded;
-	        var serverPath = '/../app/audioUploaded/' + file.name;
-	        console.log("dirname");
-	        console.log(__dirname);
+			var dir = __dirname + '/../app/audioUploaded/' + req.user.googleId;
+			mkdirp(dir, function(err) { 
+				if (err) {
+					console.log(err);
+					res.json({message: err});
+				} else {
+					var file = req.files.fileUploaded;
+			        var serverPath = dir + "/"+file.name;
+			        console.log("dirname");
+			        console.log(__dirname);
 
-		    require('fs').rename(
-				file.path,
-				__dirname+serverPath,
-				function(error) {
-					if(error) {
-						console.log(error);
-						res.send({error: 'error when storing into file system'});
-				    }  else {
-				    	audios.addAudio(file.name, req.user.googleId, res);
-				    }      
+				    require('fs').rename(
+						file.path,
+						serverPath,
+						function(error) {
+							if(error) {
+								console.log(error);
+								res.send({error: 'error when storing into file system'});
+						    }  else {
+						    	audios.addAudio(file.name, req.user.googleId, res);
+						    }      
+						}
+				    );
 				}
-		    );
+
+			});
+
 
 		}else{
 			res.json({message: 'Please log in before you upload a sound.'});

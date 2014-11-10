@@ -20,7 +20,7 @@ window.Playground = {
         new this.Views.Editor({model: sprite});
         new this.Views.Player({model: project});
         new this.Views.Costumespane({model: project});
-		    new this.Views.Audio({model: audio});
+	    new this.Views.Audio({model: audio});
     }
 };
 

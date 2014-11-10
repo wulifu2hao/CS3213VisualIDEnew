@@ -115,7 +115,7 @@ Playground.Views = Playground.Views || {};
                 type: 'GET',
                 url: url,
                 success: function(data) {
-                  console.log("here!");
+                  // console.log("here!");
                     if (data.message == "success") {
                         var ul = document.getElementById('projectList');
                           if (ul) {
@@ -130,10 +130,10 @@ Playground.Views = Playground.Views || {};
                         var list = $(".project-to-load");
                         for (var i = 0; i < list.length; i++) {
                             var id = list[i].id;
-                            var idToGet = "#"+list[i].id;
                             console.log(document.getElementById(id));
                             document.getElementById(id).onclick = function(){
-                                that.loadFromServer(id);
+                                console.log("loading project" + this.id);
+                                that.loadFromServer(this.id);
                             };
                         };
                     } 

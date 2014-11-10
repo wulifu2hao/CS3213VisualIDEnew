@@ -15,7 +15,7 @@ __p += '\n\t\t<div class="row">\n\t';
  } ;
 __p += '\n\t<div class="span2">\n\t    <img src="images/audio.png" alt="audio" height="48" width="48">\n\t    ' +
 ((__t = ( sound )) == null ? '' : __t) +
-'\n\t    <input type="image" src="images/delete_button.png" alt="delete" height="24" width="24" id="delete_' +
+'\n\t    <input type="image" src="images/delete_button.png" alt="delete" height="24" width="24" value="' +
 ((__t = ( sound )) == null ? '' : __t) +
 '" class="delete-audio-button">\n\n\t</div>\n\t';
  if (index%6 == 5) { ;
