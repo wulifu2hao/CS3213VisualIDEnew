@@ -103,21 +103,36 @@ Playground.Models = Playground.Models || {};
                 console.log("add fourth type of function: repeat");
                 this.array_of_commands.splice(position,0,{name: "repeat", para: parameters});
                 break;
-                case "command_repeat_forever":
+                case "command_forever":
                 console.log("command_repeat_forever");
                 this.array_of_commands.splice(position,0,{name: "repeatForever", para: parameters});
                 break;
-                case "command_if_then":
+                case "command_if":
                 console.log("command_if_then");
                 this.array_of_commands.splice(position,0,{name: "ifThen", para: parameters});
                 break;
-                case "command_if_else":
-                console.log(command_if_else);
-                this.array_of_commands.splice(position,0,{name: "ifElse", para: parameters});
+                case "command_onclick":
+                console.log("command_event");
+                this.array_of_commands.splice(position,0,{name: "event", para: parameters});
                 break;
                 case "command_rotate":
                 console.log("command_rotate");
                 this.array_of_commands.splice(position,0,{name: "rotate", para: parameters});
+                case "command_scale":
+                console.log("command_scale");
+                this.array_of_commands.splice(position,0,{name: "scale", para: parameters});
+                break;
+                // case "command_op_plus":
+                // case "command_op_minus":
+                // case "command_op_multiply":
+                // case "command_op_divide":
+                // case "command_op_mod":
+                // case "command_op_lessthan":
+                // case "command_op_greaterthan":
+                // case "command_op_equal":
+                case "command_assignment":
+                console.log("command_assignment");
+                this.array_of_commands.splice(position,0,{name: "assignment", para: parameters});
                 break;
                 case "command_playsound":
                 console.log("command_playsound");

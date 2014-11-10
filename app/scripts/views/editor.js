@@ -273,11 +273,13 @@ Playground.Views = Playground.Views || {};
                     case "command_set_y":
                     case "command_move":
                     case "command_rotate":
-                        var value = getValuesOfCommand(command)[0];
+                        console.log("In switch");
+                        var value = this.getValuesOfCommand(command)[0];
+                        console.log(value);
                         this.model.add(type,position,[value]);
                         break;
                     case "command_scale":
-                        var values = getValuesOfCommand;
+                        var values = this.getValuesOfCommand(command);
                         var scale_x = values[0];
                         var scale_y = values[1];
                         this.model.add(type,position,[scale_x,scale_y]);
@@ -286,17 +288,21 @@ Playground.Views = Playground.Views || {};
                     case "command_if":
                         var repeatBlock = repeatBlocks.get(repeatBlockIndex);
                         repeatBlockLength = $(repeatBlock).find("li").length;
-                        var value = getValuesOfCommand(repeatBlock);
+                        var value = this.getValuesOfCommand(repeatBlock);
+                        console.log("value:" ,value);
                         repeatBlockIndex = repeatBlockIndex + 1;
-                        this.model.add(type,position,[value,repeatBlockLength]);
+                        console.log("leng:", repeatBlockLength);
+                        this.model.add(type,position,[value[0],repeatBlockLength]);
                         break;
                     case "command_forever":
-                        this.model.add(type,position,[]);
+                        var repeatBlock = repeatBlocks.get(repeatBlockIndex);
+                        repeatBlockLength = $(repeatBlock).find("li").length;
+                        this.model.add(type,position,[repeatBlockLength]);
                         break;
                     case "command_change_costume":
                     case "command_change_background":
-                    case "show":
-                    case "hide":
+                    case "command_show":
+                    case "command_hide":
                         this.model.add(type,position,[]);
                         break;
                     case "command_op_plus":
@@ -308,14 +314,16 @@ Playground.Views = Playground.Views || {};
                     case "command_op_greaterthan":
                     case "command_op_equal":
                     case "command_assignment":
-                        var values = getValuesOfCommand(command);
+                        var values = this.getValuesOfCommand(command);
                         var first = values[0];
                         var second = values[1];
                         this.model.add(type,position,[first,second]);
                         break;
                     case "command_onclick":
                         var key = $(command).find("input").first().val();
-                        this.model.add(type,position,[key]);
+                        var repeatBlock = repeatBlocks.get(repeatBlockIndex);
+                        repeatBlockLength = $(repeatBlock).find("li").length;
+                        this.model.add(type,position,[key, repeatBlockLength]);
                 }
             }
         },
@@ -323,10 +331,14 @@ Playground.Views = Playground.Views || {};
         getValuesOfCommand: function(command) {
             var input = $(command).find("input");
             var values = [];
+            console.log(input, values);
             if (input.length>0) {
                 for (var i = 0; i < input.length; i++) {
-                    var value = parseInt(input[i].val());
+                    console.log("In loop");
+                    console.log($(input.get(i)).val());
+                    var value = parseInt($(input.get(i)).val());
                     value = isNaN(value) ? 10 : value;
+                    console.log(value);
                     values.push(value);
                 };
             } else {

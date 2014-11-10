@@ -139,6 +139,7 @@ Playground.Views = Playground.Views || {};
                 this.commands_list[n] = this.model.spriteModel[n].array_of_commands;
                 console.log(this.commands_list[n]);
                 ind[n] = this.inspectEvents(n);
+                console.log("return:", ind[n]);
             }
             // console.log("XF says: ", this.commands_list[0]);
             // this.commands_list[0][0].name = "ifThen";
@@ -161,8 +162,8 @@ Playground.Views = Playground.Views || {};
             
             for (var n = 0; n < this.model.spriteModel.length; n++){
                 console.log("ready for exe...", n, ind[n]);
-                Thread.create(that.executeSprite, n, ind[n]);
-                // that.executeSprite(n, ind[n]);
+                // Thread.create(that.executeSprite, n, ind[n]);
+                that.executeSprite(n, ind[n]);
             }
         },
 
@@ -175,10 +176,10 @@ Playground.Views = Playground.Views || {};
         inspectEvents: function(x){
             console.log("inspect event...");
             var ind = 0;
-            while (this.commands_list[x][ind].name == "event"){
+            while (this.commands_list[x][ind]!= null && this.commands_list[x][ind].name == "event"){
                 console.log(this.commands_list[x][ind].para[0]);
                 var object = { key: this.commands_list[x][ind].para[0], start: ind+1, number: this.commands_list[x][ind].para[1] };
-                this.events.push(object);
+                this.events[x].push(object);
                 console.log(this.events[x]);
                 ind = object.start + object.number;
                 console.log(ind);
@@ -193,6 +194,7 @@ Playground.Views = Playground.Views || {};
             var ind, n;
             window.addEventListener('keydown',doKeyDown,true);
                 var that = this;
+            console.log(this.events);
             function doKeyDown(evt){
                 
                 // console.log(that.events);
@@ -222,7 +224,7 @@ Playground.Views = Playground.Views || {};
             console.log("Executing functions!");
             for(ind = start; ind < (start+length); ind++){
                 var command = this.commands_list[x][ind];
-                if (command.name == "ifThen"){
+                if (command.name === "ifThen"){
                         //parameters: obj containing a boolean expression, #of commands to be executed
                         var condition = this.getValueOf(command.para[0]);
                         var that = this;
@@ -241,6 +243,7 @@ Playground.Views = Playground.Views || {};
                             else{
                                 console.log("XF says: No more!");
                                 that.draw();
+                                break;
                             }
                         }   
                 }
@@ -250,11 +253,10 @@ Playground.Views = Playground.Views || {};
         },
 
         executeCommand: function(x, id, command){ 
+            console.log(command.name);
              switch(command.name){
                     
-                    case "setXPos":        
-                        // this.ctx.rotate(this.getValueOf(command.para[0])*Math.PI/180);
-                        // this.current_status[0].angle = this.getValueOf(command.para[0])*Math.PI/180;              
+                    case "setXPos":                  
                         this.current_status[x].xPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
@@ -271,6 +273,7 @@ Playground.Views = Playground.Views || {};
                         break;
 
                     case "hide":
+                        console.log("in hide");
                         this.current_status[x].isShown = false;
                         this.draw();
                         break;
@@ -279,10 +282,11 @@ Playground.Views = Playground.Views || {};
                         console.log("Move");
                         //move in current facing direction
                         var step = 0;
+                        console.log(this.getValueOf(command.para[0]));
                         while (step < this.getValueOf(command.para[0])){
-                            // this.current_status[x].xPos += Math.cos()*this.current_status[x].angle;
-                            // this.current_status[x].yPos += Math.sin()*this.current_status[x].angle;
-                            this.current_status[x].xPos++;
+                            this.current_status[x].xPos += Math.cos(this.current_status[x].angle);
+                            this.current_status[x].yPos += Math.sin(this.current_status[x].angle);
+                            // this.current_status[x].xPos++;
                             console.log("current pos", this.current_status[x].xPos);
                             this.draw();
                             step++;
@@ -347,7 +351,8 @@ Playground.Views = Playground.Views || {};
                     case "scale":
                         //parameters: x scale, y scale
                         this.clearCanvas();
-                        this.drawBackground();          
+                        this.drawBackground();  
+                        console.log("start to draw character", command.para[0], command.para[1]);        
                         this.drawCharacterResize(x, this.getValueOf(command.para[0]),this.getValueOf(command.para[1]));
                         break;
 
@@ -510,6 +515,7 @@ Playground.Views = Playground.Views || {};
         drawCharacter: function(n){
             var that = this;
             var shown = this.current_status[n].isShown;
+            console.log("is shown:" , shown);
             if(that.current_status[n].isShown){
                      that.ctx.drawImage(this.spriteImgs[n][this.costume],that.current_status[n].xPos, that.current_status[n].yPos, that.current_status[n].width, that.current_status[n].height); //character.width, character.height);     // draw costume if status isShown is true.
                  }     
@@ -517,10 +523,13 @@ Playground.Views = Playground.Views || {};
 
         drawCharacterResize: function(n, x, y){
             var that = this;
-            var shown = this.current_status[n].isShown;
+            console.log(this.current_status[n].isShown);
             if(that.current_status[n].isShown){
-                     that.ctx.drawImage(this.spriteImgs[n][this.costume],that.current_status[n].xPos, that.current_status[n].yPos, x*80, y*150); //character.width, character.height);     // draw costume if status isShown is true.
-                 }   
+                console.log(this.spriteImgs[n][this.costume], x, y);
+                that.ctx.drawImage(this.spriteImgs[n][this.costume],that.current_status[n].xPos, that.current_status[n].yPos, x*(that.current_status[n].width), y*(that.current_status[n].height)); //character.width, character.height);     // draw costume if status isShown is true.
+                that.current_status[n].width*= x;
+                that.current_status[n].height*= y;
+            }   
         },
 
         draw: function(){
