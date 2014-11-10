@@ -81,9 +81,13 @@ Playground.Views = Playground.Views || {};
                   },
                   success: function(data) { 
                     $('#costumeUploadButton').removeAttr('disabled');
+                    console.log(data);
                     if (data.message == "success") {
-                        that.model.spriteModel[selected_sprite].costumes.push(data.link);
-                        that.loadSprites();
+                        // console.log(selected_sprite);
+                        console.log(that.model.spriteModel[0].costumes);
+                        that.model.spriteModel[0].costumes.push(data.link);
+                        console.log(that.model.spriteModel[0].costumes);
+                        that.loadCostume(0);
                         // that.render("upload successfully");
 
                     } else {
