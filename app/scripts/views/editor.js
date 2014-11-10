@@ -350,8 +350,8 @@ Playground.Views = Playground.Views || {};
                     if($(el).next().hasClass("toolbar-item-variable")) {
                         value = $(el).next().text().replace(/\s+/g, '');
                     } else if($(el).next().hasClass("toolbar-item-operator")) {
-                        var type = $(el).next().text().replace(/\s+/g, '');
                         var vs = $(el).next().find("input");
+                        var type = $(vs.get(1)).prev().text().replace(/\s+/g, '');
                         var v1 = parseInt($(vs.get(0)).val());
                         v1 = isNaN(v1) ? 10 : v1;
                         var v2 = parseInt($(vs.get(1)).val());
