@@ -15,7 +15,7 @@ Playground.Views = Playground.Views || {};
 
         initialize: function () {
             var that = this;
-            var selected_sprite=-1;
+            var selected_sprite=0;
             var selected_costume=-1;
             this.render();
             $(".selectable").selectable({
@@ -70,7 +70,8 @@ Playground.Views = Playground.Views || {};
                 that.loadSprites();
             });
 
-            this.loadSprites();
+            // this.loadSprites();
+            that.loadCostume(0);
 
             var that = this;
             var options = { 
@@ -84,9 +85,8 @@ Playground.Views = Playground.Views || {};
                     console.log(data);
                     if (data.message == "success") {
                         // console.log(selected_sprite);
-                        console.log(that.model.spriteModel[0].costumes);
                         that.model.spriteModel[0].costumes.push(data.link);
-                        console.log(that.model.spriteModel[0].costumes);
+                        that.model.spriteModel[0].defaults.costumes.push(data.link);
                         that.loadCostume(0);
                         // that.render("upload successfully");
 
