@@ -294,11 +294,6 @@ Playground.Views = Playground.Views || {};
                         }
                         break;
 
-                    case "wait":
-                        console.log("in wait");
-                        this.sleep(command.para[0]*1000);
-                        break;
-
                     case "changeCostume":
                         if(this.costume<(this.current_status[x].costumes.length-1)){
                             console.log("costume change to next");
@@ -499,16 +494,6 @@ Playground.Views = Playground.Views || {};
             }
             
             return null;
-        },
-
-        sleep: function(milliseconds) {
-            console.log("waiting");
-            var start = new Date().getTime();
-            for (var i = 0; i < 1e7; i++) {
-                if ((new Date().getTime() - start) > milliseconds){
-                break;
-                }
-            }
         },
 
         clearCanvas: function(){
