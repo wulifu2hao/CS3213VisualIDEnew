@@ -16,6 +16,7 @@ Playground.Models = Playground.Models || {};
         width: 80,
         height: 150,
         commandString: "",
+        variableString: "",
         current_costume: 0,
 
         name:"",
@@ -33,7 +34,8 @@ Playground.Models = Playground.Models || {};
                 "angle": 0,
                 "width": 80,
                 "height": 150,
-                "commandString": this.commandString
+                "commandString": this.commandString,
+                "variableString": this.variableString
             };
             console.log("doing getdata");
             console.log(this.array_of_commands);
@@ -56,6 +58,7 @@ Playground.Models = Playground.Models || {};
             this.width = data.width;
             this.height = data.height;
             this.commandString = data.commandString;
+            this.variableString = data.variableString;
         },
 
         defaults: {
