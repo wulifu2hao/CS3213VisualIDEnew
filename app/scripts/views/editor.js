@@ -48,13 +48,13 @@ Playground.Views = Playground.Views || {};
                         hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
                             console.log("drop");
-                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable variable-draggable").draggable({
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable variable-draggable").addClass("variable-draggable-inlist").draggable({
                                 cursor: "move",
                                 revert: function(is_valid_drop) {
                                     var list_offset = $("#workspace-sortable").offset();
                                     var el_offset = $(this).offset();
-                                    if((el_offset.left < list_offset.left)||(el_offset.top < list_offset.top)) {
-                                        $(this).before("<input type='text' name='value_set_to_x' value='10' class='number-input input-droppable'></input>");
+                                    if((el_offset.left < list_offset.left-50)||(el_offset.top < list_offset.top-50)) {
+                                        $(this).prev().show();
                                         $(this).remove();
                                         return false;
                                     }
@@ -63,14 +63,19 @@ Playground.Views = Playground.Views || {};
                                     }
                                     return false;
                                 },
-                                start: function() {
-                                    // $(".input-droppable-inlist").droppable();
+                                start: function(event, ui) {
+                                    $(".input-droppable-inlist").droppable({
+                                        accept: ".variable-draggable-inlist",
+                                        hoverClass: "ui-state-hover",
+                                        drop: function(event, ui) {
+                                            $(ui.draggable).prev().show();
+                                            $(this).after($(ui.draggable).css({"display":"inline-block","margin-top":"0px","position":"relative","top":"0px","left":"0px"}));
+                                            $(this).hide();
+                                        }
+                                    });
                                 }
                             }));
-                            $(this).remove();
-                        },
-                        over: function(event,ui) {
-                            console.log("over");
+                            $(this).hide();
                         }
                     });
                 }
@@ -85,8 +90,34 @@ Playground.Views = Playground.Views || {};
                         hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
                             console.log("drop");
-                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable"));
-                            $(this).remove();
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable operator-draggable").addClass("operator-draggable-inlist").draggable({
+                                cursor: "move",
+                                revert: function(is_valid_drop) {
+                                    var list_offset = $("#workspace-sortable").offset();
+                                    var el_offset = $(this).offset();
+                                    if((el_offset.left < list_offset.left-50)||(el_offset.top < list_offset.top-50)) {
+                                        $(this).prev().show();
+                                        $(this).remove();
+                                        return false;
+                                    }
+                                    if(!is_valid_drop) {
+                                        return true;
+                                    }
+                                    return false;
+                                },
+                                start: function(event, ui) {
+                                    $(".assignment-droppable-inlist").droppable({
+                                        accept: ".operator-draggable-inlist",
+                                        hoverClass: "ui-state-hover",
+                                        drop: function(event, ui) {
+                                            $(ui.draggable).prev().show();
+                                            $(this).after($(ui.draggable).css({"display":"inline-block","margin-top":"0px","position":"relative","top":"0px","left":"0px"}));
+                                            $(this).hide();
+                                        }
+                                    });
+                                }
+                            }));
+                            $(this).hide();
                         },
                         over: function(event,ui) {
                             console.log("over");
