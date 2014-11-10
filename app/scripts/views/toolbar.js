@@ -15,19 +15,11 @@ Playground.Views = Playground.Views || {};
 
         initialize: function () {
             this.render();
-            this.afterRender();
         },
 
         render: function () {
             this.$el.html(this.template());
-             this.trigger('render');
-        },
-
-        afterRender: function() { 
-            var that = this;
-            
-        } 
-
+        }
     });
 
 })();
