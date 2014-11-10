@@ -69,7 +69,7 @@ __p += '<canvas class="canvas-droppable" id="' +
 ((__t = ( width )) == null ? '' : __t) +
 '" height="' +
 ((__t = ( height )) == null ? '' : __t) +
-'">\n</canvas>\n<!-- <div class="costumes_list">\n\t<h5>Sprites</h5>\n\t<button id="sprite-upload-button" class="sprite-button" type="button">\n\t\t<img  src="../images/new.png" height="20" width="24"> </img>\n\t</button>\n\t<button id="sprite-delete-button" class="sprite-button" type="button">\n\t\t<img  src="../images/delete.png" height="20" width="24"> </img>\n\t</button>\n\n\t<ol class="selectable">\n\t</ol>\n\n</div> -->';
+'">\n</canvas>\n<div class="costumes_list">\n\t<h5>Draw</h5>\n\t<button id="sprite-upload-button" type="button">\n\t\t<img  src="../images/draw.png" height="20" width="24"> </img>\n\t</button>\n</div>';
 
 }
 return __p

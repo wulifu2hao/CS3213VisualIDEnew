@@ -9,8 +9,8 @@ Playground.Models = Playground.Models || {};
         xPos : 0,
         yPos : 0,
         isShown :true,
-        costumes :[],  //each sprite has its own set of costumes
-        // costumes :['../images/move1.png','../images/move2.png','../images/move3.png','../images/move4.png','../images/hit.png'],  //each sprite has its own set of costumes
+        // costumes :[],  //each sprite has its own set of costumes
+        costumes :['../images/move1.png','../images/move2.png','../images/move3.png','../images/move4.png','../images/hit.png'],  //each sprite has its own set of costumes
         url: '',
         array_of_commands: [],
         angle: 0,
@@ -63,8 +63,8 @@ Playground.Models = Playground.Models || {};
             xPos : 0,
             yPos : 0,
             isShown :true,
-            // costumes :['../images/move1.png','../images/move2.png','../images/move3.png','../images/move4.png','../images/hit.png'],
-            costumes :[],
+            costumes :['../images/move1.png','../images/move2.png','../images/move3.png','../images/move4.png','../images/hit.png'],
+            // costumes :[],
             url: '',
             array_of_commands: [],
             angle: 0,

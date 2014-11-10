@@ -39,7 +39,7 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 window.location = (window.location + 'auth/google');
             });
-            
+
             for (var n=0; n<this.model.spriteModel.length; n++){
                 console.log("length: ", this.model.spriteModel.length);
                 this.current_status[n] = {              // init status
@@ -96,6 +96,12 @@ Playground.Views = Playground.Views || {};
                     that.current_status[0].yPos = mouseY - h/2;
                     that.draw();
                 }
+            });
+
+             $("#sprite-upload-button").click(function(e){
+                e.preventDefault();
+                console.log("draw!!!");
+                that.draw();
             });
 
             // window.addEventListener('keydown',doKeyDown,true);
