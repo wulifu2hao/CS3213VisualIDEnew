@@ -65,7 +65,6 @@ Playground.Views = Playground.Views || {};
                                 onfinish: function(e){
                                     console.log(e);
                                 },
-                                volume: 50
                               });
                             };
                           } else {
@@ -118,7 +117,6 @@ Playground.Views = Playground.Views || {};
                                 x.add(option);
                             };
                           },
-                          volume: 50
                         });
 
                     } else {

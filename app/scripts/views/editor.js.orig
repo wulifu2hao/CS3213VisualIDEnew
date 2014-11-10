@@ -227,6 +227,7 @@ Playground.Views = Playground.Views || {};
                 console.log("command passed in: ", type);
                 var position = i;
                 var repeatBlockLength = 0
+<<<<<<< HEAD
                 // var value = parseInt($(command).find("input").first().val());
                 // if (type == "command_repeat") {
                 //     var repeatBlock = repeatBlocks.get(repeatBlockIndex);
@@ -282,6 +283,25 @@ Playground.Views = Playground.Views || {};
                     case "command_onclick":
                         var key = $(command).find("input").first().val();
                         this.model.add(type,position,[key]);
+=======
+                var value = 0;
+                if (type == "command_repeat") {
+                    var repeatBlock = repeatBlocks.get(repeatBlockIndex);
+                    repeatBlockLength = $(repeatBlock).find("li").length;
+                    value = parseInt($(repeatBlock).find("input").first().val());
+                    repeatBlockIndex = repeatBlockIndex + 1;
+                } else if (type == "command_playsound" || type == "command_stopsound"){
+                    var e = $(command).find("select")[0];
+                    // console.log($(command));
+                    // console.log($(command).find("select"));
+                    // console.log(($(command).find("select")).first());
+                    // console.log(e.options);
+                    value = e.options[e.selectedIndex].value;
+                    // console.log("sound to play is ");
+                    // console.log(value);
+                } else {
+                    value = parseInt($(command).find("input").first().val());
+>>>>>>> 2fb24da8e00be269ead2e259a83dbd4411c09898
                 }
             }
         },
