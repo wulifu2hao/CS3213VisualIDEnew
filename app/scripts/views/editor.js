@@ -306,6 +306,7 @@ Playground.Views = Playground.Views || {};
                     case "command_forever":
                         var repeatBlock = repeatBlocks.get(repeatBlockIndex);
                         repeatBlockLength = $(repeatBlock).find("li").length;
+                        repeatBlockIndex = repeatBlockIndex + 1;
                         this.model.add(type,position,[repeatBlockLength]);
                         break;
                     case "command_change_costume":
@@ -333,6 +334,7 @@ Playground.Views = Playground.Views || {};
                         var key = $(command).find("input").first().val();
                         var repeatBlock = repeatBlocks.get(repeatBlockIndex);
                         repeatBlockLength = $(repeatBlock).find("li").length;
+                        repeatBlockIndex = repeatBlockIndex + 1;
                         this.model.add(type,position,[key, repeatBlockLength]);
                 }
             }
