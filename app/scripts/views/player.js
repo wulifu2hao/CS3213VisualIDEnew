@@ -427,7 +427,7 @@ Playground.Views = Playground.Views || {};
                                 vari_value = this.current_status[x].yPos; 
                                 console.log("value is ypos: ", vari_value);  
                             }
-                            if (command.para[1][0]=="randomto"){
+                            if (command.para[1][0]=="to"){
                                 flag = 1;
                                 vari_value = this.random(command.para[1][1],command.para[1][2]);
                                 console.log("value is randomed: ", vari_value);
