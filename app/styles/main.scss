@@ -192,6 +192,20 @@ li {
 	background-repeat: no-repeat;
 }
 
+.toolbar-item-audio {
+	padding-top: 5px;
+	height: 37px;
+	background-image: url('../images/command_audio.png');
+	background-repeat: no-repeat;
+}
+
+.toolbar-item-control-wait {
+	padding-top: 5px;
+	height: 37px;
+	background-image: url('../images/command_control_wait.png');
+	background-repeat: no-repeat;
+}
+
 .toolbar-item-assignment {
 	padding-top: 5px;
 	padding-left: 2px;
