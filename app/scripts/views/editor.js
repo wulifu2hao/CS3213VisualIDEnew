@@ -19,16 +19,30 @@ Playground.Views = Playground.Views || {};
                 that.updateModel();       
             });
             this.render();
+            //drag and drop handling
+            var shouldDeleteCommand = false;
             $(".draggable_sortable").draggable({
                 helper: "clone",
                 connectToSortable: "#workspace-sortable",
                 tolerance: "touch",
                 cursor: "move",
+                revert: "invalid",
                 stop: function(event, ui) {
                     $("#editor_workspace li").removeClass("draggable ui-draggable ui-draggable-handle");
                     $("#editor_workspace ul").addClass("ui-sortable");
                     $("#editor_workspace ul").sortable({
-                        connectWith: "#editor_workspace ul"
+                        connectWith: "#editor_workspace ul",
+                        over: function(event,ui) {
+                            shouldDeleteCommand = false;
+                        },
+                        out: function(event,ui) {
+                            shouldDeleteCommand = true;
+                        },
+                        beforeStop: function(event,ui) {
+                            if(shouldDeleteCommand) {
+                                ui.item.remove();
+                            }
+                        },
                     });
                     $(".draggable").draggable({
                         helper: "clone",
