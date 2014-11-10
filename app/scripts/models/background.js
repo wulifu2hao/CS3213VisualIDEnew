@@ -7,7 +7,7 @@ Playground.Models = Playground.Models || {};
 
     Playground.Models.Background = Backbone.Model.extend({
 
-        backgroundImgs: ['../images/blank.jpg', '../images/background1.jpg'],
+        backgroundImgs: ['../images/game_bg.jpg', '../images/background1.jpg'],
         imgIndex: 0,
 
         initialize: function() {
