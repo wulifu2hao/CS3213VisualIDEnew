@@ -43,7 +43,7 @@ this["JST"]["app/scripts/templates/costumesPane.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<div class="costumes_view">\n\t<div class="toolbar_costumes">\n\t\t<h5>Costumes</h5>\n\t\t<button id="costume-upload-button" class="sprite-button" type="button">\n\t\t\t<img  src="../images/upload.png" height="20" width="24"> </img>\n\t\t</button>\n\t\t<button id="costume-delete-button" class="sprite-button" type="button">\n\t\t\t<img  src="../images/delete.png" height="20" width="24"> </img>\n\t\t</button>\n\t</div> <!-- div costumes toolbar end -->\n\t<div>\n\t\t<ol class="costumes-selectable">\n\t\t</ol>\n\t</div>\n</div>\n\n';
+__p += '\n<div class="costumes_view">\n\t<div class="toolbar_costumes">\n\t\t<h5>Costumes</h5>\n\t\t<!-- <button id="costume-upload-button" class="sprite-button" type="button">\n\t\t\t<img  src="../images/upload.png" height="20" width="24"> </img>\n\t\t</button> -->\n\t\t<div style="padding-left: 10px; padding-top: 3px;">\n            <form id="costumeUploadForm" method=\'post\' action=\'/api/costume\' enctype="multipart/form-data">\n            <input type=\'file\' id="costumeToUpload" name=\'fileUploaded\' accept="image/*">\n            <input type=\'submit\' id="costumeUploadButton" class="btn btn-default btn-sm" style="margin-top:5px;">\n            </form>\n            <button id="costume-delete-button" class="sprite-button" type="button">\n\t\t\t\t<img  src="../images/delete.png" height="20" width="24"> </img>\n\t\t\t</button>\n\t\t</div>\n\t\t\n\t</div> <!-- div costumes toolbar end -->\n\t<div>\n\t\t<ol class="costumes-selectable">\n\t\t</ol>\n\t</div>\n</div>\n\n';
 
 }
 return __p

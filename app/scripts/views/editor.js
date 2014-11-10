@@ -125,7 +125,9 @@ Playground.Views = Playground.Views || {};
             $("#save-button").click(function(e){
                 e.preventDefault();
                 var name = that.model.name;
-                if (name || name == "") {
+                console.log("name");
+                console.log(name);
+                if (!name || name == "") {
                     var name = prompt("enter a name for your project");
                 };
                 that.saveToServer(name);
@@ -134,7 +136,7 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 var name = prompt("enter a name for your project");
                 if (name != null) {
-                    that.loadFromServer(name);
+                    that.saveToServer(name);
                 }
             });  
             $("#seeAllProjects-button").click(function(e){
@@ -366,7 +368,7 @@ Playground.Views = Playground.Views || {};
         loadFromServer: function(name){
             var name = name;
             var that = this;
-            var url = '/api/programs/'+name
+            var url = '/api/programs/'+name;
 
             $.ajax({
                 type: 'GET',
@@ -375,7 +377,7 @@ Playground.Views = Playground.Views || {};
                     console.log(data);
                     if (data.message == "success") {
                         that.model.setData(data.program.data);
-                        that.model.name = data.name;
+                        that.model.name = data.program.name;
                         that.addCommandBlocksToWorkspace(that.model.array_of_commands);
                     } else{
                         alert ("fail to load the project with name '" + name + "'");
@@ -521,6 +523,7 @@ Playground.Views = Playground.Views || {};
                     success: function(data) {
                         console.log(data);
                         if (data.message == "success") {
+                            that.model.name = name;
                             alert("your project is successfully saved as '" + name + "'");
                         } else {
                             alert(data.message);

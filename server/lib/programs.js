@@ -157,4 +157,17 @@ this.getNamesOfPrograms = function(req, res) {
 	}    
 }
 
+this.deleteAll = function(req, res) {
+	programModel.find({}, function(err, programs) {
+        if (err) {
+            res.json({message: 'error with database.'});
+        } else {
+        	for (var i = 0; i < programs.length; i++) {
+        		programs[i].remove();
+        	};
+        	res.json({message:'success'});
+        }
+    });   
+}
+
 

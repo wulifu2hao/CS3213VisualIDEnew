@@ -72,6 +72,33 @@ Playground.Views = Playground.Views || {};
 
             this.loadSprites();
 
+            var that = this;
+            var options = { 
+                  target: '#uploader_iframe',
+                  beforeSubmit:  function(){
+                    // that.render("uploading...");
+                    $('#costumeUploadButton').attr('disabled','disabled');
+                  },
+                  success: function(data) { 
+                    $('#costumeUploadButton').removeAttr('disabled');
+                    if (data.message == "success") {
+                        that.model.spriteModel[selected_sprite].costumes.push(data.link);
+                        that.loadSprites();
+                        // that.render("upload successfully");
+
+                    } else {
+                        // that.render(data.message);
+                    }
+                  } , 
+                error: function(err){
+                    $('#costumeUploadButton').removeAttr('disabled');
+                    // that.render("error");
+                    alert(err);
+                }
+            }; 
+            $('#costumeUploadForm').ajaxForm(options);
+
+
         },
 
         render: function () {

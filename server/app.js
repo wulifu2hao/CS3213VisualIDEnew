@@ -136,7 +136,10 @@ db.once('open', function callback () {
 	app.get('/api/programs', programs.getNamesOfPrograms);
 	app.put('/api/programs', programs.updateProgram);
 	app.post('/api/programs', programs.addProgram);
-	app.delete('/api/programs/:name', programs.deleteByName);	
+	app.delete('/api/programs/:name', programs.deleteByName);
+
+	// app.get('/api/programs/all/delete', programs.deleteAll);
+
 	app.get('/api/audios', audios.getAudios);
 	app.delete('/api/audios/:name', function(req,res){
 		console.log("delete request");
@@ -213,7 +216,7 @@ db.once('open', function callback () {
 								console.log(error);
 								res.send({error: 'error when storing into file system'});
 						    }  else {
-						    	res.send({message:"success", costumeName:file.name});
+						    	res.send({message:"success", link:serverPath});
 
 						    	// audios.addAudio(file.name, req.user.googleId, res);
 						    }      
@@ -226,6 +229,7 @@ db.once('open', function callback () {
 			res.json({message: 'Please log in before you upload a costume.'});
 		}  
 	});
+
 
 	// start server
 	http.createServer(app).listen(app.get('port'), function(){

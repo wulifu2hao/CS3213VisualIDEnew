@@ -2,12 +2,19 @@
 <div class="costumes_view">
 	<div class="toolbar_costumes">
 		<h5>Costumes</h5>
-		<button id="costume-upload-button" class="sprite-button" type="button">
+		<!-- <button id="costume-upload-button" class="sprite-button" type="button">
 			<img  src="../images/upload.png" height="20" width="24"> </img>
-		</button>
-		<button id="costume-delete-button" class="sprite-button" type="button">
-			<img  src="../images/delete.png" height="20" width="24"> </img>
-		</button>
+		</button> -->
+		<div style="padding-left: 10px; padding-top: 3px;">
+            <form id="costumeUploadForm" method='post' action='/api/costume' enctype="multipart/form-data">
+            <input type='file' id="costumeToUpload" name='fileUploaded' accept="image/*">
+            <input type='submit' id="costumeUploadButton" class="btn btn-default btn-sm" style="margin-top:5px;">
+            </form>
+            <button id="costume-delete-button" class="sprite-button" type="button">
+				<img  src="../images/delete.png" height="20" width="24"> </img>
+			</button>
+		</div>
+		
 	</div> <!-- div costumes toolbar end -->
 	<div>
 		<ol class="costumes-selectable">
