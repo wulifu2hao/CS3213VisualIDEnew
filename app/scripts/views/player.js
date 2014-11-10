@@ -133,11 +133,13 @@ Playground.Views = Playground.Views || {};
         },
 
         updateCanvas: function(){
+            this.events[0] = [];
+            this.variables = [];
             console.log("Player view: play button clicked!");
             var ind = [];
             for (var n = 0; n < this.model.spriteModel.length; n++){
                 this.commands_list[n] = this.model.spriteModel[n].array_of_commands;
-                console.log(this.commands_list[n]);
+                console.log("command list:", this.commands_list[n]);
                 ind[n] = this.inspectEvents(n);
                 console.log("return:", ind[n]);
             }
@@ -180,11 +182,11 @@ Playground.Views = Playground.Views || {};
                 console.log(this.commands_list[x][ind].para[0]);
                 var object = { key: this.commands_list[x][ind].para[0], start: ind+1, number: this.commands_list[x][ind].para[1] };
                 this.events[x].push(object);
-                console.log(this.events[x]);
+                console.log("event in:", this.events[x]);
                 ind = object.start + object.number;
-                console.log(ind);
+                console.log("analyze: ", ind);
             }
-            console.log("Im out");
+            console.log("Im out at: ", ind);
 
             return ind; 
         },
@@ -198,16 +200,16 @@ Playground.Views = Playground.Views || {};
             function doKeyDown(evt){
                 
                 // console.log(that.events);
-                console.log("I pressed:");
-                console.log(evt.key);
+                console.log("I pressed:" ,evt.key);
+                // console.log(evt.key);
                 // console.log(this.events);
                 for (n = 0; n < that.events.length; n++){
                     for (ind = 0; ind < that.events[n].length; ind++){
 
-                        console.log(ind);
+                        // console.log("command index: ", ind);
                         // console.log(that.events[ind].key);
                         if (evt.key == that.events[n][ind].key){
-                            console.log("I matched");
+                            console.log("I matched at index: ", ind);
                             that.executeFunctions(n, that.events[n][ind].start, that.events[n][ind].number);
                             break;
                         }
@@ -221,40 +223,44 @@ Playground.Views = Playground.Views || {};
     
         executeFunctions: function(x, start, length){
             var ind;
-            console.log("Executing functions!");
+            console.log("Executing functions! from, length: ", start, length);
             for(ind = start; ind < (start+length); ind++){
                 var command = this.commands_list[x][ind];
-                console.log("executing: " , command);
+                console.log("executing cmd: " , ind, command.name, command);
                 if (command.name === "ifThen"){
                         //parameters: obj containing a boolean expression, #of commands to be executed
                         var condition = this.getValueOf(command.para[0]);
                         var that = this;
                         
                         if (condition){
-                            console.log("XF says: True! I come to ", ind++);
+                            console.log("True! I come to ", ind+1);
+                            continue;
                             // that.executeFunctions(id+1,command.para[1]);
                         }
                         else{
-                            console.log("XF says: False!");
                             if (ind+1+command.para[1] < that.commands_list[x].length){
                                 console.log("XF says: Some more! I come to", ind+1+command.para[1]);
-                                ind+= command.para[1]+1;
+                                ind+= command.para[1];
+                                continue;
+                                
+                            console.log("False! I jump to", ind);
                                 // that.executeFunctions(ind+1+command.para[1], that.commands_list[0].length-(ind+1+command.para[1]));        
                             }
                             else{
-                                console.log("XF says: No more!");
+                                console.log("XF says: No more at ", ind);
                                 that.draw();
                                 break;
                             }
                         }   
                 }
-              
-                this.executeCommand(x, ind, command);
+                
+                this.executeCommand(x, ind);
             }
         },
 
-        executeCommand: function(x, id, command){ 
-            console.log(command.name);
+        executeCommand: function(x, id){
+            var command = this.commands_list[x][id]; 
+            console.log("exe single cmd: ", id, command.name, command.para);
              switch(command.name){
                     
                     case "setXPos":                  
@@ -264,7 +270,6 @@ Playground.Views = Playground.Views || {};
                         break;
 
                     case "setYPos":
-                        console.log("setYPos");
                         this.current_status[x].yPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
@@ -275,23 +280,33 @@ Playground.Views = Playground.Views || {};
                         break;
 
                     case "hide":
-                        console.log("in hide");
                         this.current_status[x].isShown = false;
                         this.draw();
                         break;
 
                     case "move":
-                        console.log("Move");
                         //move in current facing direction
                         var step = 0;
                         console.log(this.getValueOf(command.para[0]));
+                        if (this.getValueOf(command.para[0])>0){
                         while (step < this.getValueOf(command.para[0])){
                             this.current_status[x].xPos += Math.cos(this.current_status[x].angle);
                             this.current_status[x].yPos += Math.sin(this.current_status[x].angle);
                             // this.current_status[x].xPos++;
-                            console.log("current pos", this.current_status[x].xPos);
+                            // console.log("current pos", this.current_status[x].xPos);
                             this.draw();
                             step++;
+                        }
+                        }
+                        if (this.getValueOf(command.para[0])<0){
+                        while (step > this.getValueOf(command.para[0])){
+                            this.current_status[x].xPos -= Math.cos(this.current_status[x].angle);
+                            this.current_status[x].yPos -= Math.sin(this.current_status[x].angle);
+                            // this.current_status[x].xPos++;
+                            // console.log("current pos", this.current_status[x].xPos);
+                            this.draw();
+                            step--;
+                        }
                         }
                         break;
 
@@ -385,13 +400,14 @@ Playground.Views = Playground.Views || {};
                         var vari_value;
                         if (!isNaN(command.para[1])){
                             vari_value = command.para[1];
+                            console.log("value is number: ", vari_value)
                         }
                         else{
                             var flag = 0;
                             for (var j=0; j<this.variables.length; j++){
                                 if (this.variables[j].name == vari_value){
-                                    this.variables[j].name = 0;
-                                    this.variables[j].value = 0;
+                                    vari_value = this.variables[j].value;
+                                    console.log("value is parameter: ", vari_value);
                                     break;
                                 }
                             }
@@ -399,18 +415,22 @@ Playground.Views = Playground.Views || {};
                             if (vari_value == "xpos"){
                                 flag = 1;
                                 vari_value = this.current_status[x].xPos;   
+                                console.log("value is xpos: ", vari_value);
                             }
                             if (vari_value == "ypos"){
                                 flag = 1;
-                                vari_value = this.current_status[x].yPos;   
+                                vari_value = this.current_status[x].yPos; 
+                                console.log("value is ypos: ", vari_value);  
                             }
                             if (command.para[1][0]=="randomto"){
                                 flag = 1;
                                 vari_value = this.random(command.para[1][1],command.para[1][2]);
+                                console.log("value is randomed: ", vari_value);
                             }
                             if (!flag){
                                 vari_value = this.evaluateExpression(command.para);
                                 flag = 1;
+                                console.log("value is expression: ", vari_value);
                             }
                         }
                             var vari = {name: vari_name, value: vari_value};
@@ -418,16 +438,18 @@ Playground.Views = Playground.Views || {};
                             for (var j=0; j<this.variables.length; j++){
                                 if (this.variables[j].name == vari.name){
                                     this.variables[j].value = vari.value;
+                                    console.log("update existing para: ", vari_name, vari_value);
                                     updated = 1;
                                 }   
                             }
                             if (!updated){
+                                console.log("create new para: ", vari_name, vari_value);
                                 this.variables.push(vari);
                             }
                         break;
 
                     default:
-                        console.log("invalid command, error in code somewhere");
+                        console.log("invalid command, error in code somewhere", command);
                 }
         },
 
@@ -440,8 +462,8 @@ Playground.Views = Playground.Views || {};
             var rightRes = 0;
             var that = this;
 
-            console.log(arr[1][1]);
-            console.log(arr[1][2]);
+            console.log("expressing operation:", arr[1][1], arr[1][0], arr[1][2]);
+            // console.log(arr[1][2]);
        
                 leftRes = that.getValueOf(arr[1][1]);
                 rightRes = that.getValueOf(arr[1][2]);
@@ -480,16 +502,18 @@ Playground.Views = Playground.Views || {};
         },
 
         getValueOf: function(x){
+            console.log("getting value of: ", x);
             if (!isNaN(x)){
                 return x;
             }
             switch (x){
-                case "xpos": return this.current_status[0].xPos;
-                case "ypos": return this.current_status[0].yPos;
+                case "xpos": console.log("value is xpos: ", this.current_status[0].xPos); return this.current_status[0].xPos;
+                case "ypos": console.log("value is ypos: ", this.current_status[0].yPos); return this.current_status[0].yPos;
                 default:
             }
             for (var j=0; j<this.variables.length; j++){
                 if (this.variables[j].name == x){
+                    console.log("value is para: ", this.variables[j].value);
                 return this.variables[j].value;
                  }
             }
@@ -533,7 +557,7 @@ Playground.Views = Playground.Views || {};
         drawCharacter: function(n){
             var that = this;
             var shown = this.current_status[n].isShown;
-            console.log("is shown:" , shown);
+            console.log("I draw: " , that.current_status[n].xPos, that.current_status[n].yPos);
             if(that.current_status[n].isShown){
                      that.ctx.drawImage(this.spriteImgs[n][this.costume],that.current_status[n].xPos, that.current_status[n].yPos, that.current_status[n].width, that.current_status[n].height); //character.width, character.height);     // draw costume if status isShown is true.
                  }     
