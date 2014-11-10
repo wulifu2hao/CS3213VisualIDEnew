@@ -431,6 +431,7 @@ Playground.Views = Playground.Views || {};
             $("#workspace-sortable").empty().append(commandString);
             // this.reEvaluateDraggable();
             var shouldDeleteCommand = false;
+            var that = this;
             $("#editor_workspace ul").sortable({
                 connectWith: "#editor_workspace ul",
                 placeholder: "ui-state-highlight",
