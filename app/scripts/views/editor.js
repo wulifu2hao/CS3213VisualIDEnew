@@ -430,6 +430,25 @@ Playground.Views = Playground.Views || {};
         addCommandBlocksToWorkspace: function(commandString) {
             $("#workspace-sortable").empty().append(commandString);
             // this.reEvaluateDraggable();
+            var shouldDeleteCommand = false;
+            $("#editor_workspace ul").sortable({
+                connectWith: "#editor_workspace ul",
+                placeholder: "ui-state-highlight",
+                over: function(event,ui) {
+                    shouldDeleteCommand = false;
+                },
+                out: function(event,ui) {
+                    shouldDeleteCommand = true;
+                },
+                beforeStop: function(event,ui) {
+                    if(shouldDeleteCommand) {
+                        ui.item.remove();
+                    }
+                },
+                stop: function(event, ui) {
+                    that.commandList = that.getCommandList();
+                }
+            });
             $(".variable-draggable-inlist").draggable({
                 cursor: "move",
                 revert: function(is_valid_drop) {
