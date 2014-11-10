@@ -40,7 +40,8 @@ Playground.Views = Playground.Views || {};
                 window.location = (window.location + 'auth/google');
             });
             
-            for (var n=0; n<this.model.numOfSprite; n++){
+            for (var n=0; n<this.model.spriteModel.length; n++){
+                console.log("length: ", this.model.spriteModel.length);
                 this.current_status[n] = {              // init status
                         xPos: this.model.spriteModel[n].get('xPos'),
                         yPos: this.model.spriteModel[n].get('yPos'),
@@ -52,6 +53,7 @@ Playground.Views = Playground.Views || {};
                 };
                 this.commands_list[n] = [];
                 this.events[n] = [];
+                this.spriteImgs[n] = [];
                 this.executionFlags.push(n);
             };
             this.render();   
@@ -133,8 +135,9 @@ Playground.Views = Playground.Views || {};
         updateCanvas: function(){
             console.log("Player view: play button clicked!");
             var ind = [];
-            for (var n = 0; n < this.model.numOfSprite; n++){
+            for (var n = 0; n < this.model.spriteModel.length; n++){
                 this.commands_list[n] = this.model.spriteModel[n].array_of_commands;
+                console.log(this.commands_list[n]);
                 ind[n] = this.inspectEvents(n);
             }
             // console.log("XF says: ", this.commands_list[0]);
@@ -153,10 +156,24 @@ Playground.Views = Playground.Views || {};
             // this.commands_list[0][5].para[1] = 1;           // for testing purpose
             
             this.prepareEvents();
-            this.executeFunctions(ind, this.commands_list[0].length-ind);
+            
+            var that = this;
+            
+            for (var n = 0; n < this.model.spriteModel.length; n++){
+                console.log("ready for exe...", n, ind[n]);
+                Thread.create(that.executeSprite, n, ind[n]);
+                // that.executeSprite(n, ind[n]);
+            }
+        },
+
+        executeSprite: function(n, m){
+            console.log("Im executing!", n, m, this.commands_list[n].length-m);
+            this.executeFunctions(n, m, this.commands_list[n].length-m);
+        
         },
 
         inspectEvents: function(x){
+            console.log("inspect event...");
             var ind = 0;
             while (this.commands_list[x][ind].name == "event"){
                 console.log(this.commands_list[x][ind].para[0]);
@@ -172,7 +189,7 @@ Playground.Views = Playground.Views || {};
         },
 
         prepareEvents: function(){
-
+            console.log("preparing events...");
             var ind, n;
             window.addEventListener('keydown',doKeyDown,true);
                 var that = this;
@@ -189,7 +206,7 @@ Playground.Views = Playground.Views || {};
                         // console.log(that.events[ind].key);
                         if (evt.key == that.events[n][ind].key){
                             console.log("I matched");
-                            that.executeFunctions(that.events[n][ind].start, that.events[n][ind].number);
+                            that.executeFunctions(n, that.events[n][ind].start, that.events[n][ind].number);
                             break;
                         }
                         else{
@@ -199,12 +216,12 @@ Playground.Views = Playground.Views || {};
                 }
             }
         },
-
-        executeFunctions: function(start, length){
+    
+        executeFunctions: function(x, start, length){
             var ind;
             console.log("Executing functions!");
             for(ind = start; ind < (start+length); ind++){
-                var command = this.commands_list[0][ind];
+                var command = this.commands_list[x][ind];
                 if (command.name == "ifThen"){
                         //parameters: obj containing a boolean expression, #of commands to be executed
                         var condition = this.getValueOf(command.para[0]);
@@ -216,7 +233,7 @@ Playground.Views = Playground.Views || {};
                         }
                         else{
                             console.log("XF says: False!");
-                            if (ind+1+command.para[1] < that.commands_list[0].length){
+                            if (ind+1+command.para[1] < that.commands_list[x].length){
                                 console.log("XF says: Some more! I come to", ind+1+command.para[1]);
                                 ind+= command.para[1];
                                 // that.executeFunctions(ind+1+command.para[1], that.commands_list[0].length-(ind+1+command.para[1]));        
@@ -227,49 +244,34 @@ Playground.Views = Playground.Views || {};
                             }
                         }   
                 }
-                if (command.name == "ifElse"){
-                        //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
-                        var condition = this.getValueOf(command.para[0]);
-                        var that = this;
-                        
-                        if (condition){
-                            that.executeFunctions(ind+1,command.para[1]);
-                            if (ind+1+command.para[1]+command.para[2] < that.commands_list[0].length){
-                                ind += command.para[1] + command.para[2];
-                            }
-                        }
-                        else{
-                            ind += command.para[1];
-                            // that.executeFunctions(id+1+command.para[1], command.para[2]);
-                        }
-                }
-                this.executeCommand(ind, command);
+              
+                this.executeCommand(x, ind, command);
             }
         },
 
-        executeCommand: function(id, command){ 
+        executeCommand: function(x, id, command){ 
              switch(command.name){
                     
                     case "setXPos":        
                         // this.ctx.rotate(this.getValueOf(command.para[0])*Math.PI/180);
                         // this.current_status[0].angle = this.getValueOf(command.para[0])*Math.PI/180;              
-                        this.current_status[0].xPos = this.getValueOf(command.para[0]);
+                        this.current_status[x].xPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
 
                     case "setYPos":
                         console.log("setYPos");
-                        this.current_status[0].yPos = this.getValueOf(command.para[0]);
+                        this.current_status[x].yPos = this.getValueOf(command.para[0]);
                         this.draw();
                         break;
 
                     case "show":
-                        this.current_status[0].isShown = true;
+                        this.current_status[x].isShown = true;
                         this.draw();
                         break;
 
                     case "hide":
-                        this.current_status[0].isShown = false;
+                        this.current_status[x].isShown = false;
                         this.draw();
                         break;
 
@@ -278,21 +280,21 @@ Playground.Views = Playground.Views || {};
                         //move in current facing direction
                         var step = 0;
                         while (step < this.getValueOf(command.para[0])){
-                            // this.current_status[0].xPos += Math.cos()*this.current_status[0].angle;
-                            // this.current_status[0].yPos += Math.sin()*this.current_status[0].angle;
-                            this.current_status[0].xPos++;
-                            console.log("current pos", this.current_status[0].xPos);
+                            // this.current_status[x].xPos += Math.cos()*this.current_status[x].angle;
+                            // this.current_status[x].yPos += Math.sin()*this.current_status[x].angle;
+                            this.current_status[x].xPos++;
+                            console.log("current pos", this.current_status[x].xPos);
                             this.draw();
                             step++;
                         }
                         break;
 
                     case "changeCostume":
-                        if(this.costume<(this.current_status[0].costumes.length-1)){
+                        if(this.costume<(this.current_status[x].costumes.length-1)){
                             console.log("costume change to next");
                             this.costume ++;
                         }
-                        else if(this.costume===(this.current_status[0].costumes.length-1)){
+                        else if(this.costume===(this.current_status[x].costumes.length-1)){
                             console.log("costume change back to 0");
                             this.costume = 0;
                         }
@@ -318,7 +320,7 @@ Playground.Views = Playground.Views || {};
                         var timer = function(){
                          if(i < that.getValueOf(command.para[0])) {
                               i++;
-                              that.executeFunctions(id+1, command.para[1]);
+                              that.executeFunctions(x, id+1, command.para[1]);
                          } else {
                               clearInterval(timer);
                          }
@@ -329,86 +331,24 @@ Playground.Views = Playground.Views || {};
                     case "repeatForever":
                         var that = this;
                         var timer = function(){
-                            that.executeFunctions(id+1, command.para[0]);
+                            that.executeFunctions(x, id+1, command.para[0]);
                         };
                         setInterval(timer, 500);
                         break;
-
-                    case "ifThen":
-                        //parameters: obj containing a boolean expression, #of commands to be executed
-                        var condition = this.getValueOf(command.para[0]);
-                        var that = this;
-                        
-                        if (condition){
-                            console.log("XF says: True! I come to ", id+1);
-                            that.executeFunctions(id+1,command.para[1]);
-                        }
-                        else{
-                            console.log("XF says: False!");
-                            if (id+1+command.para[1] < that.commands_list[0].length){
-                                console.log("XF says: Some more! I come to", id+1+command.para[1]);
-                                that.executeFunctions(id+1+command.para[1], that.commands_list[0].length-(id+1+command.para[1]));        
-                            }
-                            else{
-                                console.log("XF says: No more!");
-                                that.draw();
-                            }
-                        }   
-                        break;
-
-                        // if(!isNaN(obj)&&(obj===0))
-                        //     that.draw();
-                        // else{
-                        //     //e.g {operator: "+", LHS:{}, RHS: 5}
-                        //     var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
-                        //     if(res>0){
-                        //         that.executeFunctions(id+1,n);
-                        //     }else{
-                        //         that.draw();
-                        //     }
-                        // }
-                        // break;
-
-                    case "ifElse":
-                        //parameters: obj containing a boolean expression, $of commands in if, #of commands in else
-                        var condition = this.getValueOf(command.para[0]);
-                        var that = this;
-                        
-                        if (condition){
-                            console.log("",id);
-                            that.executeFunctions(id+1,command.para[1]);
-                        }
-                        else{
-                            that.executeFunctions(id+1+command.para[1], command.para[2]);
-                        }
-                        break;
-
-                        // if(!isNaN(obj)&&(obj===0))
-                        //     that.draw();
-                        // else{
-                        //     //e.g {operator: "+", LHS:{}, RHS: 5}
-                        //     var res = that.evaluateExpression(obj.operator,obj.LHS,obj.RHS);
-                        //     if(res>0){
-                        //         that.executeFunctions(id+1,n);
-                        //     }else{
-                        //         that.executeFunctions(id+n, command.para[2]);
-                        //     }
-                        // }
-                        // break;
 
                     case "rotate":
                         //parameters: angle
                         this.clearCanvas();
                         this.ctx.rotate(this.getValueOf(command.para[0])*Math.PI/180);
-                        this.current_status[0].angle = this.getValueOf(command.para[0])*Math.PI/180;
+                        this.current_status[x].angle = this.getValueOf(command.para[0])*Math.PI/180;
                         this.draw();
                         break;
 
                     case "scale":
                         //parameters: x scale, y scale
                         this.clearCanvas();
-                        this.drawBackground();
-                        this.drawCharacterResize(this.getValueOf(command.para[0]),this.getValueOf(command.para[1]));
+                        this.drawBackground();          
+                        this.drawCharacterResize(x, this.getValueOf(command.para[0]),this.getValueOf(command.para[1]));
                         break;
 
 					case "playsound":
@@ -550,14 +490,16 @@ Playground.Views = Playground.Views || {};
                 i++;
             }
 
-            i=0;
-            while(i<this.current_status[0].costumes.length){
-                this.spriteImgs[i] = new Image();
-                this.spriteImgs[i].onload = function(){
-                    console.log("load sprites imgs");
+            for (var n=0; n<this.model.spriteModel.length; n++){
+                i=0;
+                while(i<this.current_status[n].costumes.length){
+                    this.spriteImgs[n][i] = new Image();
+                    this.spriteImgs[n][i].onload = function(){
+                        console.log("load sprites imgs");
+                    }
+                    this.spriteImgs[n][i].src = this.current_status[0].costumes[i];
+                    i++;
                 }
-                this.spriteImgs[i].src = this.current_status[0].costumes[i];
-                i++;
             }
         },
 
@@ -565,26 +507,28 @@ Playground.Views = Playground.Views || {};
             this.ctx.drawImage(this.bgImgs[this.model.bgModel.imgIndex], 0, 0, document.getElementById('player_canvas').width, document.getElementById('player_canvas').height); 
         },
 
-        drawCharacter: function(){
+        drawCharacter: function(n){
             var that = this;
-            var shown = this.current_status[0].isShown;
-            if(that.current_status[0].isShown){
-                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status[0].xPos, that.current_status[0].yPos, that.current_status[0].width, that.current_status[0].height); //character.width, character.height);     // draw costume if status isShown is true.
+            var shown = this.current_status[n].isShown;
+            if(that.current_status[n].isShown){
+                     that.ctx.drawImage(this.spriteImgs[n][this.costume],that.current_status[n].xPos, that.current_status[n].yPos, that.current_status[n].width, that.current_status[n].height); //character.width, character.height);     // draw costume if status isShown is true.
                  }     
         },
 
-        drawCharacterResize: function(x, y){
+        drawCharacterResize: function(n, x, y){
             var that = this;
-            var shown = this.current_status[0].isShown;
-            if(that.current_status[0].isShown){
-                     that.ctx.drawImage(this.spriteImgs[this.costume],that.current_status[0].xPos, that.current_status[0].yPos, x*80, y*150); //character.width, character.height);     // draw costume if status isShown is true.
+            var shown = this.current_status[n].isShown;
+            if(that.current_status[n].isShown){
+                     that.ctx.drawImage(this.spriteImgs[n][this.costume],that.current_status[n].xPos, that.current_status[n].yPos, x*80, y*150); //character.width, character.height);     // draw costume if status isShown is true.
                  }   
         },
 
         draw: function(){
             this.clearCanvas();
             this.drawBackground();
-            this.drawCharacter();
+            for (var n=0; n<this.model.spriteModel.length; n++){ 
+                this.drawCharacter(n);
+            }
         },
     });
 
