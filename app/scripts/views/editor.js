@@ -14,6 +14,10 @@ Playground.Views = Playground.Views || {};
         commandList: [],
 
         initialize: function () {
+            window.addEventListener('input',function(e){
+                $(e.target).attr("value",$(e.target).val());
+            console.log("keyup event detected! coming from this element:", e.target);
+            }, false);
             var that = this;
             $("#play_button").click(function(e){
                 that.updateModel();       
