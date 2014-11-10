@@ -258,6 +258,7 @@ Playground.Views = Playground.Views || {};
                     
                     case "setXPos":                  
                         this.current_status[x].xPos = this.getValueOf(command.para[0]);
+                        console.log(this.current_status[x]);
                         this.draw();
                         break;
 
@@ -295,7 +296,7 @@ Playground.Views = Playground.Views || {};
 
                     case "wait":
                         console.log("in wait");
-                        this.sleepFor(command.para[0]);
+                        this.sleep(command.para[0]*1000);
                         break;
 
                     case "changeCostume":
@@ -338,6 +339,7 @@ Playground.Views = Playground.Views || {};
                         break;
 
                     case "repeatForever":
+                        console.log("n lines:", command.para[0]);
                         var that = this;
                         var timer = function(){
                             that.executeFunctions(x, id+1, command.para[0]);
@@ -383,30 +385,49 @@ Playground.Views = Playground.Views || {};
                         // if style is "x = y" set operator as 0. 
                         //if it is random number, para[1]: obj{operator, lowerBound, upperBound}, operator is ran,
                         var vari_name = command.para[0];
+                        console.log("assignment: ", command.para[0],command.para[1]);
                         var vari_value;
                         if (!isNaN(command.para[1])){
                             vari_value = command.para[1];
                         }
                         else{
-                            if(command.para[1].operator==0){
-                                vari_value = this.getValueOf(command.para[1].LHS);
-                            }else{
-                                //two cases: boolean or numeric expression or a random number
-                                if(command.para[1].operator==="ran"){
-                                    console.log("assign to a random number "+command.para[1]);
-                                    var lb = parseInt(command.para[1].lowerBound);
-                                    var up = parseInt(command.para[1].upperBound);
-                                    var ran = Math.floor((Math.random() * upperBound) + lowerBound);
-                                    console.log("random number generated "+ran); 
-                                    vari_value = ran;
+                            var flag = 0;
+                            for (var j=0; j<this.variables.length; j++){
+                                if (this.variables[j].name == vari_value){
+                                    this.variables[j].name = 0;
+                                    this.variables[j].value = 0;
+                                    break;
                                 }
-                                vari_value = evaluateExpression(command.para[1].operator, command.para[1].LHS, command.para[1].RHS);
+                            }
+
+                            if (vari_value == "xpos"){
+                                flag = 1;
+                                vari_value = this.current_status[x].xPos;   
+                            }
+                            if (vari_value == "ypos"){
+                                flag = 1;
+                                vari_value = this.current_status[x].yPos;   
+                            }
+                            if (command.para[1][0]=="randomto"){
+                                flag = 1;
+                                vari_value = this.random(command.para[1][1],command.para[1][2]);
+                            }
+                            if (!flag){
+                                vari_value = this.evaluateExpression(command.para);
+                                flag = 1;
                             }
                         }
-                        if (vari_value!=null){
                             var vari = {name: vari_name, value: vari_value};
-                            this.variables.push(vari);
-                        }
+                            var updated = 0;
+                            for (var j=0; j<this.variables.length; j++){
+                                if (this.variables[j].name == vari.name){
+                                    this.variables[j].value = vari.value;
+                                    updated = 1;
+                                }   
+                            }
+                            if (!updated){
+                                this.variables.push(vari);
+                            }
                         break;
 
                     default:
@@ -414,53 +435,38 @@ Playground.Views = Playground.Views || {};
                 }
         },
 
-        evaluateExpression: function(operator, LHS, RHS){
+        random : function(x,y){
+            return Math.floor((Math.random() * y) + x); 
+        },
+
+        evaluateExpression: function(arr){
             var leftRes = 0;
             var rightRes = 0;
             var that = this;
 
-            console.log(LHS);
-            console.log(RHS);
-            console.log(isNaN(LHS));
-            console.log(isNaN(RHS));
-            if(!isNaN(LHS)&&!isNaN(RHS)){
-                leftRes = LHS;
-                rightRes = RHS;
-            }else if(isNaN(LHS)&&!isNaN(RHS)){
-                // leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
-                leftRes = that.getValueOf(LHS);
-                rightRes = RHS;
-            }else if(!isNaN(LHS)&&isNaN(RHS)){
-                // rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
-                rightRes = that.getValueOf(RHS);
-                leftRes = LHS;
-            }else{
-                leftRes = that.getValueOf(LHS);
-                rightRes = that.getValueOf(RHS);
+            console.log(arr[1][1]);
+            console.log(arr[1][2]);
+       
+                leftRes = that.getValueOf(arr[1][1]);
+                rightRes = that.getValueOf(arr[1][2]);
                 // leftRes = that.evaluateExpression(LHS.operator, LHS.LHS, LHS.RHS);
                 // rightRes = that.evaluateExpression(RHS.operator, RHS.LHS, RHS.RHS);
-            }
+            
 
             if (leftRes== null || rightRes==null){
                 return null;
             }
-            switch(operator){
+            switch(arr[1][0]){
                 case "<":
                     if(leftRes<rightRes) return 1;
                     else return 0;
                 case ">":
                     if(leftRes>rightRes) return 1;
                     else return 0;
-                case "==":
+                case "=":
                     if(leftRes===rightRes) return 1;
                     else return 0;
-                case ">=":
-                    if(leftRes>=rightRes) return 1;
-                    else return 0;
-                case "<=":
-                    if(leftRes<=rightRes) return 1;
-                    else return 0;
-
+                
                 case "+":
                     return leftRes+rightRes;
                 case "-":
@@ -482,22 +488,27 @@ Playground.Views = Playground.Views || {};
                 return x;
             }
             switch (x){
-                case "xPos": return this.current_status[0].xPos;
-                case "yPos": return this.current_status[0].yPos;
+                case "xpos": return this.current_status[0].xPos;
+                case "ypos": return this.current_status[0].yPos;
                 default:
             }
-            for(var k in this.variables) {
-                var v = this.variables[k];
-                if (v.name == x){
-                    return v.value;
-                }
+            for (var j=0; j<this.variables.length; j++){
+                if (this.variables[j].name == x){
+                return this.variables[j].value;
+                 }
             }
+            
             return null;
         },
 
-        sleepFor: function(sleepDuration){
-            var now = new Date().getTime();
-            while(new Date().getTime() < now + sleepDuration){ /* do nothing */ } 
+        sleep: function(milliseconds) {
+            console.log("waiting");
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                break;
+                }
+            }
         },
 
         clearCanvas: function(){

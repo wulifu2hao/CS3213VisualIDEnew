@@ -318,6 +318,7 @@ Playground.Views = Playground.Views || {};
                         var values = this.getValuesOfCommand(command);
                         var first = values[0];
                         var second = values[1];
+                        console.log("editors:", first, second);
                         this.model.add(type,position,[first,second]);
                         break;
                     case "command_onclick":
@@ -339,19 +340,19 @@ Playground.Views = Playground.Views || {};
                 value = isNaN(value) ? 10 : value;
                 if(!$(el).is(":visible")) {
                     if($(el).next().hasClass("toolbar-item-variable")) {
-                        value = $(el).next().attr('class').split(' ').pop();
+                        value = $(el).next().text().replace(/\s+/g, '');
                     } else if($(el).next().hasClass("toolbar-item-operator")) {
-                        var type = $(el).next().attr('class').split(' ').pop();
+                        var type = $(el).next().text().replace(/\s+/g, '');
                         var vs = $(el).next().find("input");
                         var v1 = parseInt($(vs.get(0)).val());
                         v1 = isNaN(v1) ? 10 : v1;
                         var v2 = parseInt($(vs.get(1)).val());
                         v2 = isNaN(v2) ? 10 : v2;
                         if(!$(vs.get(0)).is(":visible")) {
-                            v1 = $(vs.get(0)).next().attr('class').split(' ').pop();
+                            v1 = $(vs.get(0)).next().text().replace(/\s+/g, '');
                         }
                         if(!$(vs.get(1)).is(":visible")) {
-                            v2 = $(vs.get(1)).next().attr('class').split(' ').pop();
+                            v2 = $(vs.get(1)).next().text().replace(/\s+/g, '');
                         }
                         value = [type,v1,v2];
                     }
