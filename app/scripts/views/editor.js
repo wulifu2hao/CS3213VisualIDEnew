@@ -378,7 +378,7 @@ Playground.Views = Playground.Views || {};
                     if (data.message == "success") {
                         that.model.setData(data.program.data);
                         that.model.name = data.program.name;
-                        that.addCommandBlocksToWorkspace(that.model.array_of_commands);
+                        that.addCommandBlocksToWorkspace(that.model.commandString);
                     } else{
                         alert ("fail to load the project with name '" + name + "'");
                     }
@@ -418,80 +418,15 @@ Playground.Views = Playground.Views || {};
             });
         },
 
-        addCommandBlocksToWorkspace: function(array) {
-            $("#workspace-sortable").empty();
-            for (var i = 0; i < array.length; i++) {
-                var command = array[i];
-                var name = command.name;
-                var params = command.para;
-                var that = this;
-                $("#workspace-sortable").append(that.createElement(name, params, []));
-            };
-        },
-
-        createElement: function(name, params, subBlocks) {
-            var element = null;
-            switch (name) {
-                case "setXPos":
-                    element = "<li class='toolbar-item toolbar-item-normal draggable command_set_x' id='command_set_x' >"+
-                                    "set to x"+
-                                    "<input type='text' name='value_set_to_x' value='"+params[0]+"' class='number-input'></input>"+
-                                "</li>";
-                break;
-                case "setYPos": 
-                    element = "<li class='toolbar-item toolbar-item-normal draggable command_set_y' id='command_set_y' >"+
-                                    "set to y"+
-                                    "<input type='text' name='value_set_to_y' value='"+params[0]+"' class='number-input'></input>"+
-                                "</li>";
-                break;
-                case "changeCostume":
-                    element = "<li class='toolbar-item toolbar-item-normal draggable command_change_costume' id='command_change_costume'>"+
-                                    "change constume"+ 
-                                "</li>";
-                break;
-                case "changeBackground":
-                    element = "<li class='toolbar-item toolbar-item-normal draggable command_change_background' id='command_change_background'>"+
-                                    "change background"+
-                                "</li>";
-                break;
-                case "hide":
-                    element = "<li class='toolbar-item toolbar-item-normal draggable command_hide' id='command_hide'>"+
-                                    "hide"+ 
-                                "</li>";
-                break;
-                case "show":
-                    element = "<li class='toolbar-item toolbar-item-normal draggable command_show' id='command_show'>"+
-                                    "show"+ 
-                                "</li>";
-                break;
-                case "move":
-                    element = "<li class='toolbar-item toolbar-item-normal draggable command_move' id='command_move'>"+
-                                    "move"+
-                                    "<input type='text' name='value_move_steps' value='"+params[0]+"' class='number-input'></input>"+
-                                    "steps"+ 
-                                "</li>";
-                break;
-                case "repeat":
-                    element = "<li class='toolbar-item toolbar-item-control draggable command_repeat' id='command_repeat'>"+
-                                    "<div class='block-control-top'>"+
-                                        "repeat"+
-                                        "<input type='text' name='value_move_steps' value='"+params[0]+"' class='number-input'></input>"+
-                                        "times"+
-                                    "</div>"
-                                    "<ul></ul>"+
-                                    "<div class='block-control-botm'></div>"+
-                                "</li>";
-                break;
-                default:
-                console.log("Invalid command name.");
-            }
-            return element;
+        addCommandBlocksToWorkspace: function(commandString) {
+            $("#workspace-sortable").empty().append(commandString);
         },
 
         saveToServer: function(name) {
             this.updateModel();
             var name = name;
             var that = this;
+            this.model.setCommandString($("#workspace-sortable").html());
             var data = this.model.getData();
 
             if (this.model.name == "") {

@@ -15,6 +15,7 @@ Playground.Models = Playground.Models || {};
         angle: 0,
         width: 80,
         height: 150,
+        commandString: "",
         current_costume: 0,
 
         name:"",
@@ -32,10 +33,15 @@ Playground.Models = Playground.Models || {};
                 "angle": 0,
                 "width": 80,
                 "height": 150,
+                "commandString": this.commandString
             };
             console.log("doing getdata");
             console.log(this.array_of_commands);
             return JSON.stringify(data);
+        },
+
+        setCommandString: function(string) {
+            this.commandString = string;
         },
 
         setData: function(data) {
@@ -49,6 +55,7 @@ Playground.Models = Playground.Models || {};
             this.angle = data.angle;
             this.width = data.width;
             this.height = data.height;
+            this.commandString = data.commandString;
         },
 
         defaults: {
