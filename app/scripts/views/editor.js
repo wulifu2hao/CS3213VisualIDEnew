@@ -264,7 +264,7 @@ Playground.Views = Playground.Views || {};
             var repeatBlocks = $("#workspace-sortable li").has("li");
             for(var i=0; i<this.commandList.length; i++) {
                 var command = this.commandList[i];
-                var type = $(command).attr('class').split(' ').pop();
+                var type = $(command).attr('class').split(' ')[0];
                 console.log("command passed in: ", type);
                 var position = i;
                 var repeatBlockLength = 0
