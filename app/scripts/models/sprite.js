@@ -9,12 +9,13 @@ Playground.Models = Playground.Models || {};
         xPos : 0,
         yPos : 0,
         isShown :true,
-        costumes :['../images/costume1.png','../images/costume2.png'],  //each sprite has its own set of costumes
+        costumes :['../images/move1.png','../images/move2.png','../images/move3.png','../images/move4.png','../images/hit.png'],  //each sprite has its own set of costumes
         url: '',
         array_of_commands: [],
         angle: 0,
         width: 80,
         height: 150,
+        commandString: "",
         current_costume: 0,
 
         name:"",
@@ -32,10 +33,15 @@ Playground.Models = Playground.Models || {};
                 "angle": 0,
                 "width": 80,
                 "height": 150,
+                "commandString": this.commandString
             };
             console.log("doing getdata");
             console.log(this.array_of_commands);
             return JSON.stringify(data);
+        },
+
+        setCommandString: function(string) {
+            this.commandString = string;
         },
 
         setData: function(data) {
@@ -49,13 +55,14 @@ Playground.Models = Playground.Models || {};
             this.angle = data.angle;
             this.width = data.width;
             this.height = data.height;
+            this.commandString = data.commandString;
         },
 
         defaults: {
             xPos : 0,
             yPos : 0,
             isShown :true,
-            costumes :['../images/costume1.png','../images/costume2.png'],
+            costumes :['../images/move1.png','../images/move2.png','../images/move3.png','../images/move4.png','../images/hit.png'],
             url: '',
             array_of_commands: [],
             angle: 0,

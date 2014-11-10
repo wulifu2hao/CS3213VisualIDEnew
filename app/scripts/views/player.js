@@ -224,20 +224,21 @@ Playground.Views = Playground.Views || {};
             console.log("Executing functions!");
             for(ind = start; ind < (start+length); ind++){
                 var command = this.commands_list[x][ind];
+                console.log("executing: " , command);
                 if (command.name === "ifThen"){
                         //parameters: obj containing a boolean expression, #of commands to be executed
                         var condition = this.getValueOf(command.para[0]);
                         var that = this;
                         
                         if (condition){
-                            console.log("XF says: True! I come to ", ind+1);
+                            console.log("XF says: True! I come to ", ind++);
                             // that.executeFunctions(id+1,command.para[1]);
                         }
                         else{
                             console.log("XF says: False!");
                             if (ind+1+command.para[1] < that.commands_list[x].length){
                                 console.log("XF says: Some more! I come to", ind+1+command.para[1]);
-                                ind+= command.para[1];
+                                ind+= command.para[1]+1;
                                 // that.executeFunctions(ind+1+command.para[1], that.commands_list[0].length-(ind+1+command.para[1]));        
                             }
                             else{
