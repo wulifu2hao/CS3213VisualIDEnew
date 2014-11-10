@@ -15,7 +15,7 @@ Playground.Views = Playground.Views || {};
 
         initialize: function () {
             var that = this;
-            var selected_sprite=-1;
+            var selected_sprite=0;
             var selected_costume=-1;
             this.render();
             $(".selectable").selectable({
@@ -52,25 +52,13 @@ Playground.Views = Playground.Views || {};
             }
             });
 
-            $("#sprite-upload-button").click(function(e){
-                console.log("add new sprite"); 
-                var sprite = new window.Playground.Models.Sprite();
-                that.model.spriteModel.push(sprite);
-                sprite.costumes = ['../images/costume1.png','../images/costume2.png'];
-                that.loadSprites();
-            });
-
             $("#costume-delete-button").click(function(e){
                 that.model.spriteModel[selected_sprite].costumes.splice(selected_costume, 1);
                 that.loadCostume(selected_sprite);
             });
 
-            $("#sprite-delete-button").click(function(e){
-                that.model.spriteModel.splice(selected_sprite, 1);
-                that.loadSprites();
-            });
-
-            this.loadSprites();
+            // this.loadSprites();
+            that.loadCostume(0);
 
             var that = this;
             var options = { 
@@ -81,9 +69,12 @@ Playground.Views = Playground.Views || {};
                   },
                   success: function(data) { 
                     $('#costumeUploadButton').removeAttr('disabled');
+                    console.log(data);
                     if (data.message == "success") {
-                        that.model.spriteModel[selected_sprite].costumes.push(data.link);
-                        that.loadSprites();
+                        // console.log(selected_sprite);
+                        that.model.spriteModel[0].costumes.push(data.link);
+                        that.model.spriteModel[0].defaults.costumes.push(data.link);
+                        that.loadCostume(0);
                         // that.render("upload successfully");
 
                     } else {

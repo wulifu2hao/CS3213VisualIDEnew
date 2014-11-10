@@ -207,6 +207,7 @@ db.once('open', function callback () {
 				} else {
 					var file = req.files.fileUploaded;
 			        var serverPath = dir + "/"+file.name;
+			        var link = '../costumeUploaded/'+ req.user.googleId + "/"+file.name;
 
 				    require('fs').rename(
 						file.path,
@@ -216,7 +217,7 @@ db.once('open', function callback () {
 								console.log(error);
 								res.send({error: 'error when storing into file system'});
 						    }  else {
-						    	res.send({message:"success", link:serverPath});
+						    	res.send({message:"success", link:link});
 
 						    	// audios.addAudio(file.name, req.user.googleId, res);
 						    }      
