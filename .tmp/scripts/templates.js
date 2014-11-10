@@ -43,7 +43,7 @@ this["JST"]["app/scripts/templates/costumesPane.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="costumes_list">\n\t<h5>Sprites</h5>\n\t<button id="sprite-upload-button" class="sprite-button" type="button">\n\t\t<img  src="../images/new.png" height="20" width="24"> </img>\n\t</button>\n\t<button id="sprite-delete-button" class="sprite-button" type="button">\n\t\t<img  src="../images/delete.png" height="20" width="24"> </img>\n\t</button>\n\n\t<ol class="selectable">\n\t</ol>\n\n</div>\n\n<div class="costumes_view">\n\t<div class="toolbar_costumes">\n\t\t<h5>Costumes</h5>\n\t\t<button id="costume-upload-button" class="sprite-button" type="button">\n\t\t\t<img  src="../images/upload.png" height="20" width="24"> </img>\n\t\t</button>\n\t\t<button id="costume-delete-button" class="sprite-button" type="button">\n\t\t\t<img  src="../images/delete.png" height="20" width="24"> </img>\n\t\t</button>\n\t</div> <!-- div costumes toolbar end -->\n\t<div class="costumes">\n\t\t\t\n\t</div>\n</div>\n\n';
+__p += '<div class="costumes_list">\n\t<h5>Sprites</h5>\n\t<button id="sprite-upload-button" class="sprite-button" type="button">\n\t\t<img  src="../images/new.png" height="20" width="24"> </img>\n\t</button>\n\t<button id="sprite-delete-button" class="sprite-button" type="button">\n\t\t<img  src="../images/delete.png" height="20" width="24"> </img>\n\t</button>\n\n\t<ol class="selectable">\n\t</ol>\n\n</div>\n\n<div class="costumes_view">\n\t<div class="toolbar_costumes">\n\t\t<h5>Costumes</h5>\n\t\t<button id="costume-upload-button" class="sprite-button" type="button">\n\t\t\t<img  src="../images/upload.png" height="20" width="24"> </img>\n\t\t</button>\n\t\t<button id="costume-delete-button" class="sprite-button" type="button">\n\t\t\t<img  src="../images/delete.png" height="20" width="24"> </img>\n\t\t</button>\n\t</div> <!-- div costumes toolbar end -->\n\t<div>\n\t\t<ol class="costumes-selectable">\n\t\t</ol>\n\t</div>\n</div>\n\n';
 
 }
 return __p
@@ -63,7 +63,7 @@ this["JST"]["app/scripts/templates/player.ejs"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<canvas id="' +
+__p += '<canvas class="canvas-droppable" id="' +
 ((__t = ( id )) == null ? '' : __t) +
 '" width="' +
 ((__t = ( width )) == null ? '' : __t) +

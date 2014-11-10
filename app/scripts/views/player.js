@@ -21,6 +21,7 @@ Playground.Views = Playground.Views || {};
         costume: 0,
         events: [],
         variables: [],
+        executionFlags: [],
 
         bgImgs: [],
         spriteImgs: [],
@@ -39,17 +40,20 @@ Playground.Views = Playground.Views || {};
                 window.location = (window.location + 'auth/google');
             });
             
-            for (var n=0; n<this.model.numOfSprite; n++)
-            this.current_status[n] = {              // init status
-                        xPos: this.model.spriteModel[0].get('xPos'),
-                        yPos: this.model.spriteModel[0].get('yPos'),
-                        angle: this.model.spriteModel[0].get('angle'),
-                        isShown: this.model.spriteModel[0].get('isShown'), 
-                        costumes: this.model.spriteModel[0].get('costumes'),
-                        width : this.model.spriteModel[0].get('width'),
-                        height: this.model.spriteModel[0].get('height'),
+            for (var n=0; n<this.model.numOfSprite; n++){
+                this.current_status[n] = {              // init status
+                        xPos: this.model.spriteModel[n].get('xPos'),
+                        yPos: this.model.spriteModel[n].get('yPos'),
+                        angle: this.model.spriteModel[n].get('angle'),
+                        isShown: this.model.spriteModel[n].get('isShown'), 
+                        costumes: this.model.spriteModel[n].get('costumes'),
+                        width : this.model.spriteModel[n].get('width'),
+                        height: this.model.spriteModel[n].get('height'),
+                };
+                this.commands_list[n] = [];
+                this.events[n] = [];
+                this.executionFlags.push(n);
             };
-
             this.render();   
             this.loadImgs();
             this.draw();
@@ -65,6 +69,12 @@ Playground.Views = Playground.Views || {};
                 if((mouseX > (x )) && (mouseX < (x + w)) && (mouseY > (y )) && (mouseY < (y+h))){
                     that.isDragging = true;
                 }
+            });
+
+            $( ".canvas-droppable" ).droppable({
+                drop: function( event, ui ) {
+                    console.log("dropped!");
+                },
             });
             
             $('#player_canvas').mouseup(function(){
@@ -122,35 +132,37 @@ Playground.Views = Playground.Views || {};
 
         updateCanvas: function(){
             console.log("Player view: play button clicked!");
-            this.commands_list = this.model.spriteModel[0].array_of_commands;
-            // console.log(this.commands_list);
-            // console.log("XF says: ", this.commands_list);
-            // this.commands_list[0].name = "ifThen";
-            // this.commands_list[0].para[0] = 0;
-            // this.commands_list[0].para[1] = 2;
+            var ind = [];
+            for (var n = 0; n < this.model.numOfSprite; n++){
+                this.commands_list[n] = this.model.spriteModel[n].array_of_commands;
+                ind[n] = this.inspectEvents(n);
+            }
+            // console.log("XF says: ", this.commands_list[0]);
+            // this.commands_list[0][0].name = "ifThen";
+            // this.commands_list[0][0].para[0] = 0;
+            // this.commands_list[0][0].para[1] = 2;
 
 
-            // this.commands_list[2].name = "event";
-            // this.commands_list[2].para[0] = 'k';
-            // this.commands_list[2].para[1] = 2;
+            // this.commands_list[0][2].name = "event";
+            // this.commands_list[0][2].para[0] = 'k';
+            // this.commands_list[0][2].para[1] = 2;
 
 
-            // this.commands_list[5].name = "event";
-            // this.commands_list[5].para[0] = 'j';
-            // this.commands_list[5].para[1] = 1;           // for testing purpose
+            // this.commands_list[0][5].name = "event";
+            // this.commands_list[0][5].para[0] = 'j';
+            // this.commands_list[0][5].para[1] = 1;           // for testing purpose
             
-            var ind = this.inspectEvents();
             this.prepareEvents();
-            this.executeFunctions(ind, this.commands_list.length-ind);
+            this.executeFunctions(ind, this.commands_list[0].length-ind);
         },
 
-        inspectEvents: function(){
+        inspectEvents: function(x){
             var ind = 0;
-            while (this.commands_list[ind].name == "event"){
-                console.log(this.commands_list[ind].para[0]);
-                var object = { key: this.commands_list[ind].para[0], start: ind+1, number: this.commands_list[ind].para[1] };
+            while (this.commands_list[x][ind].name == "event"){
+                console.log(this.commands_list[x][ind].para[0]);
+                var object = { key: this.commands_list[x][ind].para[0], start: ind+1, number: this.commands_list[x][ind].para[1] };
                 this.events.push(object);
-                console.log(this.events);
+                console.log(this.events[x]);
                 ind = object.start + object.number;
                 console.log(ind);
             }
@@ -161,7 +173,7 @@ Playground.Views = Playground.Views || {};
 
         prepareEvents: function(){
 
-            var ind;
+            var ind, n;
             window.addEventListener('keydown',doKeyDown,true);
                 var that = this;
             function doKeyDown(evt){
@@ -170,16 +182,19 @@ Playground.Views = Playground.Views || {};
                 console.log("I pressed:");
                 console.log(evt.key);
                 // console.log(this.events);
-                for (ind = 0; ind < that.events.length; ind++){
-                    console.log(ind);
-                    // console.log(that.events[ind].key);
-                    if (evt.key == that.events[ind].key){
-                        console.log("I matched");
-                        that.executeFunctions(that.events[ind].start, that.events[ind].number);
-                        break;
-                    }
-                    else{
-                        console.log("I missed");
+                for (n = 0; n < that.events.length; n++){
+                    for (ind = 0; ind < that.events[n].length; ind++){
+
+                        console.log(ind);
+                        // console.log(that.events[ind].key);
+                        if (evt.key == that.events[n][ind].key){
+                            console.log("I matched");
+                            that.executeFunctions(that.events[n][ind].start, that.events[n][ind].number);
+                            break;
+                        }
+                        else{
+                            console.log("I missed");
+                        }
                     }
                 }
             }
@@ -189,7 +204,7 @@ Playground.Views = Playground.Views || {};
             var ind;
             console.log("Executing functions!");
             for(ind = start; ind < (start+length); ind++){
-                var command = this.commands_list[ind];
+                var command = this.commands_list[0][ind];
                 if (command.name == "ifThen"){
                         //parameters: obj containing a boolean expression, #of commands to be executed
                         var condition = this.getValueOf(command.para[0]);
@@ -201,10 +216,10 @@ Playground.Views = Playground.Views || {};
                         }
                         else{
                             console.log("XF says: False!");
-                            if (ind+1+command.para[1] < that.commands_list.length){
+                            if (ind+1+command.para[1] < that.commands_list[0].length){
                                 console.log("XF says: Some more! I come to", ind+1+command.para[1]);
                                 ind+= command.para[1];
-                                // that.executeFunctions(ind+1+command.para[1], that.commands_list.length-(ind+1+command.para[1]));        
+                                // that.executeFunctions(ind+1+command.para[1], that.commands_list[0].length-(ind+1+command.para[1]));        
                             }
                             else{
                                 console.log("XF says: No more!");
@@ -219,7 +234,7 @@ Playground.Views = Playground.Views || {};
                         
                         if (condition){
                             that.executeFunctions(ind+1,command.para[1]);
-                            if (ind+1+command.para[1]+command.para[2] < that.commands_list.length){
+                            if (ind+1+command.para[1]+command.para[2] < that.commands_list[0].length){
                                 ind += command.para[1] + command.para[2];
                             }
                         }
@@ -330,9 +345,9 @@ Playground.Views = Playground.Views || {};
                         }
                         else{
                             console.log("XF says: False!");
-                            if (id+1+command.para[1] < that.commands_list.length){
+                            if (id+1+command.para[1] < that.commands_list[0].length){
                                 console.log("XF says: Some more! I come to", id+1+command.para[1]);
-                                that.executeFunctions(id+1+command.para[1], that.commands_list.length-(id+1+command.para[1]));        
+                                that.executeFunctions(id+1+command.para[1], that.commands_list[0].length-(id+1+command.para[1]));        
                             }
                             else{
                                 console.log("XF says: No more!");
