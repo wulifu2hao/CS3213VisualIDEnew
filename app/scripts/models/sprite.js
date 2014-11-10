@@ -15,6 +15,7 @@ Playground.Models = Playground.Models || {};
         angle: 0,
         width: 80,
         height: 150,
+        current_costume: 0,
 
         name:"",
 

@@ -375,17 +375,28 @@ Playground.Views = Playground.Views || {};
 
                     case "assignment":
                         // name: assignment, para[0]: variable name, para[1]: number/operation obj{operator, LHS, RHS}. style: "x = a+b"
-                        // if style is "x = y" set operator as 0.  
+                        // if style is "x = y" set operator as 0. 
+                        //if it is random number, para[1]: obj{operator, lowerBound, upperBound}, operator is ran,
                         var vari_name = command.para[0];
                         var vari_value;
                         if (!isNaN(command.para[1])){
                             vari_value = command.para[1];
                         }
-                        else if(command.para[1].operator==0){
-                            vari_value = this.getValueOf(command.para[1].LHS);
-                        }
                         else{
-                            vari_value = evaluateExpression(command.para[1].operator, command.para[1].LHS, command.para[1].RHS);
+                            if(command.para[1].operator==0){
+                                vari_value = this.getValueOf(command.para[1].LHS);
+                            }else{
+                                //two cases: boolean or numeric expression or a random number
+                                if(command.para[1].operator==="ran"){
+                                    console.log("assign to a random number "+command.para[1]);
+                                    var lb = parseInt(command.para[1].lowerBound);
+                                    var up = parseInt(command.para[1].upperBound);
+                                    var ran = Math.floor((Math.random() * upperBound) + lowerBound);
+                                    console.log("random number generated "+ran); 
+                                    vari_value = ran;
+                                }
+                                vari_value = evaluateExpression(command.para[1].operator, command.para[1].LHS, command.para[1].RHS);
+                            }
                         }
                         if (vari_value!=null){
                             var vari = {name: vari_name, value: vari_value};
