@@ -176,11 +176,15 @@ Playground.Views = Playground.Views || {};
                                 }
                                 for (var i = 0; i < $(".sound-select").length; i++) {
                                     var x = $(".sound-select")[i];
+                                    var indexToRemove = -1;
                                     for (var j = 0; j < x.length; j++) {
                                         if (x[j].value == id) {
-                                            x.remove(x[j]);
+                                            indexToRemove = j;
                                             break;
                                         };
+                                    };
+                                    if (indexToRemove != -1) {
+                                        x.remove(x[j]);
                                     };
                                 };
                                 that.render("sucecssfully deleted");
