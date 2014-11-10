@@ -14,6 +14,10 @@ Playground.Views = Playground.Views || {};
         commandList: [],
 
         initialize: function () {
+            window.addEventListener('input',function(e){
+                $(e.target).attr("value",$(e.target).val());
+            console.log("keyup event detected! coming from this element:", e.target);
+            }, false);
             var that = this;
             $("#play_button").click(function(e){
                 that.updateModel();       
@@ -53,51 +57,7 @@ Playground.Views = Playground.Views || {};
                 }
             });
             this.reEvaluateDraggable();
-            $(".operator-draggable").draggable({
-                helper: "clone",
-                cursor: "move",
-                revert: "invalid",
-                start: function(event,ui) {
-                    $(".assignment-droppable").droppable({
-                        accept: ".operator-draggable",
-                        hoverClass: "ui-state-hover",
-                        drop: function(event,ui) {
-                            console.log("drop");
-                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable operator-draggable").addClass("operator-draggable-inlist").draggable({
-                                cursor: "move",
-                                revert: function(is_valid_drop) {
-                                    var list_offset = $("#workspace-sortable").offset();
-                                    var el_offset = $(this).offset();
-                                    if((el_offset.left < list_offset.left-50)||(el_offset.top < list_offset.top-50)) {
-                                        $(this).prev().show();
-                                        $(this).remove();
-                                        return false;
-                                    }
-                                    if(!is_valid_drop) {
-                                        return true;
-                                    }
-                                    return false;
-                                },
-                                start: function(event, ui) {
-                                    $(".assignment-droppable-inlist").droppable({
-                                        accept: ".operator-draggable-inlist",
-                                        hoverClass: "ui-state-hover",
-                                        drop: function(event, ui) {
-                                            $(ui.draggable).prev().show();
-                                            $(this).after($(ui.draggable).css({"display":"inline-block","margin-top":"0px","position":"relative","top":"0px","left":"0px"}));
-                                            $(this).hide();
-                                        }
-                                    });
-                                }
-                            }));
-                            $(this).hide();
-                        },
-                        over: function(event,ui) {
-                            console.log("over");
-                        }
-                    });
-                }
-            });
+            
             $("#editor_workspace ul").sortable({
                 placeholder: "ui-state-highlight",
                 stop: function(event, ui) {
@@ -205,6 +165,51 @@ Playground.Views = Playground.Views || {};
                     });
                 }
             });
+            $(".operator-draggable").draggable({
+                helper: "clone",
+                cursor: "move",
+                revert: "invalid",
+                start: function(event,ui) {
+                    $(".assignment-droppable").droppable({
+                        accept: ".operator-draggable",
+                        hoverClass: "ui-state-hover",
+                        drop: function(event,ui) {
+                            console.log("drop");
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable operator-draggable").addClass("operator-draggable-inlist").draggable({
+                                cursor: "move",
+                                revert: function(is_valid_drop) {
+                                    var list_offset = $("#workspace-sortable").offset();
+                                    var el_offset = $(this).offset();
+                                    if((el_offset.left < list_offset.left-50)||(el_offset.top < list_offset.top-50)) {
+                                        $(this).prev().show();
+                                        $(this).remove();
+                                        return false;
+                                    }
+                                    if(!is_valid_drop) {
+                                        return true;
+                                    }
+                                    return false;
+                                },
+                                start: function(event, ui) {
+                                    $(".assignment-droppable-inlist").droppable({
+                                        accept: ".operator-draggable-inlist",
+                                        hoverClass: "ui-state-hover",
+                                        drop: function(event, ui) {
+                                            $(ui.draggable).prev().show();
+                                            $(this).after($(ui.draggable).css({"display":"inline-block","margin-top":"0px","position":"relative","top":"0px","left":"0px"}));
+                                            $(this).hide();
+                                        }
+                                    });
+                                }
+                            }));
+                            $(this).hide();
+                        },
+                        over: function(event,ui) {
+                            console.log("over");
+                        }
+                    });
+                }
+            });
         },
 
         loadProjects: function(){
@@ -252,6 +257,7 @@ Playground.Views = Playground.Views || {};
         },
 
         updateModel: function() {
+            this.model.variableString = $("#variable-commands").find(".toolbar").first().html();
             console.log("update model "+this.commandList.length);
             this.model.array_of_commands = [];
             console.log(this.commandList);
@@ -381,6 +387,7 @@ Playground.Views = Playground.Views || {};
                         that.model.setData(data.program.data);
                         that.model.name = data.program.name;
                         that.addCommandBlocksToWorkspace(that.model.commandString);
+                        that.addVariablesToToolbar(that.model.variableString);
                     } else{
                         alert ("fail to load the project with name '" + name + "'");
                     }
@@ -422,6 +429,85 @@ Playground.Views = Playground.Views || {};
 
         addCommandBlocksToWorkspace: function(commandString) {
             $("#workspace-sortable").empty().append(commandString);
+            // this.reEvaluateDraggable();
+            $(".variable-draggable-inlist").draggable({
+                cursor: "move",
+                revert: function(is_valid_drop) {
+                    var list_offset = $("#workspace-sortable").offset();
+                    var el_offset = $(this).offset();
+                    if((el_offset.left < list_offset.left-50)||(el_offset.top < list_offset.top-50)) {
+                        $(this).prev().show();
+                        $(this).remove();
+                        return false;
+                    }
+                    if(!is_valid_drop) {
+                        return true;
+                    }
+                    return false;
+                },
+                start: function(event, ui) {
+                    $(".input-droppable-inlist").droppable({
+                        accept: ".variable-draggable-inlist",
+                        hoverClass: "ui-state-hover",
+                        drop: function(event, ui) {
+                            $(ui.draggable).prev().show();
+                            $(this).after($(ui.draggable).css({"display":"inline-block","margin-top":"0px","position":"relative","top":"0px","left":"0px"}));
+                            $(this).hide();
+                        }
+                    });
+                }
+            });
+            $(".operator-draggable-inlist").draggable({
+                cursor: "move",
+                revert: function(is_valid_drop) {
+                    var list_offset = $("#workspace-sortable").offset();
+                    var el_offset = $(this).offset();
+                    if((el_offset.left < list_offset.left-50)||(el_offset.top < list_offset.top-50)) {
+                        $(this).prev().show();
+                        $(this).remove();
+                        return false;
+                    }
+                    if(!is_valid_drop) {
+                        return true;
+                    }
+                    return false;
+                },
+                start: function(event, ui) {
+                    $(".assignment-droppable-inlist").droppable({
+                        accept: ".operator-draggable-inlist",
+                        hoverClass: "ui-state-hover",
+                        drop: function(event, ui) {
+                            $(ui.draggable).prev().show();
+                            $(this).after($(ui.draggable).css({"display":"inline-block","margin-top":"0px","position":"relative","top":"0px","left":"0px"}));
+                            $(this).hide();
+                        }
+                    });
+                }
+            });
+        },
+
+        addVariablesToToolbar: function(variableString) {
+            $("#variable-commands").find(".toolbar").first().empty();
+            $("#variable-commands").find(".toolbar").append(variableString);
+            this.reEvaluateDraggable();
+            var that = this;
+            $("#create_new_var").click(function(){
+                var toolbar = $("#variable-commands").find(".toolbar").first();
+                var varname = prompt("Please enter a name: ");
+                if(varname == null) {
+                    return ;
+                }
+                varname = varname.replace(/\s+/g, '');
+                while(!that.isUniqueVarName(varname)) {
+                    varname = prompt("Naming conflict. Please enter another name: ");
+                    if(varname == null) {
+                        return ;
+                    }
+                    varname = varname.replace(/\s+/g, '');
+                }
+                $(toolbar).append("<div class='toolbar-item-variable variable-draggable command_var_"+varname+"' id='command_var_"+varname+"'>"+varname+"</div>");
+                that.reEvaluateDraggable();
+            });
         },
 
         saveToServer: function(name) {
