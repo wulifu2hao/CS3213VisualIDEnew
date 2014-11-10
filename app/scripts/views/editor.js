@@ -124,7 +124,7 @@ Playground.Views = Playground.Views || {};
                             }
                           }
                         for (var i = 0; i < data.names.length; i++) {
-                            var item = "<li><a class=\"project-to-load\" id=\""+data.names[i]+"\">"+data.names[i]+"</a></li>";
+                            var item = "<li><a class=\"project-to-load\" id=\""+data.names[i]+"\">"+data.names[i]+"</a>"+"</li>";
                             $("#projectList").append(item);
                         };
                         var list = $(".project-to-load");
@@ -170,7 +170,7 @@ Playground.Views = Playground.Views || {};
                     repeatBlockLength = $(repeatBlock).find("li").length;
                     value = parseInt($(repeatBlock).find("input").first().val());
                     repeatBlockIndex = repeatBlockIndex + 1;
-                } else if (type == "command_playsound"){
+                } else if (type == "command_playsound" || type == "command_stopsound"){
                     var e = $(command).find("select")[0];
                     // console.log($(command));
                     // console.log($(command).find("select"));

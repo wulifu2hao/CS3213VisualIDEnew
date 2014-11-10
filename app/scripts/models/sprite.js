@@ -120,8 +120,12 @@ Playground.Models = Playground.Models || {};
                 this.array_of_commands.splice(position,0,{name: "rotate", para: parameters});
                 break;
                 case "command_playsound":
-                console.log("command_playsound in sprite.js");
+                console.log("command_playsound");
                 this.array_of_commands.splice(position,0,{name: "playsound", para: parameters});   
+                break;
+                case "command_stopsound":
+                console.log("command_stopsound");
+                this.array_of_commands.splice(position,0,{name: "stopsound", para: parameters});   
                 break;
                 default:
                 console.log("invalid command: "+type);

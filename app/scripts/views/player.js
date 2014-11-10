@@ -413,10 +413,18 @@ Playground.Views = Playground.Views || {};
 
 					case "playsound":
                         console.log("play sound");
-                        console.log("command.para[0]");
+                        // console.log("command.para[0]");
                         if (soundManager) {
                             console.log("play sound!!!");
                             soundManager.play(command.para[0]);
+                        };
+                        break;
+
+                    case "stopsound":
+                        console.log("stopsound");
+                        // console.log("command.para[0]");
+                        if (soundManager) {
+                            soundManager.stop(command.para[0]);
                         };
                         break;
 

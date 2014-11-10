@@ -156,8 +156,6 @@ db.once('open', function callback () {
 	    } else {
 	        res.json({message: 'Please log in first'});
 	    }
-
-
 	});
 
 
@@ -193,6 +191,39 @@ db.once('open', function callback () {
 
 		}else{
 			res.json({message: 'Please log in before you upload a sound.'});
+		}  
+	});
+
+	app.post('/api/costume', function(req,res){
+		if (req.user) {
+			var dir = __dirname + '/../app/costumeUploaded/' + req.user.googleId;
+			mkdirp(dir, function(err) { 
+				if (err) {
+					console.log(err);
+					res.json({message: err});
+				} else {
+					var file = req.files.fileUploaded;
+			        var serverPath = dir + "/"+file.name;
+
+				    require('fs').rename(
+						file.path,
+						serverPath,
+						function(error) {
+							if(error) {
+								console.log(error);
+								res.send({error: 'error when storing into file system'});
+						    }  else {
+						    	res.send({message:"success", costumeName:file.name});
+
+						    	// audios.addAudio(file.name, req.user.googleId, res);
+						    }      
+						}
+				    );
+				}
+
+			});
+		}else{
+			res.json({message: 'Please log in before you upload a costume.'});
 		}  
 	});
 
