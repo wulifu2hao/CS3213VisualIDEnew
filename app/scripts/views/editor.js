@@ -484,6 +484,23 @@ Playground.Views = Playground.Views || {};
             $("#variable-commands").find(".toolbar").first().empty();
             $("#variable-commands").find(".toolbar").append(variableString);
             this.reEvaluateDraggable();
+            $("#create_new_var").click(function(){
+                var toolbar = $("#variable-commands").find(".toolbar").first();
+                var varname = prompt("Please enter a name: ");
+                if(varname == null) {
+                    return ;
+                }
+                varname = varname.replace(/\s+/g, '');
+                while(!that.isUniqueVarName(varname)) {
+                    varname = prompt("Naming conflict. Please enter another name: ");
+                    if(varname == null) {
+                        return ;
+                    }
+                    varname = varname.replace(/\s+/g, '');
+                }
+                $(toolbar).append("<div class='toolbar-item-variable variable-draggable command_var_"+varname+"' id='command_var_"+varname+"'>"+varname+"</div>");
+                that.reEvaluateDraggable();
+            });
         },
 
         saveToServer: function(name) {
