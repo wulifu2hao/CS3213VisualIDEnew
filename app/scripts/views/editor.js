@@ -148,12 +148,13 @@ Playground.Views = Playground.Views || {};
 
             $("#save-button").click(function(e){
                 e.preventDefault();
-                var name = prompt("enter a name for your project");
-                if (name != null) {
-                    that.saveToServer(name);
-                }
+                var name = that.model.name;
+                if (name || name == "") {
+                    var name = prompt("enter a name for your project");
+                };
+                that.saveToServer(name);
             });   
-            $("#load-button").click(function(e){
+            $("#save-new-button").click(function(e){
                 e.preventDefault();
                 var name = prompt("enter a name for your project");
                 if (name != null) {
@@ -164,6 +165,46 @@ Playground.Views = Playground.Views || {};
                 e.preventDefault();
                 that.loadNamesFromServer();
             });  
+
+
+            this.loadProjects();
+
+        },
+
+        loadProjects: function(){
+            var url = '/api/programs';
+            var that = this;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data) {
+                  // console.log("here!");
+                    if (data.message == "success") {
+                        var ul = document.getElementById('projectList');
+                          if (ul) {
+                            while (ul.firstChild) {
+                              ul.removeChild(ul.firstChild);
+                            }
+                          }
+                        for (var i = 0; i < data.names.length; i++) {
+                            var item = "<li><a class=\"project-to-load\" id=\""+data.names[i]+"\">"+data.names[i]+"</a></li>";
+                            $("#projectList").append(item);
+                        };
+                        var list = $(".project-to-load");
+                        for (var i = 0; i < list.length; i++) {
+                            var id = list[i].id;
+                            console.log(document.getElementById(id));
+                            document.getElementById(id).onclick = function(){
+                                console.log("loading project" + this.id);
+                                that.loadFromServer(this.id);
+                            };
+                        };
+                    } 
+                },
+                error: function(err){
+
+                }
+            });
         },
 
         render: function () {

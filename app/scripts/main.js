@@ -20,36 +20,16 @@ window.Playground = {
         new this.Views.Editor({model: sprite});
         new this.Views.Player({model: project});
         new this.Views.Costumespane({model: project});
+	    new this.Views.Audio({model: audio});
     }
 };
 
 $(document).ready(function () {
     'use strict';
+
     Playground.init();
     Backbone.history.start();  
 
-    var url = '/api/programs';
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function(data) {
-            if (data.message == "success") {
-                var ul = document.getElementById('projectList');
-                  if (ul) {
-                    while (ul.firstChild) {
-                      ul.removeChild(ul.firstChild);
-                    }
-                  }
-                for (var i = 0; i < data.names.length; i++) {
-                    var item = "<li><a href='#'>"+data.names[i]+"</a></li>";
-                    $("#projectList").append(item);
-                };
-            } 
-        },
-        error: function(err){
-
-        }
-    });
-
+    // init the programs to load, haven't finish
+    
 });

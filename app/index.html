@@ -16,6 +16,22 @@
     </head>
     <body>
 
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script type='text/javascript'>
+            $.ajax({
+                type: "GET",
+                async: "false",
+                url: "/api/user",
+                success: function(data) {
+                    if (data.message == "success") {
+
+                    } else {
+                        window.location = (window.location + 'auth/google');
+                    }
+                }
+            });
+        </script>
+
         <div class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -27,18 +43,18 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">File<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a id="save-button" href="#">Save</a></li>
-                                <li><a id="load-button" href="#">Load from the server</a></li>
-                                <li><a class="dropdown-toggle" data-toggle="dropdown"  href="#">Names of Your Projects</a>
+                                <li><a id="save-new-button" href="#">Save New</a></li>
+                                <li><a class="dropdown-toggle" data-toggle="dropdown"  href="#">Load from the server</a>
                                     <!-- id="seeAllProjects-button"  -->
                                     <ul id="projectList" class="dropdown-menu dropdown-menu-right" style="position: absolute;left: 190px;top: 50px;" role="menu">
-                                        <li><a href="#">testing</a></li>
+                                        <!-- <li><a href="#">testing</a></li> -->
                                     </ul>
                                 </li>
                             </ul>
                         </li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
-                        <li><a id="login-button" href="#">Login</a></li>
+                        <!-- <li><a id="login-button" href="#">Login</a></li> -->
                         <li><a id="logout-button" style="display:none" href="#">logout</a></li>
                     </ul>
                 </div>
@@ -59,6 +75,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#editor" role="tab" data-toggle="tab">Scripts</a></li>
                     <li><a href="#costumes-pane" role="tab" data-toggle="tab">Costumes</a></li>
+                    <li><a href="#audio-pane" role="tab" data-toggle="tab">Audio</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="editor" class="block editor tab-pane active">
@@ -69,6 +86,25 @@
                             <!-- Backbone editor workspace -->
                         </div>
                     </div>
+                    <div id="audio-pane" class="block audio-pane tab-pane">
+                        <div id="audio_toolbar" class="audio-toolbar">
+                            <!-- <input type="image" id="uploadAudioButton" src="images/upload_button.png" /style="padding-left: 10px; padding-top: 3px;" > -->
+
+                            <div style="padding-left: 10px; padding-top: 3px;">
+                                <form id="audioUploadForm" method='post' action='/api/uploadAudio' enctype="multipart/form-data">
+                                <input type='file' id="audioToUpload" name='fileUploaded' accept="audio/*">
+                                <input type='submit' id="audioUploadButton" class="btn btn-default btn-sm" style="margin-top:5px;">
+                                </form>
+                                <iframe id="uploader_iframe" name="uploader_iframe" style="display: none;"></iframe>
+                            </div>
+                        </div>
+                        <div id="audio_workspace" class="block audio-workspace container">
+                            <!-- <div>
+                                <img src="images/audio.png" alt="audio" height="48" width="48">
+
+                            </div> -->
+                        </div>
+                    </div>
                     <div id="costumes-pane" class="block costumes-pane tab-pane">
                         <!-- Backbone costumes-pane -->
                     </div>
@@ -76,9 +112,12 @@
             </div>
         </div>
 
+        
+
         <!-- build:js scripts/vendor.js -->
         <script src="bower_components/underscore/underscore.js"></script>
-        <script src="bower_components/jquery/dist/jquery.js"></script>
+        
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
         <script src="bower_components/jquery-ui/jquery-ui.js"></script>
         <script src="bower_components/lodash/dist/lodash.compat.js"></script>
         <script src="bower_components/backbone/backbone.js"></script>
@@ -97,6 +136,7 @@
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
         <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
+        <script src="bower_components/soundmanager2/script/soundmanager2-nodebug.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
@@ -112,6 +152,7 @@
         <script src="scripts/views/command.js"></script>
         <script src="scripts/views/toolbar.js"></script>
         <script src="scripts/views/costumesPane.js"></script>
+        <script src="scripts/views/audio.js"></script>
         <script>
         $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
         // Avoid following the href location when clicking
@@ -122,7 +163,12 @@
             $(this).parent().addClass('open');
             $(this).parent().find("ul").parent().find("li.dropdown").addClass('open');
         });
+
         </script>
+
+
+
+
         <!-- endbuild -->
 </body>
 </html>

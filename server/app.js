@@ -8,6 +8,8 @@ var hbs = require('express-hbs');
 var baucis = require('baucis');
 var socketIO = require('socket.io');
 var mongoose = require('mongoose');	
+var mkdirp = require('mkdirp');
+var fs = require('fs');
 
 var everyauth = require("everyauth"),
  	util = require ('util'),
@@ -15,6 +17,7 @@ var everyauth = require("everyauth"),
  	users = require('./lib/users');
 
  var programs = require("./lib/programs");
+ var audios = require("./lib/audios");
 
 
 everyauth.google
@@ -101,9 +104,26 @@ db.once('open', function callback () {
 
 	// route index.html
 	app.get('/', function(req, res){
-	  console.log(req.user);
-	  res.sendfile( path.join( __dirname, '../app/index.html' ) );
+		console.log("enter main page");
+		if (req.user) {
+			console.log("haven't logged in ");
+			res.sendfile( path.join( __dirname, '../app/index.html' ) );
+		} else {
+			console.log("logged in ");
+			res.redirect('http://localhost:9000/auth/google');
+		}
+	  // console.log(req.user);
 	});
+
+	app.get('/api/user', function(req, res){
+		if (req.user) {
+			res.json({message:"success"});
+		} else {
+			res.json({message:"fail"});
+		}
+	});
+
+
 
 	app.get('/test', function(req, res){
 	  console.log(req.user);
@@ -117,6 +137,64 @@ db.once('open', function callback () {
 	app.put('/api/programs', programs.updateProgram);
 	app.post('/api/programs', programs.addProgram);
 	app.delete('/api/programs/:name', programs.deleteByName);	
+	app.get('/api/audios', audios.getAudios);
+	app.delete('/api/audios/:name', function(req,res){
+		console.log("delete request");
+		if (req.user) {
+			console.log("deleting..")
+			var path = __dirname + '/../app/audioUploaded/' + req.user.googleId + '/' +  req.params.name;
+			console.log(path);
+			fs.unlink(path, function (err) {
+			  if (err) {
+			  	console.log(err);
+			  	res.json({message: err});
+			  } else {
+			  	console.log("deleted form file system")
+			  	audios.deleteAudio(req.user.googleId, req.params.name, res);
+			  }
+			});
+	    } else {
+	        res.json({message: 'Please log in first'});
+	    }
+
+
+	});
+
+
+	app.post('/api/uploadAudio', function(req,res){
+		if (req.user) {
+			var dir = __dirname + '/../app/audioUploaded/' + req.user.googleId;
+			mkdirp(dir, function(err) { 
+				if (err) {
+					console.log(err);
+					res.json({message: err});
+				} else {
+					var file = req.files.fileUploaded;
+			        var serverPath = dir + "/"+file.name;
+			        console.log("dirname");
+			        console.log(__dirname);
+
+				    require('fs').rename(
+						file.path,
+						serverPath,
+						function(error) {
+							if(error) {
+								console.log(error);
+								res.send({error: 'error when storing into file system'});
+						    }  else {
+						    	audios.addAudio(file.name, req.user.googleId, res);
+						    }      
+						}
+				    );
+				}
+
+			});
+
+
+		}else{
+			res.json({message: 'Please log in before you upload a sound.'});
+		}  
+	});
 
 	// start server
 	http.createServer(app).listen(app.get('port'), function(){
