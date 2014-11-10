@@ -123,17 +123,83 @@ Playground.Views = Playground.Views || {};
                 console.log("command passed in: ", type);
                 var position = i;
                 var repeatBlockLength = 0
-                var value = parseInt($(command).find("input").first().val());
-                if (type == "command_repeat") {
-                    var repeatBlock = repeatBlocks.get(repeatBlockIndex);
-                    repeatBlockLength = $(repeatBlock).find("li").length;
-                    value = parseInt($(repeatBlock).find("input").first().val());
-                    repeatBlockIndex = repeatBlockIndex + 1;
+                // var value = parseInt($(command).find("input").first().val());
+                // if (type == "command_repeat") {
+                //     var repeatBlock = repeatBlocks.get(repeatBlockIndex);
+                //     repeatBlockLength = $(repeatBlock).find("li").length;
+                //     value = parseInt($(repeatBlock).find("input").first().val());
+                //     repeatBlockIndex = repeatBlockIndex + 1;
+                // }
+                switch (type) {
+                    case "command_set_x":
+                    case "command_set_y":
+                    case "command_move":
+                    case "command_rotate":
+                        var value = getValuesOfCommand(command)[0];
+                        this.model.add(type,position,[value]);
+                        break;
+                    case "command_scale":
+                        var values = getValuesOfCommand;
+                        var scale_x = values[0];
+                        var scale_y = values[1];
+                        this.model.add(type,position,[scale_x,scale_y]);
+                        break;
+                    case "command_repeat":
+                    case "command_if":
+                        var repeatBlock = repeatBlocks.get(repeatBlockIndex);
+                        repeatBlockLength = $(repeatBlock).find("li").length;
+                        var value = getValuesOfCommand(repeatBlock);
+                        repeatBlockIndex = repeatBlockIndex + 1;
+                        this.model.add(type,position,[value,repeatBlockLength]);
+                        break;
+                    case "command_forever":
+                        this.model.add(type,position,[]);
+                        break;
+                    case "command_change_costume":
+                    case "command_change_background":
+                    case "show":
+                    case "hide":
+                        this.model.add(type,position,[]);
+                        break;
+                    case "command_op_plus":
+                    case "command_op_minus":
+                    case "command_op_multiply":
+                    case "command_op_divide":
+                    case "command_op_mod":
+                    case "command_op_lessthan":
+                    case "command_op_greaterthan":
+                    case "command_op_equal":
+                    case "command_assignment":
+                        var values = getValuesOfCommand(command);
+                        var first = values[0];
+                        var second = values[1];
+                        this.model.add(type,position,[first,second]);
+                        break;
+                    case "command_onclick":
+                        var key = $(command).find("input").first().val();
+                        this.model.add(type,position,[key]);
                 }
-                console.log(value, repeatBlockLength);
-                this.model.add(type, position, [value, repeatBlockLength]);
-                console.log(this.model.array_of_commands);
             }
+        },
+
+        getValuesOfCommand: function(command) {
+            var input = $(command).find("input");
+            var values = [];
+            if (input.length>0) {
+                for (var i = 0; i < input.length; i++) {
+                    var value = parseInt(input[i].val());
+                    value = isNaN(value) ? 10 : value;
+                    values.push(value);
+                };
+            } else {
+                var vars = $(command).find("toolbar-item-variable");
+                for (var i = 0; i < vars.length; i++) {
+                    var value = vars[i].attr('class').split(' ').pop();
+                    value = isNaN(value) ? 10 : value;
+                    values.push(value);
+                };
+            }
+            return values;
         },
 
         loadFromServer: function(name){
