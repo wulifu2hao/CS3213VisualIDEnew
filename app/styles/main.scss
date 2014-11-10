@@ -2,6 +2,11 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
 
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap.scss';
 
+
+html {
+	overflow: hidden;
+}
+
 ul { 
 	list-style-type: none;
 	min-height: 15px; 
