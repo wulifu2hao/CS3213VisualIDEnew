@@ -101,7 +101,7 @@ Playground.Views = Playground.Views || {};
             $('#sprite-upload-button').click(function(e){
                 console.log("draw!");
                 that.draw();
-            }
+            });
 
             // window.addEventListener('keydown',doKeyDown,true);
             // function doKeyDown(evt){
