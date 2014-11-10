@@ -271,6 +271,7 @@ Playground.Views = Playground.Views || {};
                 switch (type) {
                     case "command_set_x":
                     case "command_set_y":
+                    case "command_wait":
                     case "command_move":
                     case "command_rotate":
                         console.log("In switch");
@@ -332,23 +333,32 @@ Playground.Views = Playground.Views || {};
             var input = $(command).find("input");
             var values = [];
             console.log(input, values);
-            if (input.length>0) {
-                for (var i = 0; i < input.length; i++) {
-                    console.log("In loop");
-                    console.log($(input.get(i)).val());
-                    var value = parseInt($(input.get(i)).val());
-                    value = isNaN(value) ? 10 : value;
-                    console.log(value);
-                    values.push(value);
-                };
-            } else {
-                var vars = $(command).find("toolbar-item-variable");
-                for (var i = 0; i < vars.length; i++) {
-                    var value = vars[i].attr('class').split(' ').pop();
-                    value = isNaN(value) ? 10 : value;
-                    values.push(value);
-                };
-            }
+            for (var i = 0; i < input.length; i++) {
+                var el = input.get(i);
+                var value = parseInt($(el).val());
+                value = isNaN(value) ? 10 : value;
+                if(!$(el).is(":visible")) {
+                    if($(el).next().hasClass("toolbar-item-variable")) {
+                        value = $(el).next().attr('class').split(' ').pop();
+                    } else if($(el).next().hasClass("toolbar-item-operator")) {
+                        var type = $(el).next().attr('class').split(' ').pop();
+                        var vs = $(el).next().find("input");
+                        var v1 = parseInt($(vs.get(0)).val());
+                        v1 = isNaN(v1) ? 10 : v1;
+                        var v2 = parseInt($(vs.get(1)).val());
+                        v2 = isNaN(v2) ? 10 : v2;
+                        if(!$(vs.get(0)).is(":visible")) {
+                            v1 = $(vs.get(0)).next().attr('class').split(' ').pop();
+                        }
+                        if(!$(vs.get(1)).is(":visible")) {
+                            v2 = $(vs.get(1)).next().attr('class').split(' ').pop();
+                        }
+                        value = [type,v1,v2];
+                    }
+                }
+                console.log(value);
+                values.push(value);
+            };
             return values;
         },
 
