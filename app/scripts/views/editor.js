@@ -20,7 +20,7 @@ Playground.Views = Playground.Views || {};
             }, false);
             var that = this;
             $("#play_button").click(function(e){
-                that.updateModel();       
+                that.updateModel();
             });
             this.render();
             //drag and drop handling
@@ -260,7 +260,6 @@ Playground.Views = Playground.Views || {};
             this.model.variableString = $("#variable-commands").find(".toolbar").first().html();
             console.log("update model "+this.commandList.length);
             this.model.array_of_commands = [];
-            console.log(this.commandList);
             var repeatBlockIndex = 0;
             var repeatBlocks = $("#workspace-sortable li").has("li");
             for(var i=0; i<this.commandList.length; i++) {
@@ -388,6 +387,7 @@ Playground.Views = Playground.Views || {};
                         that.model.name = data.program.name;
                         that.addCommandBlocksToWorkspace(that.model.commandString);
                         that.addVariablesToToolbar(that.model.variableString);
+                        that.commandList = that.getCommandList();
                     } else{
                         alert ("fail to load the project with name '" + name + "'");
                     }
@@ -536,6 +536,7 @@ Playground.Views = Playground.Views || {};
             var that = this;
             this.model.setCommandString($("#workspace-sortable").html());
             var data = this.model.getData();
+            console.log("data:::::"+data);
 
             if (this.model.name == "") {
                 // console.log("is post");
