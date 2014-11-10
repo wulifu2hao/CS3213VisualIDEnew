@@ -48,7 +48,25 @@ Playground.Views = Playground.Views || {};
                         hoverClass: "ui-state-hover",
                         drop: function(event,ui) {
                             console.log("drop");
-                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable"));
+                            $(this).after($(ui.draggable).clone(false).css({"display":"inline-block","margin-top":"0px"}).removeClass("draggable variable-draggable").draggable({
+                                cursor: "move",
+                                revert: function(is_valid_drop) {
+                                    var list_offset = $("#workspace-sortable").offset();
+                                    var el_offset = $(this).offset();
+                                    if((el_offset.left < list_offset.left)||(el_offset.top < list_offset.top)) {
+                                        $(this).before("<input type='text' name='value_set_to_x' value='10' class='number-input input-droppable'></input>");
+                                        $(this).remove();
+                                        return false;
+                                    }
+                                    if(!is_valid_drop) {
+                                        return true;
+                                    }
+                                    return false;
+                                },
+                                start: function() {
+                                    // $(".input-droppable-inlist").droppable();
+                                }
+                            }));
                             $(this).remove();
                         },
                         over: function(event,ui) {
