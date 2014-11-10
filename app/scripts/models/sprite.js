@@ -100,6 +100,10 @@ Playground.Models = Playground.Models || {};
                 console.log("add fourth type of function: move");
                 this.array_of_commands.splice(position,0,{name: "move", para: parameters});
                 break;
+                case "command_wait":
+                console.log("add fourth type of function: wait");
+                this.array_of_commands.splice(position,0,{name: "wait", para: parameters});
+                break;
                 case "command_repeat":
                 console.log("add fourth type of function: repeat");
                 this.array_of_commands.splice(position,0,{name: "repeat", para: parameters});
