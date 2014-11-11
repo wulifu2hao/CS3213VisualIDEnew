@@ -276,6 +276,11 @@ Playground.Views = Playground.Views || {};
                 //     repeatBlockIndex = repeatBlockIndex + 1;
                 // }
                 switch (type) {
+                    case "command_playsound":
+                    case "command_stopsound":
+                        var value = $(command).find("select").first().val();
+                        this.model.add(type,position,[value]);
+                        break;
                     case "command_set_x":
                     case "command_set_y":
                     case "command_wait":
@@ -312,6 +317,7 @@ Playground.Views = Playground.Views || {};
                     case "command_change_background":
                     case "command_show":
                     case "command_hide":
+
                         this.model.add(type,position,[]);
                         break;
                     case "command_op_plus":

@@ -351,7 +351,7 @@ Playground.Views = Playground.Views || {};
                               clearInterval(timer);
                          }
                         };
-                        setInterval(timer, 500);                   
+                        setInterval(timer, 1000);                   
                         break;
 
                     case "repeatForever":
