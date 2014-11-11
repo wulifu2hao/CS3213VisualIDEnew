@@ -3,10 +3,6 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/assets/fonts/bootstr
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap.scss';
 
 
-html {
-	overflow: hidden;
-}
-
 ul { 
 	list-style-type: none;
 	min-height: 15px; 
@@ -150,7 +146,7 @@ li {
 	height: 680px;
 	margin-right: 4px;
 	float: left;
-	overflow: hidden;
+	overflow: scroll;
 }
 
 .editor-workspace {
